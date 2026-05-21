@@ -102,10 +102,32 @@ body {
 
 /* ── FADE IN ── */
 .fi {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity .7s var(--smooth), transform .7s var(--smooth);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth);
+  will-change: opacity, transform;
 }
 .fi.vis { opacity: 1; transform: none; }
+
+/* Grid Staggers via CSS transitions for zero main-thread lag */
+.skills-grid > .fi:nth-child(1) { transition-delay: 0ms; }
+.skills-grid > .fi:nth-child(2) { transition-delay: 60ms; }
+.skills-grid > .fi:nth-child(3) { transition-delay: 120ms; }
+.skills-grid > .fi:nth-child(4) { transition-delay: 180ms; }
+
+.projects-grid > .fi:nth-child(1) { transition-delay: 0ms; }
+.projects-grid > .fi:nth-child(2) { transition-delay: 60ms; }
+.projects-grid > .fi:nth-child(3) { transition-delay: 120ms; }
+.projects-grid > .fi:nth-child(4) { transition-delay: 180ms; }
+.projects-grid > .fi:nth-child(5) { transition-delay: 240ms; }
+.projects-grid > .fi:nth-child(6) { transition-delay: 300ms; }
+
+.awards-grid > .fi:nth-child(1) { transition-delay: 0ms; }
+.awards-grid > .fi:nth-child(2) { transition-delay: 60ms; }
+.awards-grid > .fi:nth-child(3) { transition-delay: 120ms; }
+.awards-grid > .fi:nth-child(4) { transition-delay: 180ms; }
+
+.conf-grid > .fi:nth-child(1) { transition-delay: 0ms; }
+.conf-grid > .fi:nth-child(2) { transition-delay: 60ms; }
 
 /* ── LAYOUT ── */
 .container { max-width: var(--mw); margin: 0 auto; padding: 0 32px; }
@@ -2185,15 +2207,11 @@ function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const el = entry.target;
-        const siblings = el.parentElement ? el.parentElement.querySelectorAll('.fi:not(.vis)') : [];
-        let delay = 0;
-        siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
-        setTimeout(() => el.classList.add('vis'), delay);
-        observer.unobserve(el);
+        entry.target.classList.add('vis');
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.04 });
   els.forEach(el => observer.observe(el));
 }
 
@@ -2250,13 +2268,9 @@ function initHapticLight() {
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
       card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(173,198,255,0.07) 0%, rgba(18,17,28,0.55) 60%)`;
-      card.style.backdropFilter = 'blur(40px) saturate(180%)';
-      card.style.webkitBackdropFilter = 'blur(40px) saturate(180%)';
     });
     card.addEventListener('mouseleave', () => {
       card.style.background = '';
-      card.style.backdropFilter = '';
-      card.style.webkitBackdropFilter = '';
     });
   });
 }
@@ -2356,17 +2370,17 @@ function initCustomCursor() {
     requestAnimationFrame(animateTrail);
   })();
   
-  // Interactive hover detection
-  function bindHovers() {
-    document.querySelectorAll('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]').forEach(el => {
-      if (el.dataset.cursorBound) return;
-      el.dataset.cursorBound = 'true';
-      el.addEventListener('mouseenter', () => arrow.classList.add('hovering'));
-      el.addEventListener('mouseleave', () => arrow.classList.remove('hovering'));
-    });
-  }
-  bindHovers();
-  setInterval(bindHovers, 2000);
+  // High-performance event delegation for hover states
+  document.body.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]')) {
+      arrow.classList.add('hovering');
+    }
+  }, { passive: true });
+  document.body.addEventListener('mouseout', e => {
+    if (e.target.closest('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]')) {
+      arrow.classList.remove('hovering');
+    }
+  }, { passive: true });
   
   // Click micro-feedback
   document.addEventListener('mousedown', () => arrow.classList.add('clicking'));
