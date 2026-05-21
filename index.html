@@ -325,6 +325,11 @@ body {
   gap: 80px; align-items: center;
 }
 
+.hero-left {
+  position: relative;
+  top: -45px;
+}
+
 /* Hero Left */
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
@@ -887,6 +892,7 @@ body {
 ================================================================ */
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; gap: 60px; }
+  .hero-left { top: 0; }
   .hero-right { max-width: 440px; }
   .sec-split { grid-template-columns: 1fr; gap: 40px; }
   .contact-block { grid-template-columns: 1fr; }
@@ -1912,26 +1918,24 @@ class SpatialBackground {
     this.orbs = []; this.nodes = [];
     this.animId = null; this.lastFrame = 0; this.interval = 1000/30;
     this.reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    this.mouseX = window.innerWidth/2; this.mouseY = window.innerHeight/2;
+    this.W = 320; this.H = 200; // Fixed small resolution for heavy blurred canvas
+    this.mouseX = this.W / 2; this.mouseY = this.H / 2;
     this.init();
   }
   init() {
     this.resize(); this.buildOrbs(); this.buildNodes();
-    let rt;
-    window.addEventListener('resize', () => {
-      clearTimeout(rt);
-      rt = setTimeout(() => { this.resize(); this.buildOrbs(); this.buildNodes(); }, 200);
-    }, { passive: true });
+    window.addEventListener('resize', () => { this.resize(); }, { passive: true });
     window.addEventListener('mousemove', e => {
-      this.mouseX += (e.clientX - this.mouseX) * 0.04;
-      this.mouseY += (e.clientY - this.mouseY) * 0.04;
+      const rx = (e.clientX / window.innerWidth) * this.W;
+      const ry = (e.clientY / window.innerHeight) * this.H;
+      this.mouseX += (rx - this.mouseX) * 0.04;
+      this.mouseY += (ry - this.mouseY) * 0.04;
     }, { passive: true });
     this.reduced ? this.draw() : this.loop(0);
   }
   resize() {
-    this.W = window.innerWidth; this.H = window.innerHeight;
     this.canvas.width = this.W; this.canvas.height = this.H;
-    this.canvas.style.width = this.W+'px'; this.canvas.style.height = this.H+'px';
+    this.canvas.style.width = '100vw'; this.canvas.style.height = '100vh';
   }
   buildOrbs() {
     const s = Math.max(this.W, this.H);
@@ -1945,7 +1949,7 @@ class SpatialBackground {
     ];
   }
   buildNodes() {
-    const count = Math.min(65, Math.floor((this.W * this.H) / 18000));
+    const count = 25;
     this.nodes = Array.from({ length: count }, () => ({
       x: Math.random()*this.W, y: Math.random()*this.H,
       vx: (Math.random()-.5)*0.3, vy: (Math.random()-.5)*0.3,
@@ -1975,7 +1979,7 @@ class SpatialBackground {
   }
   drawNodes() {
     const ctx = this.ctx;
-    const maxDist = 185;
+    const maxDist = 55;
     const pr=173, pg=198, pb=255;
     for (let i=0;i<this.nodes.length;i++) {
       for (let j=i+1;j<this.nodes.length;j++) {
@@ -1993,11 +1997,8 @@ class SpatialBackground {
     for (const n of this.nodes) {
       const pulse=(Math.sin(n.phase)*0.5+0.5);
       const alpha=0.18+pulse*0.3;
-      const glo=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
-      glo.addColorStop(0,`rgba(${pr},${pg},${pb},${alpha*0.5})`);
-      glo.addColorStop(1,'transparent');
-      ctx.fillStyle=glo;
-      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${alpha*0.1})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*4,0,Math.PI*2); ctx.fill();
       ctx.fillStyle=`rgba(${pr},${pg},${pb},${alpha*2.8})`;
       ctx.beginPath(); ctx.arc(n.x,n.y,n.r+pulse*0.6,0,Math.PI*2); ctx.fill();
     }
@@ -2012,7 +2013,7 @@ class SpatialBackground {
       n.x+=n.vx; n.y+=n.vy; n.phase+=n.speed;
       const dx=n.x-this.mouseX, dy=n.y-this.mouseY;
       const d=Math.sqrt(dx*dx+dy*dy);
-      if (d<140) { const f=(140-d)/140*0.05; n.vx+=dx/d*f; n.vy+=dy/d*f; }
+      if (d<30) { const f=(30-d)/30*0.05; n.vx+=dx/d*f; n.vy+=dy/d*f; }
       const sp=Math.sqrt(n.vx*n.vx+n.vy*n.vy);
       if (sp>0.7) { n.vx*=0.7/sp; n.vy*=0.7/sp; }
       if (n.x<0||n.x>this.W) n.vx*=-1;
@@ -2065,7 +2066,6 @@ class HeroNeuralNet {
   }
   getLN(layer) { return this.nodes.filter(n=>n.layer===layer); }
   spawnSignal() {
-    // Fire from a random node in any non-last layer for full neural network firing
     const fromLayer = Math.floor(Math.random() * (this.layers.length - 1));
     const sn = this.getLN(fromLayer);
     const from = sn[Math.floor(Math.random() * sn.length)];
@@ -2073,7 +2073,6 @@ class HeroNeuralNet {
     const nn = this.getLN(fromLayer + 1); if (!nn.length) return;
     const to = nn[Math.floor(Math.random() * nn.length)];
     this.signals.push({ fromX:from.x,fromY:from.y,toX:to.x,toY:to.y,x:from.x,y:from.y,progress:0,speed:0.035+Math.random()*0.025,fromLayer:fromLayer,toLayer:fromLayer+1,toNodeIndex:this.nodes.indexOf(to) });
-    // Also activate source node visually
     from.active = true; from.brightness = 0.7;
   }
   propagateSignal(sig) {
@@ -2101,9 +2100,13 @@ class HeroNeuralNet {
       grad.addColorStop(0,'transparent'); grad.addColorStop(1,`rgba(${pr},${pg},${pb},0.7)`);
       ctx.strokeStyle=grad; ctx.lineWidth=1.5;
       ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(sig.x,sig.y); ctx.stroke();
-      const grd=ctx.createRadialGradient(sig.x,sig.y,0,sig.x,sig.y,8);
-      grd.addColorStop(0,`rgba(${pr},${pg},${pb},0.6)`); grd.addColorStop(1,'transparent');
-      ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(sig.x,sig.y,8,0,Math.PI*2); ctx.fill();
+      
+      // Fast concentric glows instead of radial gradient for signals
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},0.2)`;
+      ctx.beginPath(); ctx.arc(sig.x,sig.y,8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},0.75)`;
+      ctx.beginPath(); ctx.arc(sig.x,sig.y,2.5,0,Math.PI*2); ctx.fill();
+      
       sig.progress+=sig.speed;
     }
     this.signals=this.signals.filter(sig => {
@@ -2120,10 +2123,14 @@ class HeroNeuralNet {
       if (n.brightness<=0) n.active=false;
       const pulse=Math.sin(n.phase)*0.5+0.5;
       const base=n.active?0.6+n.brightness*0.4:0.15+pulse*0.15;
-      const glo=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
-      glo.addColorStop(0,`rgba(${pr},${pg},${pb},${base*0.5})`); glo.addColorStop(1,'transparent');
-      ctx.fillStyle=glo; ctx.beginPath(); ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle=`rgba(${pr},${pg},${pb},${base*3})`;
+      
+      // Fast concentric glows instead of radial gradient for nodes
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${base*0.12})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${base*0.3})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*2.2,0,Math.PI*2); ctx.fill();
+      
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${Math.min(1, base*2.5)})`;
       ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(n.active?2:pulse*0.8),0,Math.PI*2); ctx.fill();
     }
   }
@@ -2131,7 +2138,6 @@ class HeroNeuralNet {
     requestAnimationFrame(t=>this.loop(t));
     if (ts-this.lastFrame<this.interval) return;
     this.lastFrame=ts; this.tick++;
-    // Spawn multiple signals per tick across different layers for full firing
     if (this.tick%4===0) { this.spawnSignal(); this.spawnSignal(); }
     if (this.tick%12===0) { this.spawnSignal(); }
     this.draw();
@@ -2267,13 +2273,13 @@ function initHapticLight() {
 function initCursorGlow() {
   if (window.matchMedia('(pointer:coarse)').matches) return;
   const glow = document.createElement('div');
-  glow.style.cssText = `position:fixed;width:300px;height:300px;background:radial-gradient(circle,rgba(173,198,255,0.04) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:opacity .3s;mix-blend-mode:screen;`;
+  glow.style.cssText = `position:fixed;width:300px;height:300px;top:0;left:0;background:radial-gradient(circle,rgba(173,198,255,0.04) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9997;transform:translate3d(-50%,-50%,0);transition:opacity .3s;mix-blend-mode:screen;`;
   document.body.appendChild(glow);
   let mx=0,my=0,cx=0,cy=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; }, { passive: true });
   (function animate() {
     cx+=(mx-cx)*0.08; cy+=(my-cy)*0.08;
-    glow.style.left=cx+'px'; glow.style.top=cy+'px';
+    glow.style.transform = `translate3d(${cx - 150}px, ${cy - 150}px, 0)`;
     requestAnimationFrame(animate);
   })();
   document.addEventListener('mouseleave', () => glow.style.opacity='0');
@@ -2834,50 +2840,53 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
 
           case 'papers':
             resLine.innerHTML = `
-<span class="log-blue">=== PEER-REVIEWED PUBLICATIONS DATABASE ===</span>
+<span class="log-blue">=== PEER-REVIEWED PUBLICATIONS ===</span>
 
-1. <span class="log-yellow">YOLOv8x Jackfruit Yield Estimation</span>
-   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">IEEE Conference</span> (ICEI Swinburne)
-   - <span class="log-cyan">Title:</span> Automated Jackfruit Counting and Yield Estimation via Advanced YOLOv8x-Based Computer Vision in Smart Agriculture
-   - <span class="log-cyan">Metrics:</span> 99.28% Precision, 94.37% mAP@50
-   - Run '<span class="log-green">jackfruit</span>' for training parameters and graphs.
+1. <span class="log-yellow">YOLOv8x Yield Estimation</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">IEEE Conference</span>
+   - <span class="log-cyan">Title:</span> Automated Jackfruit Counting
+     & Yield Estimation via YOLOv8x
+   - <span class="log-cyan">Metrics:</span> 99.28% Prec, 94.37% mAP
+   - Run '<span class="log-green">jackfruit</span>' for details.
 
-2. <span class="log-yellow">Cognitive HRI Robot (EfficientNetV2 + Gemma-2)</span>
-   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature MTAP</span> (Multimedia Tools and Applications)
-   - <span class="log-cyan">Title:</span> A Multimodal Cognitive Robot for Real-Time Empathetic Human Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence
-   - <span class="log-cyan">Metrics:</span> 98.7% Face verification, 94.8% Memory Grounding
-   - Run '<span class="log-green">robot</span>' for cognitive layer breakdown.
+2. <span class="log-yellow">Cognitive HRI Robot</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer MTAP</span>
+   - <span class="log-cyan">Title:</span> Empathetic HRI Robot
+     Using Deep Facial & Speech Emotion AI
+   - <span class="log-cyan">Metrics:</span> 98.7% Face Verification
+   - Run '<span class="log-green">robot</span>' for details.
 
 3. <span class="log-yellow">Medical AyuSeva D2B2C-IIFNN Model</span>
-   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature NCAA</span> (Neural Computing and Applications)
-   - <span class="log-cyan">Title:</span> A Multimodal Deep Learning Framework for Symptom-Based Disease Prediction and Clinical Decision Support
-   - <span class="log-cyan">Metrics:</span> 99.52% symptom classifier, 93.91% NLP narrative accuracy
-   - Run '<span class="log-green">ayuseva</span>' to check clinical model layers.
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer NCAA</span>
+   - <span class="log-cyan">Title:</span> Multimodal disease
+     prediction clinical framework
+   - <span class="log-cyan">Metrics:</span> 99.52% symptom classifier
+   - Run '<span class="log-green">ayuseva</span>' for details.
 
-4. <span class="log-yellow">Traffic Sign Recognition (Edge CNN)</span>
-   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature MTAP</span> (Multimedia Tools and Applications)
-   - <span class="log-cyan">Title:</span> Real-time traffic sign recognition and autonomous vehicle control system using convolutional neural networks
-   - <span class="log-cyan">Metrics:</span> 99.63% GTSRB accuracy, 24-26 ms latency
-   - Run '<span class="log-green">traffic</span>' to inspect microcontroller serial protocols.
+4. <span class="log-yellow">Traffic Sign Edge CNN</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer MTAP</span>
+   - <span class="log-cyan">Title:</span> Real-time traffic sign
+     recognition on microcontrollers
+   - <span class="log-cyan">Metrics:</span> 99.63% GTSRB, 24ms
+   - Run '<span class="log-green">traffic</span>' for details.
 `;
             break;
 
           case 'internships':
             resLine.innerHTML = `
-<span class="log-blue">=== CHRONOLOGY OF RESEARCH INTERNSHIPS ===</span>
+<span class="log-blue">=== RESEARCH CHRONOLOGY ===</span>
 
-1. <span class="log-yellow">DRDO - LRDE (Electronics and Radar Development Establishment)</span>
-   - <span class="log-cyan">Role:</span> Research Intern, Fire Control Radar Division (under Sci 'E' Shri B. Mondal)
-   - <span class="log-cyan">Topic:</span> Deep Attention Networks and Kalman Filtering target tracking
-   - Run '<span class="log-green">drdo</span>' to inspect AttLSTM-KF architecture and results.
+1. <span class="log-yellow">DRDO - LRDE (Research Intern)</span>
+   - Fire Control Radar Division
+   - Topic: AttLSTM-KF target tracking
+   - Run '<span class="log-green">drdo</span>' for details.
 
-2. <span class="log-yellow">ISRO - URSC (U R Rao Satellite Centre)</span>
-   - <span class="log-cyan">Role:</span> Research Intern, Assembly and Integration Testing
-   - <span class="log-cyan">Topic:</span> Space electronics telemetry protocols and thermal testing diagnostics.
+2. <span class="log-yellow">ISRO - URSC (Research Intern)</span>
+   - Assembly and Integration Testing
+   - Topic: Space electronics telemetry protocols
 
-3. <span class="log-yellow">Mu Sigma Inc.</span>
-   - <span class="log-cyan">Role:</span> Decision Scientist
-   - <span class="log-cyan">Topic:</span> High-dimensional multi-agent optimization and business intelligence pipelines.
+3. <span class="log-yellow">Mu Sigma Inc. (Decision Scientist)</span>
+   - Multi-agent AI optimization
 `;
             break;
 
@@ -2885,7 +2894,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             resLine.innerHTML = `
 <span class="log-yellow">Project:</span> Deep Attention Networks and Adaptive Kalman Filtering
 <span class="log-cyan">Advisor:</span> Sci 'E' Shri Bibhabasu Mondal, Fire Control Radar Division, LRDE - DRDO
---------------------------------------------------------------------------------
+------------------------------------------------------
 <span class="log-purple">Architecture (AttLSTM-KF):</span>
   - Residual Dual-Scale Temporal CNN with Positional Sinusoidal Embeddings.
   - 3 Causal Self-Attention blocks for multi-radar sequence alignment.
@@ -2902,7 +2911,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             resLine.innerHTML = `
 <span class="log-yellow">Project:</span> YOLOv8x-Based Automated Jackfruit Counting and Yield Estimation
 <span class="log-cyan">Venue:</span> IEEE International Conference (ICEI Swinburne)
---------------------------------------------------------------------------------
+------------------------------------------------------
 <span class="log-purple">Architecture Details:</span>
   - YOLOv8x Deep CNN, efficient C2f modules, Spatial Pyramid Pooling Fast (SPPF).
   - Anchor-free decoupled multi-scale detection head.
@@ -2921,7 +2930,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             resLine.innerHTML = `
 <span class="log-yellow">Project:</span> Multimodal Empathetic HRI Cognitive Robot Framework
 <span class="log-cyan">Venue:</span> Springer Nature MTAP (Multimedia Tools and Applications)
---------------------------------------------------------------------------------
+------------------------------------------------------
 <span class="log-purple">Neural Pipeline and Layers:</span>
   - <span class="log-cyan">Face Auth:</span> HOG-SVM face detection + ResNet-34 metric embeddings.
   - <span class="log-cyan">Affective Percept:</span> FER-EfficientNetV2-S trained on FER-2013 with CLAHE preprocessing.
@@ -2938,7 +2947,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             resLine.innerHTML = `
 <span class="log-yellow">Project:</span> AyuSeva Multimodal D2B2C-IIFNN Model
 <span class="log-cyan">Venue:</span> Springer Nature NCAA (Neural Computing and Applications)
---------------------------------------------------------------------------------
+------------------------------------------------------
 <span class="log-purple">Architecture (D2B2C-IIFNN):</span>
   - DenseNet-121 visual extractor + Dual Attention mechanism.
   - Bidirectional LSTM with 1D Convolutional Intra-Inter Fusion blocks.
@@ -2953,7 +2962,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             resLine.innerHTML = `
 <span class="log-yellow">Project:</span> Edge CNN Autonomous Vehicle Traffic Sign Control System
 <span class="log-cyan">Venue:</span> Springer Nature MTAP (Multimedia Tools and Applications)
---------------------------------------------------------------------------------
+------------------------------------------------------
 <span class="log-purple">Architecture and Hardware:</span>
   - Conv2D + ReLU + Dropout + MaxPool + Dense (378,023 parameters, 1.44 MB memory weight).
   - Microcontroller integration via high-speed UART Arduino serial interface.
@@ -2967,18 +2976,16 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
 
           case 'neofetch':
             resLine.innerHTML = `
-<span class="log-green">      ┌───┐      </span>   <span class="log-yellow">ashish-kishore@portfolio</span>
+<span class="log-green">      ┌───┐      </span>   <span class="log-yellow">ashish@portfolio</span>
 <span class="log-green">  ┌───┤   ├───┐  </span>   ------------------------
-<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">OS:</span> macOS Sequoia 15.4 (Apple Silicon)
-<span class="log-green">  ├───┐   ┌───┤  </span>   <span class="log-purple">Host:</span> Mac15,10 (MacBook Pro 16")
-<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">Kernel:</span> Darwin 24.3.0 (arm64)
-<span class="log-green">  └───┤   ├───┘  </span>   <span class="log-purple">Uptime:</span> 2 hours, 45 mins
-      <span class="log-green">└───┘      </span>   <span class="log-purple">Shell:</span> zsh 5.9 (interactive shell)
-                    <span class="log-purple">CPU:</span> Apple M3 Max (16-core CPU/GPU/Neural Engine)
-                    <span class="log-purple">Memory:</span> 64 GB Unified LPDDR5x RAM
-                    <span class="log-purple">Research:</span> AI/ML, Cognitive HRI Robotics, Radar Tracking
-                    <span class="log-purple">Publications:</span> 4 Peer-Reviewed (MTAP, NCAA, IEEE Conf)
-                    <span class="log-purple">Host URL:</span> https://ashish-kishore.github.io
+<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">OS:</span> macOS Tahoe 16.0
+<span class="log-green">  ├───┐   ┌───┤  </span>   <span class="log-purple">Kernel:</span> Darwin 25.0
+<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">Shell:</span> zsh 5.9
+<span class="log-green">  └───┤   ├───┘  </span>   <span class="log-purple">CPU:</span> Apple M1 Pro (10-core)
+      <span class="log-green">└───┘      </span>   <span class="log-purple">Memory:</span> 32 GB Unified RAM
+                    <span class="log-purple">Research:</span> AI/ML, Cognitive HRI
+                    <span class="log-purple">Papers:</span> MTAP, NCAA, IEEE Conf
+                    <span class="log-purple">Host URL:</span> nameisashish.github.io
 `;
             break;
 
@@ -3410,9 +3417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursorGlow();
   initCustomCursor();
   initTerminalSimulation();
-  requestAnimationFrame(() => {
-    setTimeout(() => new HeroNeuralNet(), 100);
-  });
+  new HeroNeuralNet();
 });
 /* ══════════════════════════════════
    PDF CERTIFICATE MODAL
