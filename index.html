@@ -127,12 +127,12 @@ body {
 .skills-grid > .fi:nth-child(7) { transition-delay: 360ms; }
 .skills-grid > .fi:nth-child(8) { transition-delay: 420ms; }
 
-.projects-grid > .fi:nth-child(1) { transition-delay: 0ms; }
-.projects-grid > .fi:nth-child(2) { transition-delay: 60ms; }
-.projects-grid > .fi:nth-child(3) { transition-delay: 120ms; }
-.projects-grid > .fi:nth-child(4) { transition-delay: 180ms; }
-.projects-grid > .fi:nth-child(5) { transition-delay: 240ms; }
-.projects-grid > .fi:nth-child(6) { transition-delay: 300ms; }
+.projects-list > .fi:nth-child(1) { transition-delay: 0ms; }
+.projects-list > .fi:nth-child(2) { transition-delay: 60ms; }
+.projects-list > .fi:nth-child(3) { transition-delay: 120ms; }
+.projects-list > .fi:nth-child(4) { transition-delay: 180ms; }
+.projects-list > .fi:nth-child(5) { transition-delay: 240ms; }
+.projects-list > .fi:nth-child(6) { transition-delay: 300ms; }
 
 .awards-grid > .fi:nth-child(1) { transition-delay: 0ms; }
 .awards-grid > .fi:nth-child(2) { transition-delay: 60ms; }
@@ -659,26 +659,13 @@ body {
   padding: 6px 10px; background: rgba(255,255,255,0.03); border-radius: 8px;
 }
 
-.projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-.pc { padding: 28px; cursor: pointer; position: relative; }
-.pc-tag {
-  font-family: var(--fm); font-size: .625rem; letter-spacing: .1em;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 50px;
-  display: inline-block; margin-bottom: 14px; cursor: pointer;
-}
-.pc-health { color: #30d158; background: rgba(48,209,88,0.1); }
-.pc-res    { color: var(--primary); background: rgba(173,198,255,0.1); }
-.pc-agri   { color: var(--orange); background: rgba(255,159,10,0.1); }
-.pc-cv     { color: var(--secondary); background: rgba(194,193,255,0.1); }
-.pc-iot    { color: var(--teal); background: rgba(106,196,220,0.1); }
-.pc h3 { font-family: var(--fd); font-size: 1.125rem; font-weight: 700; color: var(--text-p); margin-bottom: 10px; }
-.pc p { font-size: .875rem; line-height: 1.65; color: var(--text-s); margin-bottom: 16px; }
-.pc-tech { font-family: var(--fm); font-size: .8rem; letter-spacing: .06em; color: var(--text-t); line-height: 1.8; }
-.pc-arr {
-  position: absolute; top: 24px; right: 24px; font-size: 1.25rem;
-  color: var(--text-t); opacity: 0; transition: opacity .2s, transform .2s var(--spring);
-}
-.pc:hover .pc-arr { opacity: 1; transform: translate(2px,-2px); }
+.projects-list { display: flex; flex-direction: column; gap: 28px; }
+.ph-badge.res { color: var(--primary); background: rgba(173,198,255,0.1); }
+.ph-badge.health { color: #30d158; background: rgba(48,209,88,0.1); }
+.ph-badge.agri { color: var(--orange); background: rgba(255,159,10,0.1); }
+.ph-badge.cv { color: var(--secondary); background: rgba(194,193,255,0.1); }
+.ph-badge.iot { color: var(--teal); background: rgba(106,196,220,0.1); }
+.ph-badge.sec { color: #ff3b30; background: rgba(255,59,48,0.1); }
 
 /* ================================================================
    CONFERENCES
@@ -1141,7 +1128,6 @@ body {
   .hero-right { max-width: 440px; }
   .sec-split { grid-template-columns: 1fr; gap: 40px; }
   .contact-block { grid-template-columns: 1fr; }
-  .projects-grid { grid-template-columns: repeat(2,1fr); }
   .rc { grid-template-columns: 1fr; }
   .rc-metric { display: none; }
   .proj-hero { grid-template-columns: 1fr; }
@@ -1162,7 +1148,6 @@ body {
   .awards-grid { grid-template-columns: 1fr; }
   .conf-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: repeat(2,1fr); }
-  .projects-grid { grid-template-columns: 1fr; }
   .timeline { padding-left: 24px; }
   .tl-dot { left: -28px; }
   .edu-card { flex-direction: column; }
@@ -2015,83 +2000,171 @@ body {
     <div class="projects-filter-wrap fi">
       <button class="filter-btn active" data-filter="all">All Projects</button>
       <button class="filter-btn" data-filter="cv">Computer Vision</button>
-      <button class="filter-btn" data-filter="healthcare">Healthcare AI</button>
+      <button class="filter-btn" data-filter="research">Research Project</button>
       <button class="filter-btn" data-filter="robotics">Robotics &amp; HRI</button>
       <button class="filter-btn" data-filter="security">Security &amp; IoT</button>
     </div>
 
-    <!-- ORION -->
-    <div class="proj-hero glass fi" data-tags="robotics,cv" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank','noopener,noreferrer')">
-      <div class="ph-left">
-        <div class="ph-badge">🤖 Flagship Project</div>
-        <h3>PROJECT ORION: Privacy-Preserving Multimodal Cognitive Robot <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
-        <div class="ph-fn">Local Authentication, Affect Understanding &amp; Empathetic Dialogue</div>
-        <p><strong>Problem:</strong> Human–robot interaction needs secure identity verification, reliable emotion understanding, and grounded long-term dialogue, while cloud-based personalization can expose sensitive user data.<br>
-        <strong>Solution:</strong> An end-to-end on-device cognitive robot combining HOG-SVM+ResNet-34 face verification, FER-EfficientNetV2 emotion classifier, and localized Gemma-2 conversational pipeline with CT-GraphRAG memory retrieval entirely offline.</p>
-        <div class="ph-tags">
-          <span>HOG–SVM</span><span>ResNet-34</span><span>FER-EfficientNetV2</span><span>Gemma-2-27B-it</span><span>DoRA</span><span>DPO</span><span>GraphRAG</span><span>Neo4j</span><span>bge-m3</span>
+    <div class="projects-list">
+      <!-- ORION -->
+      <div class="proj-hero glass fi" data-tags="robotics,cv,research" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge">🤖 Flagship Project</div>
+          <div class="ph-badge res">🔬 Research Project</div>
+          <h3>PROJECT ORION: Privacy-Preserving Multimodal Cognitive Robot <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">Local Authentication, Affect Understanding &amp; Empathetic Dialogue</div>
+          <p><strong>Problem:</strong> Human–robot interaction needs secure identity verification, reliable emotion understanding, and grounded long-term dialogue, while cloud-based personalization can expose sensitive user data.<br>
+          <strong>Solution:</strong> An end-to-end on-device cognitive robot combining HOG-SVM+ResNet-34 face verification, FER-EfficientNetV2 emotion classifier, and localized Gemma-2 conversational pipeline with CT-GraphRAG memory retrieval entirely offline.</p>
+          <div class="ph-tags">
+            <span>HOG–SVM</span><span>ResNet-34</span><span>FER-EfficientNetV2</span><span>Gemma-2-27B-it</span><span>DoRA</span><span>DPO</span><span>GraphRAG</span><span>Neo4j</span><span>bge-m3</span>
+          </div>
         </div>
-      </div>
-      <div class="ph-right">
-        <div class="ph-metric">
-          <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
-          <div class="phm-list">
-            <span>🔒 98.7% Face Verification Accuracy (0.6% FAR, 0.7% EER)</span>
-            <span>🎭 95.33% FER Validation Accuracy on FER-2013</span>
-            <span>🧠 CT-GraphRAG (Recall@1: 0.68, Temporal Consistency: 94.1%)</span>
-            <span>💬 Gemma-2 local dialogue (10–15 tok/sec, 4096-token context)</span>
-            <span>🛡️ Fully local on-device processing for privacy-first HRI</span>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>🔒 98.7% Face Verification Accuracy (0.6% FAR, 0.7% EER)</span>
+              <span>🎭 95.33% FER Validation Accuracy on FER-2013</span>
+              <span>🧠 CT-GraphRAG (Recall@1: 0.68, Temporal Consistency: 94.1%)</span>
+              <span>💬 Gemma-2 local dialogue (10–15 tok/sec, 4096-token context)</span>
+              <span>🛡️ Fully local on-device processing for privacy-first HRI</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="projects-grid">
-      <div class="pc glass fi" data-tags="healthcare" onclick="window.open('https://ayuseva.vercel.app/','_blank','noopener,noreferrer')">
-        <div class="pc-tag pc-health">Healthcare AI</div>
-        <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
-        <h3>AYUSEVA: Multimodal Disease Prediction</h3>
-        <p><strong>Problem:</strong> Clinical systems handle structured symptoms and unstructured narratives separately, lacking calibration and safety checks.<br>
-        <strong>Solution:</strong> A multimodal system using D2B2C-IIFNN (DenseNet, BiLSTM, Conv1D, Attention) for prediction with a confidence-gated generative assistant (Symptom: 99.52%, NLP: 93.91%, Critical recall: 1.0000).</p>
-        <div class="pc-tech">🧬 D2B2C-IIFNN · 🔁 BiLSTM · 🎯 Attention · 💬 clinical-NLP · 🛡️ 95% Confidence Gate · 🏥 Hospital Pilot</div>
-        <div class="pc-arr">↗</div>
+      <!-- AYUSEVA -->
+      <div class="proj-hero glass fi" data-tags="research" style="cursor:pointer;" onclick="window.open('https://ayuseva.vercel.app/','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge">🤖 Flagship Project</div>
+          <div class="ph-badge res">🔬 Research Project</div>
+          <h3>AYUSEVA: Multimodal Disease Prediction &amp; Clinical Decision Support <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">D2B2C-IIFNN Architecture, Confidence-Gated Conversational Module &amp; Safety Layer</div>
+          <p><strong>Problem:</strong> Existing clinical AI systems often handle structured symptoms and unstructured patient narratives separately, and many lack rigorous calibration, cost-sensitive safety checks, and reliable patient-facing dialogue.<br>
+          <strong>Solution:</strong> AyuSeva, a multimodal clinical decision support system built around the D2B2C-IIFNN architecture for symptom-based disease prediction, paired with a confidence-gated generative conversational module for safe clinical guidance.</p>
+          <div class="ph-tags">
+            <span>D2B2C-IIFNN</span><span>DenseNet</span><span>BiLSTM</span><span>Attention</span><span>Conv1D</span><span>Clinical-NLP</span><span>Flask</span><span>Text-to-Speech</span>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>🧬 Symptom Model: 99.52% ± 1.08% Test Accuracy</span>
+              <span>💬 NLP Model: 93.91% ± 0.94% Test Accuracy</span>
+              <span>🚨 Critical-tier recall: 1.0000 on both pathways</span>
+              <span>🩺 Expert evaluation: 4.56/5.00, 95% domain accuracy</span>
+              <span>🛡️ Safety Layer: 95% Confidence threshold &amp; cost modeling</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="pc glass fi" data-tags="autonomous,cv" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank','noopener,noreferrer')" style="cursor:pointer;">
-        <div class="pc-tag pc-res">Research Publication</div>
-        <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
-        <h3>AUTONOMOUS VEHICLE: Traffic Sign Recognition</h3>
-        <p><strong>Problem:</strong> Self-driving vehicles need fast and reliable traffic sign recognition under variable outdoor lighting and road occlusion.<br>
-        <strong>Solution:</strong> A sequential deep CNN with grayscale conversion, histogram equalization, and data augmentation, integrated with an Arduino control system (99.63% GTSRB, 99.68% CTSD, 24–26ms latency).</p>
-        <div class="pc-tech">🧠 Sequential CNN · 🔌 Arduino Uno · 📡 ESP8266 &amp; Sensors · ⏱️ 24-26ms Latency · 🏁 Springer MTAP</div>
-        <div class="pc-arr">↗</div>
+      <!-- AUTONOMOUS VEHICLE SYSTEM -->
+      <div class="proj-hero glass fi" data-tags="cv,research" style="cursor:pointer;" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge">🤖 Flagship Project</div>
+          <div class="ph-badge res">🔬 Research Project</div>
+          <h3>AUTONOMOUS VEHICLE SYSTEM: Real-Time Traffic Sign Recognition <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">Sequential Deep CNN, Arduino Control Platform &amp; Sensor Fusion</div>
+          <p><strong>Problem:</strong> Autonomous vehicles need fast and reliable traffic sign recognition for safe driving, especially under changing lighting, occlusion, and road conditions.<br>
+          <strong>Solution:</strong> A real-time CNN-based traffic sign recognition system integrated with an autonomous vehicle control platform.</p>
+          <div class="ph-tags">
+            <span>Sequential CNN</span><span>Grayscale Conversion</span><span>Histogram Equalization</span><span>Data Augmentation</span><span>Arduino Uno</span><span>IR Sensors</span><span>Ultrasonic Sensor</span><span>L298N Driver</span><span>ESP8266</span>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>🚦 GTSRB test accuracy: 99.63% (Loss: 0.0176)</span>
+              <span>🏁 CTSD test accuracy: 99.68% (Loss: 0.0161)</span>
+              <span>⏱️ Latency: 24–26 ms per detection</span>
+              <span>🎯 Weighted precision/recall/F1: 99.5%</span>
+              <span>🔌 Arduino vehicle control via L298N &amp; sensors</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="pc glass fi" data-tags="cv" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank','noopener,noreferrer')">
-        <div class="pc-tag pc-agri">Precision Agriculture</div>
-        <h3>JACKFRUIT YIELD: Real-Time Agri-AI</h3>
-        <p><strong>Problem:</strong> Manual counting in large orchards is highly labor-intensive and error-prone under dense foliage and occlusion.<br>
-        <strong>Solution:</strong> A YOLOv8x computer vision framework trained on GPU and augmented via Albumentations, deployed on Streamlit Cloud for real-time orchard counting and yield estimation (Precision: 99.28%, mAP@50: 94.37%).</p>
-        <div class="pc-tech">🐍 YOLOv8x · 🖼️ Albumentations · ⏱️ 2.8ms Latency · 📊 Streamlit Cloud · 🌾 IEEE ICEI</div>
-        <div class="pc-arr">↗</div>
+      <!-- JACKFRUIT YIELD ESTIMATION -->
+      <div class="proj-hero glass fi" data-tags="cv,research" style="cursor:pointer;" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge agri">🌾 Precision Agriculture</div>
+          <div class="ph-badge res">🔬 Research Project</div>
+          <h3>JACKFRUIT YIELD ESTIMATION: Real-Time Agricultural AI <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">YOLOv8x Anchor-Free Architecture, Transfer Learning &amp; Streamlit Analytics</div>
+          <p><strong>Problem:</strong> Manual fruit counting and yield estimation in large orchards are labor-intensive, error-prone, and unreliable under occlusion, lighting variation, and dense foliage conditions.<br>
+          <strong>Solution:</strong> YOLOv8x-based intelligent computer vision framework for automated jackfruit detection, counting, and yield estimation in smart agriculture.</p>
+          <div class="ph-tags">
+            <span>YOLOv8x</span><span>Albumentations</span><span>HSV Augmentation</span><span>Mosaic Augmentation</span><span>NVIDIA A100 GPU</span><span>Transfer Learning</span><span>Streamlit Cloud</span>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>🎯 Precision: 99.28% | Recall: 85.71%</span>
+              <span>📊 mAP@50: 94.37% | mAP@50–95: 81.01%</span>
+              <span>📈 Optimal F1-score: 90.82%</span>
+              <span>🍎 Yield estimation: MAE = 1.914, RMSE = 2.478 fruits</span>
+              <span>⏱️ Average deployment latency: 2.8 ms single-user inference</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="pc glass fi" data-tags="cv" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
-        <div class="pc-tag pc-cv">Computer Vision</div>
-        <h3>GESTURE-BASED VIRTUAL KEYBOARD</h3>
-        <p><strong>Problem:</strong> Conventional physical typing interfaces limit user accessibility and natural interaction in AR/VR spaces.<br>
-        <strong>Solution:</strong> Mid-air typing system using MediaPipe Hands for 21-point hand pose tracking, TF Lite on-device inference, and custom CNN for character typing (97.3% typing accuracy, 30 FPS, 45 WPM speed).</p>
-        <div class="pc-tech">🤲 MediaPipe Hands · 👁️ OpenCV · ⚡ TensorFlow Lite · 🧠 Custom CNN · ⏱️ 50-80ms Latency</div>
-        <div class="pc-arr">↗</div>
+      <!-- GESTURE-BASED VIRTUAL KEYBOARD -->
+      <div class="proj-hero glass fi" data-tags="cv" style="cursor:pointer;" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge cv">🤲 Human-Computer Interaction</div>
+          <h3>GESTURE-BASED VIRTUAL KEYBOARD: Mid-Air Typing System <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">MediaPipe Hands Pose Detection, Custom CNN Character Recognition &amp; TF Lite Inference</div>
+          <p><strong>Problem:</strong> Typing on physical keyboards limits interaction in AR/VR and accessibility contexts.<br>
+          <strong>Solution:</strong> Real-time hand gesture recognition for mid-air typing system.</p>
+          <div class="ph-tags">
+            <span>MediaPipe Hands</span><span>OpenCV</span><span>TensorFlow Lite</span><span>Custom CNN</span><span>Hand Shape Recognition</span>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>⌨️ Typing accuracy: 97.3% (vs 99%+ physical)</span>
+              <span>⏱️ Latency: 50-80ms (real-time interaction)</span>
+              <span>⚡ Performance: 30 FPS on standard laptop</span>
+              <span>📏 Space requirement: 2×2 feet minimum</span>
+              <span>👥 User testing: 20 users, avg typing speed 45 WPM</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="pc glass fi" data-tags="security,cv" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
-        <div class="pc-tag pc-iot">Security &amp; IoT</div>
-        <h3>ADVANCED BANK SECURITY SYSTEM: Computer Vision &amp; Multi-Factor Biometric Auth</h3>
-        <p><strong>Problem:</strong> Single-factor credentials are vulnerable to breach; high-security banking spaces need multi-layer robust authentication.<br>
-        <strong>Solution:</strong> A high-security system integrating advanced Computer Vision (DeepFace face verification, OpenCV minutiae matching) with multi-factor biometric authentication and Arduino hardware validation (99.6% system accuracy).</p>
-        <div class="pc-tech">👁️ OpenCV &amp; CV · 🔐 DeepFace · 🔌 Arduino &amp; Sensors · 🛡️ Multi-factor AND-Logic</div>
-        <div class="pc-arr">↗</div>
+      <!-- ADVANCED BANK SECURITY SYSTEM -->
+      <div class="proj-hero glass fi" data-tags="security,cv" style="cursor:pointer;" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
+        <div class="ph-left">
+          <div class="ph-badge sec">🔒 Security &amp; IoT</div>
+          <div class="ph-badge cv">👁️ Computer Vision</div>
+          <h3>ADVANCED BANK SECURITY SYSTEM: Multi-Factor Biometric Authentication &amp; CV <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+          <div class="ph-fn">DeepFace Verification, OpenCV Minutiae Matching &amp; Arduino Access Control</div>
+          <p><strong>Problem:</strong> Single-factor authentication is vulnerable. Need multi-layer verification for high security.<br>
+          <strong>Solution:</strong> Face ID + Fingerprint + Passcode system using multiple biometric modalities and Arduino hardware validation.</p>
+          <div class="ph-tags">
+            <span>DeepFace</span><span>OpenCV Minutiae</span><span>Arduino Microcontroller</span><span>Biometric Sensors</span><span>Encrypted Credential Storage</span><span>Tamper Detection</span>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-metric">
+            <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
+            <div class="phm-list">
+              <span>👤 Face Recognition: DeepFace model, 99.2% accuracy</span>
+              <span>🛡️ False Acceptance Rate (FAR): 0.1% | FRR: 0.3%</span>
+              <span>⏱️ Authentication time: 3-5 seconds</span>
+              <span>👥 System tested on 100+ users | Overall accuracy: 99.6%</span>
+              <span>🚨 Real-time breach alerting &amp; audit logging</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -4370,28 +4443,13 @@ function initCertModal() {
 
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const projHero = document.querySelector('.proj-hero');
-  const projectCards = document.querySelectorAll('.projects-grid .pc');
+  const projectCards = document.querySelectorAll('.projects-list .proj-hero');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
-
-      if (projHero) {
-        const heroTags = projHero.dataset.tags ? projHero.dataset.tags.split(',') : [];
-        if (filter === 'all' || heroTags.includes(filter)) {
-          projHero.style.display = '';
-          projHero.style.opacity = '0';
-          setTimeout(() => {
-            projHero.style.transition = 'opacity 0.4s var(--smooth)';
-            projHero.style.opacity = '1';
-          }, 50);
-        } else {
-          projHero.style.display = 'none';
-        }
-      }
 
       let delay = 0;
       projectCards.forEach(card => {
