@@ -409,9 +409,12 @@ body {
   border: 0.5px solid var(--glass-br);
   border-radius: 28px; overflow: hidden;
   box-shadow: var(--shadow-lg);
+  height: 550px;
+  display: flex;
+  flex-direction: column;
 }
 #heroNeuralCanvas {
-  width: 100%; height: 260px; display: block;
+  flex: 1; min-height: 0; display: block;
 }
 .nco {
   padding: 24px 28px; position: relative; z-index: 1;
@@ -894,6 +897,9 @@ body {
 }
 @media (max-width: 768px) {
   :root { --sp: 80px; }
+  .neural-card, .terminal { height: 420px !important; }
+  .terminal { font-size: 0.75rem !important; }
+  .cli-input { font-size: 0.75rem !important; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .mobile-menu { display: flex; }
@@ -1004,7 +1010,7 @@ body {
 
 /* Interactive Command Prompt */
 .cli-prompt {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
   padding-top: 8px; border-top: 0.5px solid rgba(255,255,255,0.05);
   font-weight: 700; color: #50e3c2;
 }
@@ -1226,7 +1232,10 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
         <canvas id="heroNeuralCanvas"></canvas>
         <div class="nco">
           <div class="nco-lbl">CURRENT ROLE</div>
-          <div class="nco-title">Decision Scientist</div>
+          <div class="nco-title-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+            <div class="nco-title" style="margin-bottom: 0;">Decision Scientist</div>
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15);" />
+          </div>
           <div class="nco-sub">Mu Sigma · Analytics · Data-Driven AI</div>
           <div class="nco-status">
             <div class="dot-g"></div>
@@ -1257,8 +1266,8 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
               <!-- Dynamically populated by JS commands -->
             </div>
             <div class="cli-prompt">
-              <span>visitor@ashish-kishore:~$</span>
-              <input type="text" class="cli-input" id="cli-terminal-input" placeholder="Type 'help' to explore papers & internships..." autofocus autocomplete="off" />
+              <span>ashish@portfolio:~$</span>
+              <input type="text" class="cli-input" id="cli-terminal-input" placeholder="Type 'help' to explore..." autofocus autocomplete="off" />
             </div>
           </div>
 
@@ -2415,7 +2424,7 @@ function initTerminalSimulation() {
   
   const promptSpan = terminal.querySelector('.cli-prompt span');
   if (promptSpan) {
-    promptSpan.innerHTML = `<span class="log-green" style="font-weight:bold;">visitor@ashish-kishore</span>:<span class="log-blue">~</span><span class="log-dim" style="font-size:0.6875rem;"> (main)</span>$`;
+    promptSpan.innerHTML = `<span class="log-green" style="font-weight:bold;">ashish@portfolio</span>:<span class="log-blue">~</span>$`;
   }
 
   // Virtual Files Database
@@ -2590,10 +2599,10 @@ void adjustVehicleActuation(TrafficSignClass sign) {
   }
 }`,
 
-    'drdo_att_lstm_kf.weights': `================================================================================
+    'drdo_att_lstm_kf.weights': `======================================================
 AttLSTM-KF Targets Tracking Framework - LRDE DRDO
-================================================================================
-State Vector:  X_t = [x, y, vx, vy]^T  (Position & Velocity)
+======================================================
+State Vector:  X_t = [x, y, vx, vy]^T
 Measurement:   Z_t = [x_m, y_m]^T
 
 [Transition Matrix F]
@@ -2602,23 +2611,23 @@ Measurement:   Z_t = [x_m, y_m]^T
 | 0  0  1  0  |
 | 0  0  0  1  |
 
-[Dynamic Process Noise Covariance Q_t (Estimated via Cholesky Bi-LSTM)]
+[Dynamic Noise Covariance Q_t (Cholesky Bi-LSTM)]
 Q_t = L_t * L_t^T + epsilon * I
-Where L_t is predicted in real-time under Coordinated Turn (CT) maneuvers.
+Predicted in real-time under CT maneuvers.
 
-[Measurement Noise Covariance R_t (Radar Clutter Adaptive)]
+[Measurement Noise Covariance R_t (Adaptive)]
 R_t = [ [sigma_r^2, 0], [0, sigma_theta^2] ]
 
 [Maneuver Detection Gate]
-gamma_t = (Z_t - H*X_pred)^T * S_t^-1 * (Z_t - H*X_pred)
+gamma_t = (Z_t-H*X_pred)^T * S_t^-1 * (Z_t-H*X_pred)
 If gamma_t > Gate_Threshold:
   Re-initialize Q_t scaling coefficients (Mitigates Lag)
-================================================================================
+======================================================
 Test Trajectory Evaluation Summary:
 - Mean Trajectory Length: 100 steps
 - Radar Clutter Level: High (multi-path reflections)
 - RMSE position deviation: 0.950m
-================================================================================`
+======================================================`
   };
 
   // Helper function to colorize code output in the terminal virtual files
@@ -2659,16 +2668,16 @@ Test Trajectory Evaluation Summary:
 
   if (input && logStream) {
     const welcomeBanner = `${asciiBanner}
-================================================================================
-<span class="log-cyan">🤖 SYSTEM SHELL : ACTIVE (HOST: NVIDIA H100 TENSOR GRAPH EMULATOR)</span>
-================================================================================
-* Core Frameworks: <span class="log-purple">Deep Learning, Affective HRI Robotics, Real-Time Systems</span>
-* Active Journals: <span class="log-purple">MTAP (Q1), NCAA (Q1), IEEE Conference</span>
-* Status: <span class="log-green">Telemetry Online & Signal Sweep Firing (60 FPS)</span>
+======================================================
+<span class="log-cyan">🤖 SYSTEM SHELL: ACTIVE (NVIDIA H100 EMULATOR)</span>
+======================================================
+* Core: <span class="log-purple">Deep Learning, HRI Robotics, RT Systems</span>
+* Journals: <span class="log-purple">MTAP (Q1), NCAA (Q1), IEEE Conf.</span>
+* Status: <span class="log-green">Telemetry Online & Signal Sweep (60 FPS)</span>
 
-Type '<span class="log-green">help</span>' for system commands, or '<span class="log-green">banner</span>' to draw the ASCII matrix!
-Try '<span class="log-green">train [model]</span>' to run dynamic parameter backpropagation!
-================================================================================
+Type '<span class="log-green">help</span>' for system commands, or '<span class="log-green">banner</span>'.
+Try '<span class="log-green">train [model]</span>' for parameter backprop!
+======================================================
 `;
     logStream.innerHTML = `<div class="log-line">${welcomeBanner}</div>`;
 
@@ -2697,7 +2706,7 @@ Try '<span class="log-green">train [model]</span>' to run dynamic parameter back
           } else if (matches.length > 1) {
             const typedLine = document.createElement('div');
             typedLine.className = 'log-line';
-            typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${input.value}`;
+            typedLine.innerHTML = `<span class="log-dim">ashish@portfolio:~$</span> ${input.value}`;
             logStream.appendChild(typedLine);
 
             const suggestionsLine = document.createElement('div');
@@ -2715,7 +2724,7 @@ Try '<span class="log-green">train [model]</span>' to run dynamic parameter back
           } else if (matches.length > 1) {
             const typedLine = document.createElement('div');
             typedLine.className = 'log-line';
-            typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${input.value}`;
+            typedLine.innerHTML = `<span class="log-dim">ashish@portfolio:~$</span> ${input.value}`;
             logStream.appendChild(typedLine);
 
             const suggestionsLine = document.createElement('div');
@@ -2765,7 +2774,7 @@ Try '<span class="log-green">train [model]</span>' to run dynamic parameter back
 
         const typedLine = document.createElement('div');
         typedLine.className = 'log-line';
-        typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${cmdVal}`;
+        typedLine.innerHTML = `<span class="log-dim">ashish@portfolio:~$</span> ${cmdVal}`;
         logStream.appendChild(typedLine);
 
         if (cmdVal === '') {
@@ -3049,7 +3058,7 @@ Try '<span class="log-green">train [model]</span>' to run dynamic parameter back
 
           case 'ls':
             resLine.innerHTML = `
-<span class="log-cyan">Directory: visitor@ashish-kishore:~$ ls</span>
+<span class="log-cyan">Directory: ashish@portfolio:~$ ls</span>
 Total 6 virtual files:
 -rwxr-xr-x  1 ashish  staff   1.4K May 20 22:27 <span class="log-green" style="font-weight:bold;">about_me.txt</span>
 -rw-r--r--  1 ashish  staff   850B May 20 22:27 <span class="log-blue" style="font-weight:bold;">yolov8x_jackfruit.cfg</span>
@@ -3119,56 +3128,54 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
                   ];
 
                   const summaries = {
-                    'jackfruit': `================================================================================
+                    'jackfruit': `======================================================
 <span class="log-purple">Final YOLOv8x Yield Estimation Model Summary</span>
-================================================================================
-* Venue: <span class="log-cyan">IEEE International Conference</span> (ICEI Swinburne)
+======================================================
+* Venue: <span class="log-cyan">IEEE Conference</span> (ICEI Swinburne)
 * File Weights: 'yolov8x_jackfruit_best.pt'
 * Optimized Metrics:
-  - Precision: <span class="log-green">99.28%</span>
-  - Recall: <span class="log-green">85.71%</span>
-  - mAP@50: <span class="log-green">94.37%</span>
-  - mAP@50-95: <span class="log-green">81.01%</span>
-* Hardware Runtime: 619.5 GPU-minutes on NVIDIA H100 cluster
-================================================================================`,
-                    'traffic': `================================================================================
+  - Precision: <span class="log-green">99.28%</span> | Recall: <span class="log-green">85.71%</span>
+  - mAP@50: <span class="log-green">94.37%</span>    | mAP@50-95: <span class="log-green">81.01%</span>
+* Hardware Runtime: 619.5 GPU-min on NVIDIA H100
+======================================================`,
+                    'traffic': `======================================================
 <span class="log-purple">Final Edge CNN Traffic Sign Control System Summary</span>
-================================================================================
-* Venue: <span class="log-cyan">Springer Nature MTAP</span> (Multimedia Tools and Applications)
-* Code Weight: 'edge_traffic_sign.h' (1.44 MB microcontroller flash footprint)
+======================================================
+* Venue: <span class="log-cyan">Springer Nature MTAP</span>
+* Code Weight: 'edge_traffic_sign.h' (1.44 MB footprint)
 * Optimized Metrics:
-  - GTSRB Test Accuracy: <span class="log-green">99.63%</span> (German Traffic Sign Dataset)
-  - CTSD Test Accuracy: <span class="log-green">99.68%</span> (Chinese Traffic Sign Dataset)
-  - Microcontroller Latency: <span class="log-green">24-26 ms</span> per frame (UART Interface)
-================================================================================`,
-                    'robot': `================================================================================
-<span class="log-purple">Final Empathetic HRI Cognitive Robot framework Summary</span>
-================================================================================
-* Venue: <span class="log-cyan">Springer Nature MTAP</span> (Multimedia Tools and Applications)
-* Model Base: Gemma-2-27B-IT + DoRA (Parameter-efficient fine-tuning)
+  - GTSRB Accuracy: <span class="log-green">99.63%</span> (German Dataset)
+  - CTSD Accuracy: <span class="log-green">99.68%</span> (Chinese Dataset)
+  - Latency: <span class="log-green">24-26 ms</span> per frame (UART Serial)
+======================================================`,
+                    'robot': `======================================================
+<span class="log-purple">Final Empathetic HRI Cognitive Robot Summary</span>
+======================================================
+* Venue: <span class="log-cyan">Springer Nature MTAP</span>
+* Model Base: Gemma-2-27B-IT + DoRA
 * Optimized Metrics:
   - Face Verification Accuracy: <span class="log-green">98.7%</span>
   - Dialog Grounding Recall@1: <span class="log-green">94.8%</span>
   - Generation Speed: <span class="log-green">24.5 tokens/sec</span>
-================================================================================`,
-                    'ayuseva': `================================================================================
+======================================================`,
+                    'ayuseva': `======================================================
 <span class="log-purple">Final AyuSeva D2B2C-IIFNN Model Summary</span>
-================================================================================
-* Venue: <span class="log-cyan">Springer Nature NCAA</span> (Neural Computing and Applications)
-* Model Base: D2B2C-IIFNN (DenseNet, Dual Attention, BiLSTM, Conv1D)
+======================================================
+* Venue: <span class="log-cyan">Springer Nature NCAA</span>
+* Model Base: D2B2C-IIFNN (DenseNet+Dual Attention)
 * Optimized Metrics:
-  - Symptom Model Test Accuracy: <span class="log-green">99.52% +/- 1.08%</span> (ROC-AUC: 0.9999)
-  - NLP Clinical Model Accuracy: <span class="log-green">93.91% +/- 0.94%</span> (ROC-AUC: 0.9975)
-================================================================================`,
-                    'drdo': `================================================================================
-<span class="log-purple">Final Radar Target Tracking AttLSTM-KF Framework Summary</span>
-================================================================================
+  - Symptom Model Test Accuracy: <span class="log-green">99.52% +/- 1.08%</span>
+  - NLP Clinical Model Accuracy: <span class="log-green">93.91% +/- 0.94%</span>
+======================================================`,
+                    'drdo': `======================================================
+<span class="log-purple">Final Radar Target Tracking AttLSTM-KF Summary</span>
+======================================================
 * Institution: <span class="log-cyan">DRDO LRDE Fire Control Radar Research</span>
 * Advisor: Sci 'E' Shri Bibhabasu Mondal, LRDE - DRDO
 * Optimized Metrics:
-  - Maneuver tracking RMSE: <span class="log-green">0.950m</span> (extreme coordinated turns)
-  - Covariance adaptation latency: <span class="log-green">Zero-lag Cholesky tracking</span>
-================================================================================`
+  - Maneuver tracking RMSE: <span class="log-green">0.950m</span> (extreme turns)
+  - Covariance latency: <span class="log-green">Zero-lag Cholesky tracking</span>
+======================================================`
                   };
 
                   trainSteps.forEach(s => {
