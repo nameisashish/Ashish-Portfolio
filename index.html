@@ -322,12 +322,7 @@ body {
   max-width: var(--mw); margin: 0 auto; width: 100%;
   padding: 80px 32px 60px;
   display: grid; grid-template-columns: 1fr 480px;
-  gap: 80px; align-items: center;
-}
-
-.hero-left {
-  position: relative;
-  top: -45px;
+  gap: 80px; align-items: start;
 }
 
 /* Hero Left */
@@ -892,7 +887,6 @@ body {
 ================================================================ */
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; gap: 60px; }
-  .hero-left { top: 0; }
   .hero-right { max-width: 440px; }
   .sec-split { grid-template-columns: 1fr; gap: 40px; }
   .contact-block { grid-template-columns: 1fr; }
@@ -1191,7 +1185,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
     <div class="hero-left">
       <div class="hero-eyebrow">
         <span class="pulse-dot"></span>
-        <span>Open to Opportunities · 2026</span>
+        <span>Open to Opportunities</span>
       </div>
       <h1 class="hero-h">
         <span class="lr">Decoding the</span>
