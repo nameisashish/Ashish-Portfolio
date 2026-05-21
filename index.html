@@ -98,7 +98,7 @@ body {
   border: 0.5px solid var(--glass-br);
   border-radius: 24px;
   box-shadow: var(--shadow-md);
-  transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth), background .3s var(--smooth), box-shadow .3s var(--smooth);
+  transition: opacity 0.75s var(--smooth), transform 0.75s var(--smooth), background .3s var(--smooth), box-shadow .3s var(--smooth);
   position: relative; overflow: hidden;
 }
 .glass::before {
@@ -111,8 +111,8 @@ body {
 
 /* ── FADE IN ── */
 .fi {
-  opacity: 0; transform: translateY(16px);
-  transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth);
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.75s var(--smooth), transform 0.75s var(--smooth);
   will-change: opacity, transform;
 }
 .fi.vis { opacity: 1; transform: none; }
@@ -519,7 +519,7 @@ body {
   border-radius: 24px; padding: 40px;
   display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: center;
   box-shadow: var(--shadow-md);
-  transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth), box-shadow 0.3s var(--smooth);
+  transition: opacity 0.75s var(--smooth), transform 0.75s var(--smooth), box-shadow 0.3s var(--smooth);
   position: relative; overflow: hidden;
 }
 .rc::before {
