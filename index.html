@@ -2288,7 +2288,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
     <div class="contact-block">
       <div class="glass contact-main fi">
         <div class="contact-links">
-          <a href="mailto:ashisha3p@gmail.com" class="ci">
+          <a href="mailto:ashisha3p@gmail.com" class="ci" onclick="handleEmailClick(event)">
             <div class="ci-icon">📧</div>
             <div class="ci-body">
               <div class="ci-lbl">Email</div>
@@ -2298,7 +2298,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
           </a>
           <div class="ci-div"></div>
           <a href="https://linkedin.com/in/ashish-kishore-6b56a51b3" target="_blank" rel="noopener noreferrer" class="ci">
-            <div class="ci-icon">🔗</div>
+            <div class="ci-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="LinkedIn" style="width: 22px; height: 22px; vertical-align: middle; border-radius: 4px; display: inline-block;"></div>
             <div class="ci-body">
               <div class="ci-lbl">LinkedIn</div>
               <div class="ci-val">Connect with me</div>
@@ -2374,6 +2374,18 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
 <canvas id="mesh-bg" aria-hidden="true"></canvas>
 
 <script>
+// Email redirection helper (opens Gmail web on desktop, falls back to mailto on mobile)
+function handleEmailClick(e) {
+  e.preventDefault();
+  const email = 'ashisha3p@gmail.com';
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = `mailto:${email}`;
+  } else {
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`, '_blank', 'noopener,noreferrer');
+  }
+}
+
 // Force page to start from the top on reload/refresh and disable scroll restoration
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
