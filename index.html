@@ -1,0 +1,3450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="description" content="Ashish Kishore — AI/ML Researcher, Gen-AI Specialist, Published Author. Building the future of intelligent systems.">
+<meta name="theme-color" content="#09090f">
+<title>Ashish Kishore — AI/ML Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   DESIGN TOKENS
+================================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+:root {
+  --primary:           #adc6ff;
+  --primary-c:         #4b8eff;
+  --secondary:         #c2c1ff;
+  --indigo:            #7c6ff7;
+  --teal:              #6ac4dc;
+  --green:             #30d158;
+  --orange:            #ff9f0a;
+  --red:               #ff453a;
+  --bg:                #09090f;
+  --s0:                #0d0d14;
+  --s1:                #111119;
+  --s2:                #18171f;
+  --s3:                #1f1e27;
+  --text-p:            #f0eef8;
+  --text-s:            #bbb8cc;
+  --text-t:            #7e7a95;
+  --border:            rgba(255,255,255,0.05);
+  --glass-bg:          rgba(18,17,28,0.55);
+  --glass-bg-h:        rgba(22,21,34,0.68);
+  --glass-br:          rgba(255,255,255,0.07);
+  --glass-blur:        blur(40px) saturate(180%);
+  --shadow-sm:         0 2px 12px rgba(0,0,0,0.3),0 0 0 0.5px rgba(255,255,255,0.04);
+  --shadow-md:         0 8px 32px rgba(0,0,0,0.45),0 0 0 0.5px rgba(255,255,255,0.05),0 0 20px rgba(173,198,255,0.04);
+  --shadow-lg:         0 20px 60px rgba(0,0,0,0.6),0 0 0 0.5px rgba(255,255,255,0.06),0 0 40px rgba(173,198,255,0.06);
+  --fd:                'Manrope', sans-serif;
+  --fb:                'Inter', sans-serif;
+  --fm:                'Space Mono', monospace;
+  --spring:            cubic-bezier(0.34,1.56,0.64,1);
+  --smooth:            cubic-bezier(0.22,1,0.36,1);
+  --nav-h:             68px;
+  --sp:                120px;
+  --mw:                1200px;
+}
+
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--text-p);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  animation: bodyReveal 0.5s ease forwards;
+}
+@keyframes bodyReveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── GRAIN ── */
+.grain {
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── MESH CANVAS ── */
+#mesh-bg {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1; pointer-events: none;
+  filter: blur(72px) saturate(140%);
+}
+
+/* ── GLASS ── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-br);
+  border-radius: 24px;
+  box-shadow: var(--shadow-md);
+  transition: background .3s var(--smooth), transform .3s var(--smooth), box-shadow .3s var(--smooth);
+  position: relative; overflow: hidden;
+}
+.glass::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(173,198,255,0.15), transparent);
+  pointer-events: none;
+}
+.glass:hover { background: var(--glass-bg-h); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+/* ── FADE IN ── */
+.fi {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s var(--smooth), transform .7s var(--smooth);
+}
+.fi.vis { opacity: 1; transform: none; }
+
+/* ── LAYOUT ── */
+.container { max-width: var(--mw); margin: 0 auto; padding: 0 32px; }
+.section { padding: var(--sp) 0; }
+
+/* ================================================================
+   NAVIGATION — SMOOTH DETACH ON SCROLL
+================================================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border-bottom: 0.5px solid transparent;
+  transition:
+    top .5s cubic-bezier(0.22,1,0.36,1),
+    height .5s cubic-bezier(0.22,1,0.36,1),
+    background .5s ease,
+    backdrop-filter .5s ease,
+    box-shadow .5s ease,
+    border-radius .5s cubic-bezier(0.22,1,0.36,1),
+    border-color .5s ease,
+    padding .5s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* Detached: shrink inward from both sides using padding — NO left/transform tricks */
+.navbar.detached {
+  top: 12px;
+  height: 54px;
+  background: rgba(10,10,18,0.65);
+  backdrop-filter: blur(52px) saturate(210%);
+  -webkit-backdrop-filter: blur(52px) saturate(210%);
+  border-radius: 100px;
+  border-bottom-color: transparent;
+  box-shadow: 0 6px 36px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(255,255,255,0.09);
+  /* Shrink from both sides using left/right inset */
+  left: max(20px, calc(50% - 480px));
+  right: max(20px, calc(50% - 480px));
+}
+
+.nav-inner {
+  max-width: var(--mw);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-ak {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-c));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--fd); font-weight: 800; font-size: 0.78rem;
+  color: #09090f; letter-spacing: 0; flex-shrink: 0;
+}
+.logo-name {
+  font-family: var(--fd); font-weight: 700; font-size: 0.9375rem;
+  color: var(--text-p); letter-spacing: -0.01em;
+}
+
+.nav-links { list-style: none; display: flex; gap: 2px; margin-left: auto; }
+.nav-links a {
+  text-decoration: none;
+  font-family: var(--fb); font-size: 0.8125rem; font-weight: 500;
+  color: var(--text-t);
+  padding: 6px 11px; border-radius: 8px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover { color: var(--text-p); background: rgba(255,255,255,0.06); }
+
+.nav-cta {
+  text-decoration: none;
+  font-family: var(--fb); font-size: 0.8125rem; font-weight: 600;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--primary), var(--primary-c));
+  padding: 8px 18px; border-radius: 50px;
+  transition: opacity .2s, transform .2s var(--spring);
+  white-space: nowrap; flex-shrink: 0;
+}
+.nav-cta:hover { opacity: .88; transform: scale(.97); }
+
+.mobile-menu {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px; margin-left: auto;
+}
+.mobile-menu span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text-s); border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.mobile-menu.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu.open span:nth-child(2) { opacity: 0; }
+.mobile-menu.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-drawer {
+  display: none;
+  position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 999;
+  background: rgba(9,9,15,0.94);
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+  border-bottom: 0.5px solid var(--glass-br);
+  padding: 20px;
+  transform: translateY(-100%); opacity: 0;
+  transition: transform .4s var(--smooth), opacity .4s;
+}
+.mobile-drawer.open { transform: translateY(0); opacity: 1; }
+.mobile-drawer ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.drawer-link {
+  display: block; text-decoration: none;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--text-s); padding: 12px 16px; border-radius: 12px;
+  transition: color .2s, background .2s;
+}
+.drawer-link:hover { color: var(--text-p); background: rgba(255,255,255,0.06); }
+.drawer-link.cta { color: var(--primary); font-weight: 600; margin-top: 8px; }
+
+/* ================================================================
+   BUTTONS
+================================================================ */
+.btn-p {
+  display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none;
+  font-family: var(--fb); font-size: 0.9375rem; font-weight: 600;
+  color: #09090f;
+  background: linear-gradient(135deg, var(--primary), var(--primary-c));
+  padding: 14px 28px; border-radius: 50px;
+  transition: transform .2s var(--spring), box-shadow .2s, opacity .2s;
+  box-shadow: 0 4px 20px rgba(75,142,255,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  white-space: nowrap;
+}
+.btn-p:hover { transform: scale(1.04) translateY(-1px); box-shadow: 0 8px 32px rgba(75,142,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+.btn-p:active { transform: scale(.97); }
+
+.btn-g {
+  display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none;
+  font-family: var(--fb); font-size: 0.9375rem; font-weight: 600;
+  color: var(--text-p);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  padding: 14px 28px; border-radius: 50px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  transition: transform .2s var(--spring), background .2s;
+  white-space: nowrap;
+}
+.btn-g:hover { background: rgba(255,255,255,0.1); transform: scale(1.03) translateY(-1px); }
+
+/* ================================================================
+   SECTION LABELS
+================================================================ */
+.sec-lbl {
+  font-family: var(--fm); font-size: 0.6875rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--primary); margin-bottom: 16px;
+}
+.sec-h {
+  font-family: var(--fd); font-size: clamp(2.5rem,5vw,4rem);
+  font-weight: 800; line-height: 1.08; letter-spacing: -0.025em;
+  color: var(--text-p); margin-bottom: 16px;
+}
+.sec-m { font-size: 1rem; color: var(--text-t); margin-bottom: 60px; }
+
+/* ================================================================
+   HERO
+================================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  padding-top: var(--nav-h);
+  position: relative; overflow: hidden;
+}
+.hero-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); pointer-events: none;
+}
+.orb1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(75,142,255,0.18), transparent 70%);
+  top: -200px; left: -200px;
+  animation: forb 20s ease-in-out infinite;
+}
+.orb2 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(194,193,255,0.12), transparent 70%);
+  bottom: 0; right: -100px;
+  animation: forb 25s ease-in-out infinite reverse;
+}
+.orb3 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(106,196,220,0.1), transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: forb 18s ease-in-out 5s infinite;
+}
+@keyframes forb {
+  0%,100% { transform: translate(0,0); }
+  33% { transform: translate(40px,-30px); }
+  66% { transform: translate(-20px,30px); }
+}
+
+.hero-inner {
+  flex: 1;
+  max-width: var(--mw); margin: 0 auto; width: 100%;
+  padding: 80px 32px 60px;
+  display: grid; grid-template-columns: 1fr 480px;
+  gap: 80px; align-items: center;
+}
+
+/* Hero Left */
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--fm); font-size: 0.75rem; letter-spacing: .08em;
+  color: var(--text-t);
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 8px 14px; border-radius: 50px; margin-bottom: 32px;
+}
+.pulse-dot {
+  width: 7px; height: 7px;
+  background: var(--green); border-radius: 50%;
+  animation: pgr 2s ease-in-out infinite;
+}
+@keyframes pgr {
+  0%,100% { box-shadow: 0 0 0 0 rgba(48,209,88,0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(48,209,88,0); }
+}
+
+.hero-h {
+  font-family: var(--fd); font-size: clamp(2.6rem,5.5vw,5.25rem);
+  font-weight: 800; line-height: 1.06; letter-spacing: -.03em;
+  margin-bottom: 20px; overflow: visible;
+}
+.lr {
+  display: block; opacity: 0;
+  transform: translateY(60px);
+  animation: lu .9s var(--smooth) forwards;
+}
+.lr:nth-child(1) { animation-delay: .1s; }
+.lr:nth-child(2) { animation-delay: .2s; }
+.lr:nth-child(3) { animation-delay: .3s; }
+@keyframes lu { to { opacity:1; transform:translateY(0); } }
+.acc {
+  background: linear-gradient(135deg, var(--primary), var(--primary-c), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.hero-sub {
+  font-family: var(--fm); font-size: .8125rem; letter-spacing: .06em;
+  color: var(--primary); margin-bottom: 20px;
+  opacity: 0; animation: fu .7s var(--smooth) .5s forwards;
+}
+.hero-desc {
+  font-size: 1.0625rem; line-height: 1.7;
+  color: var(--text-s); max-width: 520px; margin-bottom: 36px;
+  opacity: 0; animation: fu .7s var(--smooth) .6s forwards;
+}
+@keyframes fu { to { opacity:1; transform:translateY(0); } }
+.hero-btns {
+  display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 52px;
+  opacity: 0; animation: fu .7s var(--smooth) .7s forwards;
+}
+
+/* Hero Stats */
+.hero-stats {
+  display: flex; align-items: center;
+  opacity: 0; animation: fu .7s var(--smooth) .85s forwards;
+}
+.hero-stat { text-align: left; padding: 0 28px; }
+.hero-stat:first-child { padding-left: 0; }
+.stat-n {
+  font-family: var(--fd); font-size: 1.875rem; font-weight: 800;
+  color: var(--text-p); letter-spacing: -.02em; line-height: 1;
+}
+.stat-l {
+  font-family: var(--fm); font-size: .625rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-t); margin-top: 4px;
+}
+.s-div { width: 1px; height: 36px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+
+/* Hero Right */
+.hero-right {
+  position: relative;
+  opacity: 0; animation: fu .9s var(--smooth) .3s forwards;
+}
+.neural-card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-br);
+  border-radius: 28px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+#heroNeuralCanvas {
+  width: 100%; height: 260px; display: block;
+}
+.nco {
+  padding: 24px 28px; position: relative; z-index: 1;
+}
+.nco-lbl {
+  font-family: var(--fm); font-size: .625rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-t); margin-bottom: 8px;
+}
+.nco-title {
+  font-family: var(--fd); font-size: 1.25rem; font-weight: 700;
+  color: var(--text-p); margin-bottom: 4px;
+}
+.nco-sub { font-size: .875rem; color: var(--text-s); margin-bottom: 14px; }
+.nco-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .8125rem; color: var(--green); font-family: var(--fm);
+}
+.dot-g {
+  width: 7px; height: 7px; background: var(--green);
+  border-radius: 50%; flex-shrink: 0;
+  animation: pgr 2s ease-in-out infinite;
+}
+
+
+/* Scroll hint */
+.scroll-hint {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding-bottom: 36px;
+  opacity: 0; animation: fsin .7s ease 1.8s forwards;
+}
+@keyframes fsin { to { opacity: .35; } }
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--text-t));
+  animation: sp 2s ease-in-out infinite;
+}
+@keyframes sp { 0%,100% { opacity:.3; } 50% { opacity:.8; } }
+.scroll-hint span {
+  font-family: var(--fm); font-size: .625rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text-t);
+}
+
+/* ================================================================
+   ABOUT
+================================================================ */
+.sec-split {
+  display: grid; grid-template-columns: 340px 1fr; gap: 80px; align-items: start;
+}
+.about-card {
+  padding: 40px; font-size: 1rem; line-height: 1.75; color: var(--text-s);
+}
+.about-card strong { color: var(--text-p); }
+.txt-acc { color: var(--primary); font-weight: 600; }
+.ilink {
+  color: var(--primary); text-decoration: none;
+  border-bottom: 1px solid rgba(173,198,255,0.3);
+  transition: border-color .2s;
+}
+.ilink:hover { border-color: var(--primary); }
+
+/* ================================================================
+   RESEARCH
+================================================================ */
+.research-stack { display: flex; flex-direction: column; gap: 24px; }
+.rc {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-br);
+  border-radius: 24px; padding: 40px;
+  display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: center;
+  box-shadow: var(--shadow-md);
+  transition: transform .3s var(--smooth), box-shadow .3s;
+  position: relative; overflow: hidden;
+}
+.rc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(173,198,255,0.15), transparent);
+}
+.rc:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.rc-blue   { border-left: 2px solid rgba(173,198,255,0.4); }
+.rc-purple { border-left: 2px solid rgba(194,193,255,0.4); }
+.rc-indigo { border-left: 2px solid rgba(124,111,247,0.4); }
+.rc-badge {
+  display: inline-flex; padding: 4px 12px; border-radius: 50px;
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .08em; font-weight: 700;
+  margin-bottom: 14px;
+}
+.rc-q1 { background: linear-gradient(135deg, rgba(173,198,255,0.2), rgba(173,198,255,0.05)); color: var(--primary); }
+.rc-left h3 {
+  font-family: var(--fd); font-size: 1.25rem; font-weight: 700;
+  color: var(--text-p); margin-bottom: 10px; line-height: 1.3;
+}
+.rc-meta {
+  font-family: var(--fm); font-size: .6875rem; color: var(--text-t);
+  margin-bottom: 14px; letter-spacing: .04em;
+}
+.rc-meta .sep { margin: 0 6px; opacity: .4; }
+.rc-left p { font-size: .9375rem; line-height: 1.7; color: var(--text-s); }
+.rc-left p strong { color: var(--primary); }
+.rc-lnk {
+  display: inline-flex; margin-top: 18px;
+  font-family: var(--fm); font-size: .75rem; font-weight: 700; letter-spacing: .06em;
+  color: var(--primary); text-decoration: none;
+  border-bottom: 1px solid rgba(173,198,255,0.3); transition: border-color .2s;
+}
+.rc-lnk:hover { border-color: var(--primary); }
+.rc-metric {
+  text-align: center; padding: 28px;
+  background: rgba(255,255,255,0.025);
+  border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.05);
+}
+.rc-mb {
+  font-family: var(--fd); font-size: 2.5rem; font-weight: 800;
+  color: var(--primary); letter-spacing: -.03em; line-height: 1; margin-bottom: 8px;
+}
+.rc-mb span { font-size: 1.5rem; font-weight: 600; }
+.rc-ml { font-family: var(--fm); font-size: .625rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-t); }
+.rc-ms { font-size: .75rem; color: var(--text-t); margin-top: 4px; opacity: .7; }
+
+/* ================================================================
+   TIMELINE
+================================================================ */
+.timeline {
+  position: relative; padding-left: 40px;
+  display: flex; flex-direction: column; gap: 32px;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 16px; bottom: 16px; width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(173,198,255,0.2), transparent);
+}
+.tl-item { position: relative; cursor: pointer; }
+.tl-dot {
+  position: absolute; left: -44px; top: 24px;
+  width: 9px; height: 9px; background: var(--primary);
+  border-radius: 50%; box-shadow: 0 0 0 3px rgba(173,198,255,0.15);
+}
+.tl-c { padding: 32px; }
+.tl-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.tl-badge { font-family: var(--fm); font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.tl-c h3 { font-family: var(--fd); font-size: 1.25rem; font-weight: 700; color: var(--text-p); margin-bottom: 4px; }
+.tl-c h4 { font-size: .9375rem; font-weight: 500; color: var(--text-t); }
+.tl-icon { font-size: 2rem; }
+.tl-c p { font-size: .9375rem; line-height: 1.7; color: var(--text-s); margin-bottom: 16px; }
+.tl-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tl-tags span {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .06em;
+  color: var(--primary); background: rgba(173,198,255,0.08);
+  padding: 4px 10px; border-radius: 50px; border: 0.5px solid rgba(173,198,255,0.15);
+}
+
+/* ================================================================
+   AWARDS
+================================================================ */
+.awards-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+.award-card { padding: 32px; display: flex; gap: 20px; cursor: pointer; }
+.award-icon { font-size: 2rem; flex-shrink: 0; }
+.award-body { flex: 1; }
+.award-badge {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--primary); background: rgba(173,198,255,0.08);
+  padding: 4px 10px; border-radius: 50px; display: inline-block; margin-bottom: 10px;
+}
+.award-body h3 { font-family: var(--fd); font-size: 1.125rem; font-weight: 700; color: var(--text-p); margin-bottom: 8px; }
+.award-body p { font-size: .875rem; line-height: 1.65; color: var(--text-s); }
+
+/* ================================================================
+   PROJECTS
+================================================================ */
+.proj-hero {
+  padding: 48px; margin-bottom: 28px;
+  display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start;
+}
+.ph-badge {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--orange); background: rgba(255,159,10,0.1);
+  padding: 5px 12px; border-radius: 50px; display: inline-block; margin-bottom: 14px;
+}
+.ph-left h3 {
+  font-family: var(--fd); font-size: 2.5rem; font-weight: 800;
+  color: var(--text-p); letter-spacing: -.02em; margin-bottom: 8px;
+}
+.ph-fn {
+  font-family: var(--fm); font-size: .6875rem; color: var(--text-t);
+  letter-spacing: .04em; margin-bottom: 20px; line-height: 1.5;
+}
+.ph-left p { font-size: .9375rem; line-height: 1.75; color: var(--text-s); margin-bottom: 20px; }
+.ph-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.ph-tags span {
+  font-family: var(--fm); font-size: .6875rem;
+  color: var(--text-s); background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 50px;
+}
+.ph-right { }
+.ph-metric {
+  background: rgba(255,255,255,0.03); border-radius: 16px;
+  border: 0.5px solid rgba(255,255,255,0.06); padding: 24px;
+}
+.phm-lbl {
+  font-family: var(--fm); font-size: .5875rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-t); margin-bottom: 14px;
+}
+.phm-list { display: flex; flex-direction: column; gap: 8px; }
+.phm-list span {
+  font-size: .8125rem; color: var(--text-s);
+  padding: 6px 10px; background: rgba(255,255,255,0.03); border-radius: 8px;
+}
+
+.projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.pc { padding: 28px; cursor: pointer; position: relative; }
+.pc-tag {
+  font-family: var(--fm); font-size: .625rem; letter-spacing: .1em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 50px;
+  display: inline-block; margin-bottom: 14px; cursor: pointer;
+}
+.pc-health { color: #30d158; background: rgba(48,209,88,0.1); }
+.pc-res    { color: var(--primary); background: rgba(173,198,255,0.1); }
+.pc-agri   { color: var(--orange); background: rgba(255,159,10,0.1); }
+.pc-cv     { color: var(--secondary); background: rgba(194,193,255,0.1); }
+.pc-iot    { color: var(--teal); background: rgba(106,196,220,0.1); }
+.pc h3 { font-family: var(--fd); font-size: 1.125rem; font-weight: 700; color: var(--text-p); margin-bottom: 10px; }
+.pc p { font-size: .875rem; line-height: 1.65; color: var(--text-s); margin-bottom: 16px; }
+.pc-tech { font-family: var(--fm); font-size: .8rem; letter-spacing: .06em; color: var(--text-t); line-height: 1.8; }
+.pc-arr {
+  position: absolute; top: 24px; right: 24px; font-size: 1.25rem;
+  color: var(--text-t); opacity: 0; transition: opacity .2s, transform .2s var(--spring);
+}
+.pc:hover .pc-arr { opacity: 1; transform: translate(2px,-2px); }
+
+/* ================================================================
+   CONFERENCES
+================================================================ */
+.conf-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+.conf-card {
+  padding: 36px; display: flex; gap: 20px; align-items: flex-start;
+  cursor: pointer; position: relative;
+}
+.cc-num {
+  font-family: var(--fd); font-size: 3rem; font-weight: 800;
+  color: rgba(173,198,255,0.1); letter-spacing: -.04em; line-height: 1; flex-shrink: 0;
+}
+.cc-body { flex: 1; }
+.cc-badge {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--primary); background: rgba(173,198,255,0.08);
+  padding: 4px 10px; border-radius: 50px; display: inline-block; margin-bottom: 10px;
+}
+.cc-body h3 { font-family: var(--fd); font-size: 1.25rem; font-weight: 700; color: var(--text-p); margin-bottom: 10px; }
+.cc-body p { font-size: .875rem; line-height: 1.65; color: var(--text-s); }
+.cc-arr {
+  font-size: 1.25rem; color: var(--text-t); opacity: 0;
+  transition: opacity .2s, transform .2s var(--spring); flex-shrink: 0;
+}
+.conf-card:hover .cc-arr { opacity: 1; transform: translate(2px,-2px); }
+
+/* ================================================================
+   CERTIFICATIONS
+================================================================ */
+.cert-card { padding: 40px; display: flex; align-items: center; gap: 28px; }
+.cert-icon { font-size: 3rem; flex-shrink: 0; }
+.cert-body { flex: 1; }
+.cert-body h3 { font-family: var(--fd); font-size: 1.375rem; font-weight: 700; color: var(--text-p); margin-bottom: 8px; }
+.cert-body p { font-size: .9375rem; line-height: 1.65; color: var(--text-s); max-width: 600px; }
+.cert-btn { font-size: .8125rem !important; padding: 10px 20px !important; }
+
+/* ================================================================
+   SKILLS
+================================================================ */
+.skills-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+.sg { padding: 28px; }
+.sg-title { display: flex; align-items: center; gap: 10px; font-family: var(--fd); font-size: .9375rem; font-weight: 700; color: var(--text-p); margin-bottom: 18px; }
+.sg-icon { font-size: 1.125rem; }
+.sg-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.sg-tags span {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .04em;
+  color: var(--text-s); background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  padding: 5px 12px; border-radius: 50px;
+  transition: color .2s, background .2s, border-color .2s;
+}
+.sg-tags span:hover { color: var(--primary); background: rgba(173,198,255,0.1); border-color: rgba(173,198,255,0.2); }
+
+/* ================================================================
+   EDUCATION
+================================================================ */
+.edu-card {
+  padding: 48px; display: flex; align-items: center;
+  justify-content: space-between; gap: 40px; flex-wrap: wrap;
+}
+.edu-yr {
+  font-family: var(--fm); font-size: .6875rem; letter-spacing: .12em;
+  color: var(--primary); margin-bottom: 10px;
+}
+.edu-left h3 { font-family: var(--fd); font-size: 1.5rem; font-weight: 800; color: var(--text-p); margin-bottom: 4px; }
+.edu-left h4 { font-family: var(--fd); font-size: 1rem; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+.edu-left p { font-size: .9375rem; color: var(--text-t); margin-bottom: 16px; }
+.edu-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.edu-tags span {
+  font-family: var(--fm); font-size: .6875rem; color: var(--text-t);
+  background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.07);
+  padding: 4px 10px; border-radius: 50px;
+}
+.edu-right { text-align: center; }
+.cgpa-pill {
+  background: linear-gradient(135deg, rgba(48,209,88,0.15), rgba(48,209,88,0.05));
+  border: 0.5px solid rgba(48,209,88,0.2); border-radius: 20px; padding: 24px 32px; margin-bottom: 14px;
+}
+.cgpa-lbl { font-family: var(--fm); font-size: .625rem; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+.cgpa-v { font-family: var(--fd); font-size: 2rem; font-weight: 800; color: var(--green); letter-spacing: -.02em; line-height: 1; }
+.cgpa-v span { font-size: 1rem; font-weight: 500; opacity: .7; }
+.grad-s { display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--fm); font-size: .6875rem; color: var(--text-t); }
+
+/* ================================================================
+   CONTACT
+================================================================ */
+.contact-block { display: grid; grid-template-columns: 1fr 360px; gap: 32px; align-items: start; }
+.contact-links { display: flex; flex-direction: column; }
+.ci {
+  display: flex; align-items: center; gap: 16px;
+  padding: 24px 28px; text-decoration: none;
+  transition: background .2s; cursor: pointer;
+}
+.ci:hover { background: rgba(255,255,255,0.03); }
+.ci-div { height: 1px; background: rgba(255,255,255,0.04); margin: 0 28px; }
+.ci-icon { font-size: 1.5rem; width: 36px; text-align: center; flex-shrink: 0; }
+.ci-body { flex: 1; }
+.ci-lbl { font-family: var(--fm); font-size: .625rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-t); margin-bottom: 2px; }
+.ci-val { font-family: var(--fd); font-size: 1rem; font-weight: 600; color: var(--text-p); }
+.ci-arr { font-size: 1.125rem; color: var(--text-t); opacity: 0; transition: opacity .2s, transform .2s var(--spring); }
+.ci:hover .ci-arr { opacity: 1; transform: translate(3px,-3px); }
+.contact-cta {
+  padding: 40px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-br); border-radius: 24px; box-shadow: var(--shadow-md);
+}
+.contact-cta p {
+  font-family: var(--fd); font-size: 1.0625rem; font-weight: 500;
+  line-height: 1.7; color: var(--text-s); font-style: italic;
+}
+
+/* ================================================================
+   FOOTER
+================================================================ */
+.footer { padding: 60px 0 40px; border-top: 0.5px solid rgba(255,255,255,0.05); }
+.footer-inner {
+  max-width: var(--mw); margin: 0 auto; padding: 0 32px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 40px; margin-bottom: 40px; flex-wrap: wrap;
+}
+.footer-logo { font-family: var(--fd); font-size: 1.25rem; font-weight: 800; color: var(--text-p); letter-spacing: -.01em; margin-bottom: 10px; }
+.footer-tag { font-family: var(--fm); font-size: .6875rem; line-height: 1.8; color: var(--text-t); letter-spacing: .04em; }
+.footer-nav { display: flex; flex-wrap: wrap; gap: 4px 4px; justify-content: flex-end; max-width: 480px; }
+.footer-nav a { text-decoration: none; font-size: .875rem; color: var(--text-t); padding: 6px 12px; border-radius: 8px; transition: color .2s, background .2s; }
+.footer-nav a:hover { color: var(--text-p); background: rgba(255,255,255,0.05); }
+.footer-bottom {
+  max-width: var(--mw); margin: 0 auto; padding: 20px 32px 0;
+  border-top: 0.5px solid rgba(255,255,255,0.05);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--fm); font-size: .6875rem; color: var(--text-t); letter-spacing: .04em;
+}
+
+/* ================================================================
+   MAGIC EASTER EGG
+================================================================ */
+.magic-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(9,9,15,0.95); backdrop-filter: blur(40px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .5s;
+}
+.magic-overlay.active { opacity: 1; pointer-events: all; }
+.particle-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.magic-container { text-align: center; z-index: 1; padding: 40px; }
+.magic-initials {
+  font-family: var(--fd); font-size: 8rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: -.04em; margin-bottom: 20px;
+}
+.magic-message { font-family: var(--fd); font-size: 2rem; font-weight: 700; color: var(--text-p); margin-bottom: 20px; }
+.magic-quote { font-size: 1.0625rem; color: var(--text-s); font-style: italic; max-width: 560px; line-height: 1.7; }
+.magic-close {
+  position: absolute; top: 24px; right: 24px;
+  background: rgba(255,255,255,0.08); border: 0.5px solid rgba(255,255,255,0.12);
+  color: var(--text-p); width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.5rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background .2s;
+}
+.magic-close:hover { background: rgba(255,255,255,0.14); }
+
+/* ================================================================
+   PDF CERTIFICATE MODAL
+================================================================ */
+.cert-modal-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(9,9,15,0.92);
+  backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .4s var(--smooth);
+}
+.cert-modal-overlay.active { opacity: 1; pointer-events: all; }
+.cert-modal-container {
+  position: relative;
+  width: min(90vw, 900px); height: min(85vh, 700px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 0.5px solid var(--glass-br);
+  border-radius: 28px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+  transform: scale(0.92) translateY(20px);
+  transition: transform .4s var(--spring), opacity .4s;
+  opacity: 0;
+}
+.cert-modal-overlay.active .cert-modal-container {
+  transform: scale(1) translateY(0); opacity: 1;
+}
+.cert-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.cert-modal-title {
+  font-family: var(--fd); font-size: 1.125rem; font-weight: 700;
+  color: var(--text-p); display: flex; align-items: center; gap: 10px;
+}
+.cert-modal-title span { font-size: 1.25rem; }
+.cert-modal-close {
+  background: rgba(255,255,255,0.08); border: 0.5px solid rgba(255,255,255,0.12);
+  color: var(--text-p); width: 40px; height: 40px; border-radius: 50%;
+  font-size: 1.25rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .2s var(--spring);
+  flex-shrink: 0;
+}
+.cert-modal-close:hover { background: rgba(255,255,255,0.14); transform: scale(1.08); }
+.cert-modal-body {
+  flex: 1; overflow: hidden; position: relative;
+}
+.cert-modal-body iframe {
+  width: 100%; height: 100%; border: none;
+  background: #1a1a2e;
+}
+
+
+/* Certificate button inside timeline cards */
+.tl-cert-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--fm); font-size: .6875rem; font-weight: 700;
+  letter-spacing: .06em; color: var(--primary);
+  background: rgba(173,198,255,0.08);
+  border: 0.5px solid rgba(173,198,255,0.15);
+  padding: 6px 14px; border-radius: 50px;
+  cursor: pointer; margin-top: 14px;
+  transition: background .2s, transform .2s var(--spring), border-color .2s;
+}
+.tl-cert-btn:hover {
+  background: rgba(173,198,255,0.15);
+  border-color: rgba(173,198,255,0.3);
+  transform: scale(1.04) translateY(-1px);
+}
+.tl-cert-btn svg { flex-shrink: 0; }
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 60px; }
+  .hero-right { max-width: 440px; }
+  .sec-split { grid-template-columns: 1fr; gap: 40px; }
+  .contact-block { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: repeat(2,1fr); }
+  .rc { grid-template-columns: 1fr; }
+  .rc-metric { display: none; }
+  .proj-hero { grid-template-columns: 1fr; }
+  .ph-right { display: none; }
+}
+@media (max-width: 768px) {
+  :root { --sp: 80px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .mobile-menu { display: flex; }
+  .mobile-drawer { display: block; }
+  .hero-inner { padding: 48px 24px 40px; }
+  .container { padding: 0 24px; }
+  .hero-h { font-size: clamp(2.5rem,10vw,3.5rem); }
+  .awards-grid { grid-template-columns: 1fr; }
+  .conf-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: repeat(2,1fr); }
+  .projects-grid { grid-template-columns: 1fr; }
+  .timeline { padding-left: 24px; }
+  .tl-dot { left: -28px; }
+  .edu-card { flex-direction: column; }
+  .cert-card { flex-direction: column; text-align: center; }
+  .footer-inner { flex-direction: column; }
+  .footer-nav { justify-content: flex-start; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .hero-stats { flex-wrap: wrap; gap: 0; }
+  .hero-stat { padding: 12px 20px; }
+  .about-card { padding: 24px; }
+  /* On mobile, detached nav stays full-width at top */
+  .navbar.detached {
+    top: 0; left: 0; right: 0;
+    border-radius: 0; height: var(--nav-h);
+  }
+}
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-btns { flex-direction: column; }
+  .btn-p, .btn-g { text-align: center; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ══════════════════════════════════
+   HYBRID ADDITIONS: TERMINAL AND CUSTOM CURSOR
+══════════════════════════════════ */
+.terminal {
+  position: relative;
+  background: rgba(12, 11, 20, 0.65);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.875rem;
+  color: #c7d2fe;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+}
+.scanline {
+  position: absolute; top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.18) 50%);
+  background-size: 100% 4px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.15;
+}
+.term-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(20, 18, 30, 0.7);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+.term-dots { display: flex; gap: 6px; }
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-dot.red { background: #ff5f56; }
+.term-dot.yellow { background: #ffbd2e; }
+.term-dot.green { background: #27c93f; }
+
+.term-tabs { display: flex; gap: 8px; }
+.term-tab {
+  background: transparent; border: none;
+  color: rgba(255,255,255,0.4); font-size: 0.6875rem;
+  font-weight: 700; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: 6px;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'Space Mono', monospace;
+}
+.term-tab:hover { color: #adc6ff; background: rgba(255,255,255,0.03); }
+.term-tab.active { color: #ffffff; background: rgba(255,255,255,0.08); }
+
+.term-body {
+  flex: 1; padding: 14px;
+  display: flex; flex-direction: column;
+  overflow: hidden; position: relative;
+}
+.term-tab-content { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+.term-tab-content.active { display: flex; }
+
+/* Logs Stream */
+.log-stream { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; scrollbar-width: none; }
+.log-stream::-webkit-scrollbar { display: none; }
+.log-line { line-height: 1.4; white-space: pre-wrap; }
+.log-cyan { color: #6ac4dc; }
+.log-green { color: #50e3c2; }
+.log-yellow { color: #f5a623; }
+.log-purple { color: #b8e986; }
+.log-blue { color: #4b8eff; }
+.log-dim { color: rgba(255, 255, 255, 0.35); }
+
+/* Interactive Command Prompt */
+.cli-prompt {
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 8px; border-top: 0.5px solid rgba(255,255,255,0.05);
+  font-weight: 700; color: #50e3c2;
+}
+.cli-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: #ffffff; font-family: 'Space Mono', monospace; font-size: 0.875rem;
+}
+
+/* Tracking/Monitor Stats Grid */
+.monitor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.monitor-card {
+  background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.05);
+  border-radius: 10px; padding: 10px 12px;
+}
+.monitor-title { font-size: 0.625rem; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.monitor-val { font-size: 1.125rem; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+.sparkline-container { display: flex; align-items: flex-end; gap: 2px; height: 20px; }
+.sparkline-bar { flex: 1; background: #4b8eff; border-radius: 1px; min-height: 2px; }
+
+/* Custom System Hardware Gauges */
+.gauge-container { display: flex; flex-direction: column; gap: 8px; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 10px; }
+.gauge-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.6875rem; }
+.gauge-bar-outer { width: 100px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+.gauge-bar-inner { height: 100%; background: linear-gradient(90deg, #4b8eff, #6ac4dc); border-radius: 2px; width: 0%; transition: width 0.5s ease; }
+
+/* Status Dot in Neural Card */
+.nco-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .8125rem; color: var(--green); font-family: var(--fm);
+}
+.dot-g {
+  width: 7px; height: 7px; background: var(--green);
+  border-radius: 50%; flex-shrink: 0;
+  animation: pgr 2s ease-in-out infinite;
+}
+
+/* ═══ MAGIC ARROW CURSOR SYSTEM ═══ */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+#magic-cursor {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+  width: 26px; height: 26px;
+  will-change: transform; opacity: 0;
+  transition: opacity 0.2s ease;
+}
+#magic-cursor-inner {
+  width: 100%; height: 100%;
+  will-change: transform, filter;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), filter 0.15s ease;
+  filter: drop-shadow(0 0 4px rgba(173,198,255,0.4)) drop-shadow(0 0 10px rgba(124,111,247,0.2));
+}
+#magic-cursor-inner svg { width: 100%; height: 100%; }
+#magic-cursor.active { opacity: 1; }
+#magic-cursor.hovering #magic-cursor-inner {
+  transform: scale(1.35);
+  filter: drop-shadow(0 0 8px rgba(80,227,194,0.6)) drop-shadow(0 0 16px rgba(75,142,255,0.4));
+}
+#magic-cursor.hovering #magic-cursor-inner svg path.arrow-fill {
+  stroke: #50e3c2;
+  stroke-width: 2;
+}
+#magic-cursor.hovering #magic-cursor-inner svg .arrow-node {
+  fill: #fff;
+  filter: drop-shadow(0 0 4px #50e3c2);
+}
+#magic-cursor.clicking #magic-cursor-inner {
+  transform: scale(0.88);
+}
+#cursor-trail {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99998;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80,227,194,0.1) 0%, rgba(173,198,255,0.02) 50%, transparent 70%);
+  will-change: transform; opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#cursor-trail.active { opacity: 1; }
+
+/* Mobile, tablet and touch-interface compatibility */
+body.has-touch *, body.has-touch *::before, body.has-touch *::after {
+  cursor: auto !important;
+}
+body.has-touch #magic-cursor, body.has-touch #cursor-trail {
+  display: none !important;
+}
+@media (pointer: coarse) {
+  #magic-cursor, #cursor-trail { display: none !important; }
+  *, *::before, *::after { cursor: auto !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- GRAIN -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- MAGIC EASTER EGG -->
+<div class="magic-overlay" id="magicOverlay">
+  <canvas class="particle-canvas" id="particleCanvas"></canvas>
+  <div class="magic-container">
+    <div class="magic-initials">AK</div>
+    <div class="magic-message">Innovation Through Intelligence</div>
+    <div class="magic-quote">"The future belongs to those who dare to dream and have the courage to make those dreams reality."</div>
+  </div>
+  <button class="magic-close" id="magicClose" aria-label="Close">&times;</button>
+</div>
+
+<!-- PDF CERTIFICATE MODAL -->
+<div class="cert-modal-overlay" id="certModal">
+  <div class="cert-modal-container">
+    <div class="cert-modal-header">
+      <div class="cert-modal-title"><span>📜</span> <span id="certModalTitle">Certificate</span></div>
+      <button class="cert-modal-close" id="certModalClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="cert-modal-body">
+      <iframe id="certModalFrame" src="" title="Certificate Viewer"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo" id="magicLogo">
+      <span class="logo-ak">AK</span>
+      <span class="logo-name">Ashish Kishore</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#conferences">Conferences</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="resume.pdf" target="_blank" class="nav-cta">Resume ↗</a>
+    <div class="mobile-menu" id="mobile-menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <ul>
+    <li><a href="#about" class="drawer-link">About</a></li>
+    <li><a href="#research" class="drawer-link">Research</a></li>
+    <li><a href="#experience" class="drawer-link">Experience</a></li>
+    <li><a href="#awards" class="drawer-link">Awards</a></li>
+    <li><a href="#projects" class="drawer-link">Projects</a></li>
+    <li><a href="#conferences" class="drawer-link">Conferences</a></li>
+    <li><a href="#certifications" class="drawer-link">Certifications</a></li>
+    <li><a href="#skills" class="drawer-link">Skills</a></li>
+    <li><a href="#education" class="drawer-link">Education</a></li>
+    <li><a href="#contact" class="drawer-link">Contact</a></li>
+    <li><a href="resume.pdf" target="_blank" class="drawer-link cta">Resume ↗</a></li>
+  </ul>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-orb orb1" aria-hidden="true"></div>
+  <div class="hero-orb orb2" aria-hidden="true"></div>
+  <div class="hero-orb orb3" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot"></span>
+        <span>Open to Opportunities · 2026</span>
+      </div>
+      <h1 class="hero-h">
+        <span class="lr">Decoding the</span>
+        <span class="lr acc">Latent Geometry</span>
+        <span class="lr">of Intelligence.</span>
+      </h1>
+      <p class="hero-sub">AI/ML Researcher · Gen-AI · Deep Learning · Autonomous Systems</p>
+      <p class="hero-desc">
+        Pioneering the future of artificial intelligence through cutting-edge research and innovation.
+        Published researcher bridging autonomous systems, computer vision, and intelligent healthcare.
+      </p>
+      <div class="hero-btns">
+        <a href="#about" class="btn-p">
+          Explore My Work
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="resume.pdf" target="_blank" class="btn-g">View Resume</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-n" data-target="8.3" data-suffix="">0</div>
+          <div class="stat-l">CGPA / 10</div>
+        </div>
+        <div class="s-div"></div>
+        <div class="hero-stat">
+          <div class="stat-n counter" data-target="3">0</div>
+          <div class="stat-l">Q1 Papers</div>
+        </div>
+        <div class="s-div"></div>
+        <div class="hero-stat">
+          <div class="stat-n counter" data-target="15" data-suffix="+">0</div>
+          <div class="stat-l">AI Projects</div>
+        </div>
+        <div class="s-div"></div>
+        <div class="hero-stat">
+          <div class="stat-n counter" data-target="1">0</div>
+          <div class="stat-l">Conferences</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- INTERACTIVE NEURAL NETWORK CARD -->
+      <div class="neural-card" style="margin-bottom: 20px;">
+        <canvas id="heroNeuralCanvas"></canvas>
+        <div class="nco">
+          <div class="nco-lbl">CURRENT ROLE</div>
+          <div class="nco-title">Decision Scientist</div>
+          <div class="nco-sub">Mu Sigma · Analytics · Data-Driven AI</div>
+          <div class="nco-status">
+            <div class="dot-g"></div>
+            <span>Active Agent Core Running</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLEEK MAC-STYLE TERMINAL -->
+      <div class="terminal" style="margin-bottom: 24px;">
+        <div class="scanline"></div>
+        <div class="term-header">
+          <div class="term-dots">
+            <div class="term-dot red"></div>
+            <div class="term-dot yellow"></div>
+            <div class="term-dot green"></div>
+          </div>
+          <div class="term-tabs">
+            <button class="term-tab active" data-tab="interactive-cli">SHELL.EXE</button>
+            <button class="term-tab" data-tab="train-monitor">TRAIN_MONITOR</button>
+            <button class="term-tab" data-tab="paper-core">PAPERS_DB</button>
+          </div>
+        </div>
+        <div class="term-body">
+          <!-- Tab 1: Interactive CLI Prompt -->
+          <div class="term-tab-content active" id="tab-interactive-cli">
+            <div class="log-stream" id="cli-log-stream">
+              <!-- Dynamically populated by JS commands -->
+            </div>
+            <div class="cli-prompt">
+              <span>visitor@ashish-kishore:~$</span>
+              <input type="text" class="cli-input" id="cli-terminal-input" placeholder="Type 'help' to explore papers & internships..." autofocus autocomplete="off" />
+            </div>
+          </div>
+
+          <!-- Tab 2: TRAIN_MONITOR -->
+          <div class="term-tab-content" id="tab-train-monitor">
+            <div class="monitor-grid">
+              <div class="monitor-card">
+                <div class="monitor-title">Training Loss</div>
+                <div class="monitor-val" id="mon-loss">0.024</div>
+                <div class="sparkline-container" id="spark-loss">
+                  <!-- Sparkline bars dynamically generated -->
+                </div>
+              </div>
+              <div class="monitor-card">
+                <div class="monitor-title">Validation Accuracy</div>
+                <div class="monitor-val" id="mon-acc">98.8%</div>
+                <div class="sparkline-container" id="spark-acc">
+                  <!-- Sparkline bars dynamically generated -->
+                </div>
+              </div>
+            </div>
+            <div class="gauge-container">
+              <div class="gauge-row">
+                <span>CUDA Core Usage (H100)</span>
+                <span id="gpu-val">87.4%</span>
+                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="gpu-bar" style="width: 87%;"></div></div>
+              </div>
+              <div class="gauge-row">
+                <span>SRAM Utilization</span>
+                <span id="vram-val">4.21 GB</span>
+                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="vram-bar" style="width: 63%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: PAPERS_DB -->
+          <div class="term-tab-content" id="tab-paper-core">
+            <div class="log-stream" id="papers-static-stream" style="overflow-y: auto;">
+              <!-- Quick access static display of paper databases -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">About</div>
+    <div class="sec-split">
+      <div>
+        <h2 class="sec-h fi">Innovation<br>Through<br>Intelligence</h2>
+        <p class="sec-m fi">Building tomorrow's technology today</p>
+      </div>
+      <div>
+        <div class="glass about-card fi">
+          <p>I'm <strong>Ashish Kishore</strong>, a Decision Scientist at <span class="txt-acc">Mu Sigma</span> with a foundation in Electronics and Telecommunication Engineering. I specialise in building intelligent systems that bridge advanced AI research and real-world impact, with expertise spanning Machine Learning, Deep Learning, Computer Vision, Natural Language Processing, Generative Artificial Intelligence, Cloud Computing, Edge AI, IoT, and Embedded Systems.</p>
+          <p style="margin-top:20px;">During my academic career, I authored <span class="txt-acc">3 papers in Q1 journals</span> and presented at an <span class="txt-acc">international IEEE conference</span>, spanning autonomous vehicles with state-of-the-art accuracy in <span class="txt-acc">Real-Time Traffic Sign Recognition</span>, <span class="txt-acc">AyuSeva</span>, a medium language model-powered AI medical chatbot recognised by healthcare professionals for its innovation in disease prediction, and <span class="txt-acc">Project ORION (Optimised Robotic Intelligence for Operative Neural-empathy)</span>, a privacy-preserving multimodal cognitive robot integrating deep facial expression recognition and speech sentiment intelligence with Edge AI for real-time empathetic human-robot interaction.</p>
+          <p style="margin-top:20px;">I've had the privilege of delivering keynote talks at <a href="https://drive.google.com/file/d/1VIlW9CQQ51Zc-DIly8UOZly3YrRzg9wL/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="ilink">Google Bangalore</a>, sharing insights on AI in autonomous navigation, intelligent healthcare, and human-AI interaction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESEARCH ═══ -->
+<section id="research" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Publications</div>
+    <h2 class="sec-h fi">Research &<br>Publications</h2>
+    <p class="sec-m fi">Advancing the frontiers of AI research</p>
+
+    <div class="research-stack">
+      <div class="rc rc-blue fi">
+        <div class="rc-left">
+          <div class="rc-badge rc-q1">Q1 · Springer Nature</div>
+          <h3>Real-Time Traffic Sign Recognition and Autonomous Vehicle Control System Using CNNs</h3>
+          <div class="rc-meta">
+            <span>Multimedia Tools and Applications</span>
+            <span class="sep">·</span>
+            <span>DOI: 10.1007/s11042-025-20853-8</span>
+          </div>
+          <p>Published groundbreaking research on AI-powered autonomous vehicles leveraging Deep-CNN. Achieved state-of-the-art accuracy of <strong>99.68%</strong> on CTSD and <strong>99.63%</strong> on GTSRB datasets.</p>
+          <a href="https://link.springer.com/article/10.1007/s11042-025-20853-8" target="_blank" class="rc-lnk">Read Paper ↗</a>
+        </div>
+        <div class="rc-metric">
+          <div class="rc-mb">99.68<span>%</span></div>
+          <div class="rc-ml">SOTA Accuracy</div>
+          <div class="rc-ms">CTSD Dataset</div>
+        </div>
+      </div>
+
+       <div class="rc rc-purple fi">
+        <div class="rc-left">
+          <div class="rc-badge" style="background:linear-gradient(135deg,rgba(194,193,255,0.2),rgba(194,193,255,0.05));color:#c2c1ff;">Q1 · Springer Nature</div>
+          <h3>A Multimodal Deep Learning Framework for Symptom-Based Disease Prediction and Clinical Decision Support</h3>
+          <div class="rc-meta">
+            <span>Neural Computing and Applications</span>
+            <span class="sep">·</span>
+            <span>Status: Accepted · DOI Pending</span>
+          </div>
+          <p>Proposed a multimodal deep learning framework integrating clinical symptoms with advanced neural architectures for accurate disease prediction and clinical decision support.</p>
+          <a href="https://github.com/nameisashish/multimodal-disease-prediction.git" target="_blank" class="rc-lnk" style="color:#c2c1ff; border-color:rgba(194,193,255,0.3);">GitHub Open Source Core ↗</a>
+        </div>
+        <div class="rc-metric">
+          <div class="rc-mb" style="color:#c2c1ff;">ML<span>+</span></div>
+          <div class="rc-ml">Multimodal AI</div>
+          <div class="rc-ms">Healthcare</div>
+        </div>
+      </div>
+
+      <div class="rc rc-indigo fi">
+        <div class="rc-left">
+          <div class="rc-badge rc-q1">Q1 · Springer Nature</div>
+          <h3>Privacy-Preserving Multimodal Cognitive Robot for Real-Time Empathetic Human Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence</h3>
+          <div class="rc-meta">
+            <span>Multimedia Tools and Applications</span>
+            <span class="sep">·</span>
+            <span>Status: Under Review</span>
+          </div>
+          <p>Proposed a privacy-preserving multimodal cognitive robot integrating deep facial expression recognition with speech sentiment intelligence for real-time empathetic human–robot interaction.</p>
+        </div>
+        <div class="rc-metric">
+          <div class="rc-mb" style="color:var(--primary);">ML<span>+</span>DL<span>+</span>AI</div>
+          <div class="rc-ml">Multimodal Fusion</div>
+          <div class="rc-ms">Cognitive Robot</div>
+        </div>
+      </div>
+
+      <div class="rc rc-indigo fi">
+        <div class="rc-left">
+          <div class="rc-badge" style="background:linear-gradient(135deg,rgba(124,111,247,0.2),rgba(124,111,247,0.05));color:#7c6ff7;">IEEE Conference</div>
+          <h3>Automated Jackfruit Counting and Yield Estimation via Advanced YOLOv8x-Based Computer Vision in Smart Agriculture</h3>
+          <div class="rc-meta">
+            <span>ICEI 2025 · Swinburne University Australia</span>
+            <span class="sep">·</span>
+            <span>DOI: Pending</span>
+          </div>
+          <p>YOLOv8x-based deep learning framework delivers 99.28% Precision, 85.71% Recall, 94.37% mAP@50, and 81.01% mAP@50–95, demonstrating highly reliable and robust detection accuracy.</p>
+          <a href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_icei2025-ieee-iitdharwad-activity-7393534687542984705-qxgk" target="_blank" class="rc-lnk" style="color:#7c6ff7;">View Presentation ↗</a>
+        </div>
+        <div class="rc-metric">
+          <div class="rc-mb" style="color:#7c6ff7;">99.28<span>%</span></div>
+          <div class="rc-ml">Precision</div>
+          <div class="rc-ms">YOLOv8x Model</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Career</div>
+    <h2 class="sec-h fi">Professional<br>Experience</h2>
+    <p class="sec-m fi">Building expertise through hands-on innovation</p>
+
+    <div class="timeline">
+      <div class="tl-item fi">
+        <div class="tl-dot" style="background:linear-gradient(135deg,#ff9f0a,#ff6b00);box-shadow:0 0 0 3px rgba(255,159,10,0.2);"></div>
+        <div class="tl-c glass">
+          <div class="tl-hd">
+            <div>
+              <div class="tl-badge" style="color:#ff9f0a;">2 Jul 2026</div>
+              <h3>Decision Scientist</h3>
+              <h4>Mu Sigma Inc.</h4>
+            </div>
+            <div class="tl-icon">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width:44px;height:44px;border-radius:10px;object-fit:contain;">
+            </div>
+          </div>
+          <p>Decision Scientist at Mu Sigma, one of the world's largest pure-play analytics and decision sciences companies. Joining to craft data-driven solutions that transform business decisions at scale.</p>
+          <div class="tl-tags">
+            <span>Decision Science</span><span>Analytics</span><span>Data-Driven AI</span><span>Business Intelligence</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item fi" onclick="openCertModal('DRDO.pdf','DRDO Research Internship Certificate')">
+        <div class="tl-dot"></div>
+        <div class="tl-c glass">
+          <div class="tl-hd">
+            <div>
+              <div class="tl-badge" style="color:var(--primary);">Jan 2026 – May 2026</div>
+              <h3>DRDO Research Intern</h3>
+              <h4>LRDE-DRDO, Ministry of Defence</h4>
+            </div>
+            <div class="tl-icon">
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1280px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO" style="width:48px;height:48px;object-fit:contain;">
+            </div>
+          </div>
+          <p>AI Research Intern at LRDE-DRDO, Ministry of Defence, developing advanced deep learning based classification models and target manoeuvre tracking systems for strategic defence applications.</p>
+          <div class="tl-tags">
+            <span>Deep Learning</span><span>Target Manoeuvre Tracking</span><span>Defence AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item fi" onclick="openCertModal('ISRO.pdf','ISRO Research Internship Certificate')">
+        <div class="tl-dot"></div>
+        <div class="tl-c glass">
+          <div class="tl-hd">
+            <div>
+              <div class="tl-badge" style="color:#ff9f0a;">Oct 2025 – Nov 2025</div>
+              <h3>ISRO Research Intern</h3>
+              <h4>U R Rao Satellite Centre (URSC)</h4>
+            </div>
+            <div class="tl-icon">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/1280px-Indian_Space_Research_Organisation_Logo.svg.png" alt="ISRO" style="width:48px;height:48px;object-fit:contain;">
+            </div>
+          </div>
+          <p>Worked on cutting-edge space technology projects at U R Rao Satellite Centre, contributing to India's space research and satellite development programs.</p>
+          <div class="tl-tags">
+            <span>Satellite Systems</span><span>Space Technology</span><span>ISRO URSC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item fi" onclick="openCertModal('Codsoft.pdf','CodSoft Internship Certificate')">
+        <div class="tl-dot"></div>
+        <div class="tl-c glass">
+          <div class="tl-hd">
+            <div>
+              <div class="tl-badge" style="color:var(--secondary);">Sep 2024 – Oct 2024</div>
+              <h3>Machine Learning Intern</h3>
+              <h4>CodSoft</h4>
+            </div>
+            <div class="tl-icon">🤖</div>
+          </div>
+          <p>Built models for SMS Spam Detection (LSTM), Customer Churn Prediction, Credit Card Fraud Detection, and Movie Genre Prediction using advanced NLP techniques.</p>
+          <div class="tl-tags">
+            <span>Python</span><span>Scikit-learn</span><span>NLP</span><span>LSTM</span><span>SVM</span><span>Random Forest</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item fi" onclick="openCertModal('Prodigy.pdf','Prodigy InfoTech Internship Certificate')">
+        <div class="tl-dot"></div>
+        <div class="tl-c glass">
+          <div class="tl-hd">
+            <div>
+              <div class="tl-badge" style="color:var(--green);">Jun 2024 – Jul 2024</div>
+              <h3>Machine Learning Intern</h3>
+              <h4>Prodigy InfoTech</h4>
+            </div>
+            <div class="tl-icon">🧠</div>
+          </div>
+          <p>Developed AI systems for Hand Gesture Recognition (99.97% accuracy), Calorie Estimation, House Price Prediction, and Customer Segmentation.</p>
+          <div class="tl-tags">
+            <span>Python</span><span>TensorFlow</span><span>OpenCV</span><span>Keras</span><span>K-Means</span><span>LSTM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AWARDS ═══ -->
+<section id="awards" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Recognition</div>
+    <h2 class="sec-h fi">Awards &<br>Honours</h2>
+    <p class="sec-m fi">Excellence recognised by industry leaders</p>
+
+    <div class="awards-grid">
+      <div class="award-card glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="award-icon">🎤</div>
+        <div class="award-body">
+          <div class="award-badge">Keynote Speaker</div>
+          <h3>Google Bangalore</h3>
+          <p>Delivered invited keynote on "AI in Autonomous Vehicles: Research to Real-World Impact" at Google India's Bangalore office, sharing insights with industry leaders.</p>
+        </div>
+      </div>
+
+      <div class="award-card glass fi" onclick="window.open('https://drive.google.com/file/d/1_5JY2P_ZLdfT5_OQfLLD7BdXj0Ty6reD/view?usp=sharing','_blank')">
+        <div class="award-icon">🏅</div>
+        <div class="award-body">
+          <div class="award-badge">Google Cloud</div>
+          <h3>Certificate of Participation</h3>
+          <p>Google Cloud Agentic AI Day, recognised for initiative and contribution in building the next generation of intelligent agents.</p>
+        </div>
+      </div>
+
+      <div class="award-card glass fi" onclick="window.open('https://www.linkedin.com/posts/bitsince1979_ai-healthcareinnovation-engineeringexcellence-ugcPost-7323687981628719104-BgFy?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="award-icon">🥈</div>
+        <div class="award-body">
+          <div class="award-badge" style="color:#ff9f0a;background:rgba(255,159,10,0.1);">2nd Place</div>
+          <h3>Pratira 2025 National Competition</h3>
+          <p>AyuSeva AI medical chatbot recognised for innovation in real-time disease prediction at national-level competition.</p>
+        </div>
+      </div>
+
+      <div class="award-card glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_turingmachine-ieee-computing-activity-7307606903981780993-ZIgc?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="award-icon">🏆</div>
+        <div class="award-body">
+          <div class="award-badge" style="color:#30d158;background:rgba(48,209,88,0.1);">1st Place</div>
+          <h3>TURING MUCH ML Competition</h3>
+          <p>IEEE BIT CS Society recognition for high-performance ML model development, 1st place winner.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Work</div>
+    <h2 class="sec-h fi">Featured<br>Projects</h2>
+    <p class="sec-m fi">Innovation through intelligent solutions</p>
+
+    <!-- ORION -->
+    <div class="proj-hero glass fi" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank')">
+      <div class="ph-left">
+        <div class="ph-badge">🤖 Flagship Project</div>
+        <h3>Project ORION <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+        <div class="ph-fn">Optimised Robotic Intelligence for Operative Neural-empathy</div>
+        <p>Pioneering <strong style="color:var(--primary);">emotion-aware robotics</strong> that integrates neural-empathy concepts with Edge AI for natural human-robot interaction. A complete robotic system featuring facial recognition, conversational AI, speech processing, and real-time emotion detection.</p>
+        <div class="ph-tags">
+          <span>Edge AI</span><span>Computer Vision</span><span>NLP</span><span>Speech AI</span>
+          <span>DeepFace</span><span>Mediapipe</span><span>CMU Sphinx</span><span>IoT</span>
+          <span>Conversational AI</span><span>LLM</span><span>FER</span><span>Multi-Modal AI</span>
+        </div>
+      </div>
+      <div class="ph-right">
+        <div class="ph-metric">
+          <div class="phm-lbl">DOMAINS</div>
+          <div class="phm-list">
+            <span>🧠 AI &amp; ML / Deep Learning</span>
+            <span>👁️ Computer Vision</span>
+            <span>🎤 Voice &amp; Speech</span>
+            <span>🤖 Emotion-Aware Robotics</span>
+            <span>⚙️ Modular System Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      <div class="pc glass fi" onclick="window.open('https://ayuseva.vercel.app/','_blank')">
+        <div class="pc-tag pc-health">Healthcare AI</div>
+        <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
+        <h3>AyuSeva: AI Medical Chatbot</h3>
+        <p>Hybrid AI chatbot for disease prediction with deep learning fusion model. Recognised by Amrutha Super Speciality Hospital for innovative healthcare AI solutions.</p>
+        <div class="pc-tech">🧬 DenseNet · 🔁 BiLSTM · 🎯 Attention · 🔀 Multi Modal Fusion · 💬 NLP · ✨ Gemini · 🌐 Flask</div>
+        <div class="pc-arr">↗</div>
+      </div>
+
+      <div class="pc glass fi" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank')" style="cursor:pointer;">
+        <div class="pc-tag pc-res">Research Publication</div>
+        <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
+        <h3>Autonomous Vehicle System</h3>
+        <p>Real-time traffic sign recognition with 99.68% accuracy. Published research in Springer Nature Q1 journal with state-of-the-art performance on CTSD and GTSRB.</p>
+        <div class="pc-tech">🧠 Deep CNN · 🔌 Arduino · 📡 Sensor Fusion</div>
+        <div class="pc-arr">↗</div>
+      </div>
+
+      <div class="pc glass fi" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank')">
+        <div class="pc-tag pc-agri">Precision Agriculture</div>
+        <h3>Jackfruit Recognition &amp; Yield</h3>
+        <p>AI-driven computer vision framework to detect and count jackfruits in real time, enabling accurate yield estimation for precision agriculture.</p>
+        <div class="pc-tech">🐍 Python · 🎯 YOLOv8 · 🔬 TensorFlow · 🧠 Deep Learning</div>
+        <div class="pc-arr">↗</div>
+      </div>
+
+      <div class="pc glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="pc-tag pc-cv">Computer Vision</div>
+        <h3>Gesture-Based Virtual Keyboard</h3>
+        <p>Revolutionary mid-air typing system using real-time hand tracking with ultra-low latency performance and high accuracy.</p>
+        <div class="pc-tech">👁️ OpenCV · ⚡ TensorFlow Lite · 🤲 Mediapipe · 🎨 cvzone</div>
+        <div class="pc-arr">↗</div>
+      </div>
+
+      <div class="pc glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="pc-tag pc-iot">Security &amp; IoT</div>
+        <h3>Advanced Bank Security System</h3>
+        <p>Next-generation security system with multi-layer authentication including Face ID, fingerprint, and passcode integration.</p>
+        <div class="pc-tech">🔐 Face Recognition · 🔌 Arduino · 📡 IoT · 🛡️ Multi-factor Auth</div>
+        <div class="pc-arr">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONFERENCES ═══ -->
+<section id="conferences" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Global Stage</div>
+    <h2 class="sec-h fi">Conferences<br>&amp; Talks</h2>
+    <p class="sec-m fi">Sharing research with the global community</p>
+
+    <div class="conf-grid">
+      <div class="conf-card glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="cc-num">01</div>
+        <div class="cc-body">
+          <div class="cc-badge">Keynote Talk</div>
+          <h3>Google Bangalore: AI in Autonomous Vehicles</h3>
+          <p>Delivered invited keynote presentation at Google India's Bangalore office, sharing insights on real-time traffic sign recognition, sensor fusion, and the future of autonomous navigation systems.</p>
+        </div>
+        <span class="cc-arr">↗</span>
+      </div>
+
+      <div class="conf-card glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_icei2025-ieee-iitdharwad-activity-7393534687542984705-qxgk?utm_source=share&utm_medium=member_desktop','_blank')">
+        <div class="cc-num">02</div>
+        <div class="cc-body">
+          <div class="cc-badge" style="color:#7c6ff7;background:rgba(124,111,247,0.1);">IEEE Conference</div>
+          <h3>ICEI 2025: Swinburne University Australia</h3>
+          <p>Presented research at the IEEE International Conference on Engineering Informatics 2025. Framework achieved 99.28% Precision, 85.71% Recall, 94.37% mAP@50, and 81.01% mAP@50–95.</p>
+        </div>
+        <span class="cc-arr">↗</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<section id="certifications" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Credentials</div>
+    <h2 class="sec-h fi">Certifications</h2>
+    <p class="sec-m fi">Industry-recognised credentials</p>
+
+    <div class="cert-card glass fi" style="cursor:pointer;" onclick="window.open('https://www.credly.com/users/ashish-kishore.c1e36725','_blank')">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-body">
+        <h3>Credly Digital Credentials</h3>
+        <p>Explore my verified skills and professional achievements, including badges and industry certifications, on my official Credly profile.</p>
+      </div>
+      <a href="https://www.credly.com/users/ashish-kishore.c1e36725" target="_blank" class="btn-g cert-btn" onclick="event.stopPropagation()">View Full Profile ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Expertise</div>
+    <h2 class="sec-h fi">Technical<br>Excellence</h2>
+    <p class="sec-m fi">Mastering cutting-edge technologies</p>
+
+    <div class="skills-grid">
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">⌨️</span><span>Languages</span></div>
+        <div class="sg-tags">
+          <span>Python</span><span>SQL (MySQL)</span><span>C/C++</span><span>MATLAB</span><span>JavaScript</span><span>HTML</span><span>CSS</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">🧠</span><span>Machine Learning</span></div>
+        <div class="sg-tags">
+          <span>Regression</span><span>Classification</span><span>Clustering</span><span>Deep Learning</span><span>TensorFlow</span><span>PyTorch</span><span>Keras</span><span>Scikit-learn</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">🔬</span><span>Deep Learning &amp; AI</span></div>
+        <div class="sg-tags">
+          <span>Computer Vision</span><span>CNN</span><span>Bi-LSTM</span><span>DenseNet</span><span>Attention Mechanism</span><span>NLP</span><span>RAG</span><span>Generative AI</span><span>ONNX</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">🎯</span><span>AI/ML Tools &amp; Detection</span></div>
+        <div class="sg-tags">
+          <span>OpenCV</span><span>Mediapipe</span><span>YOLOv8x</span><span>Face Recognition</span><span>DeepFace</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">⚙️</span><span>Optimisation &amp; Techniques</span></div>
+        <div class="sg-tags">
+          <span>Model Optimisation</span><span>Hyperparameter Tuning</span><span>Cross-Validation</span><span>Data Augmentation</span><span>Image Pre-Processing</span><span>Data Pre-Processing</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">🛠️</span><span>Development Tools</span></div>
+        <div class="sg-tags">
+          <span>Flask</span><span>Streamlit</span><span>Multi-Threading</span><span>Git</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">⚡</span><span>Embedded Systems &amp; IoT</span></div>
+        <div class="sg-tags">
+          <span>Arduino</span><span>ESP8266</span><span>Sensor Fusion</span><span>IoT Automation</span><span>Edge AI</span>
+        </div>
+      </div>
+      <div class="sg glass fi">
+        <div class="sg-title"><span class="sg-icon">☁️</span><span>Cloud Computing</span></div>
+        <div class="sg-tags">
+          <span>Google Cloud Platform (GCP)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Academia</div>
+    <h2 class="sec-h fi">Education</h2>
+    <p class="sec-m fi">Academic excellence and continuous learning</p>
+
+    <div class="edu-card glass fi">
+      <div class="edu-left">
+        <div class="edu-yr">2022 to 2026</div>
+        <h3>Bangalore Institute of Technology</h3>
+        <h4>Bachelor of Engineering in Electronics and Telecommunication</h4>
+        <p>Bengaluru, Karnataka · Graduated: June 2026</p>
+        <div class="edu-tags">
+          <span>Electronics Engineer</span>
+        </div>
+      </div>
+      <div class="edu-right">
+        <div class="cgpa-pill">
+          <div class="cgpa-lbl">CGPA</div>
+          <div class="cgpa-v">8.3 <span>/ 10.0</span></div>
+        </div>
+        <div class="grad-s">
+          <span class="dot-g"></span>
+          Graduated: June 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="sec-lbl fi">Connect</div>
+    <h2 class="sec-h fi">Let's Build<br>Something<br>Extraordinary</h2>
+    <p class="sec-m fi">Ready to collaborate on the next breakthrough</p>
+
+    <div class="contact-block">
+      <div class="glass contact-main fi">
+        <div class="contact-links">
+          <a href="mailto:ashisha3p@gmail.com" class="ci">
+            <div class="ci-icon">📧</div>
+            <div class="ci-body">
+              <div class="ci-lbl">Email</div>
+              <div class="ci-val">ashisha3p@gmail.com</div>
+            </div>
+            <span class="ci-arr">↗</span>
+          </a>
+          <div class="ci-div"></div>
+          <a href="https://linkedin.com/in/ashish-kishore-6b56a51b3" target="_blank" rel="noopener noreferrer" class="ci">
+            <div class="ci-icon">🔗</div>
+            <div class="ci-body">
+              <div class="ci-lbl">LinkedIn</div>
+              <div class="ci-val">Connect with me</div>
+            </div>
+            <span class="ci-arr">↗</span>
+          </a>
+          <div class="ci-div"></div>
+          <a href="https://orcid.org/0009-0003-3285-8036" target="_blank" rel="noopener noreferrer" class="ci">
+            <div class="ci-icon"><svg width="22" height="22" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><circle cx="128" cy="128" r="128" fill="#a6ce39"/><path d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-20.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.5 10.1 10.1z" fill="#fff"/></svg></div>
+            <div class="ci-body">
+              <div class="ci-lbl">ORCID</div>
+              <div class="ci-val">0009-0003-3285-8036</div>
+            </div>
+            <span class="ci-arr">↗</span>
+          </a>
+          <div class="ci-div"></div>
+          <a href="https://github.com/nameisashish" target="_blank" rel="noopener noreferrer" class="ci">
+            <div class="ci-icon">💻</div>
+            <div class="ci-body">
+              <div class="ci-lbl">GitHub</div>
+              <div class="ci-val">@nameisashish</div>
+            </div>
+            <span class="ci-arr">↗</span>
+          </a>
+          <div class="ci-div"></div>
+          <a href="tel:+919741612616" class="ci">
+            <div class="ci-icon">📱</div>
+            <div class="ci-body">
+              <div class="ci-lbl">Phone</div>
+              <div class="ci-val">+91 97416 12616</div>
+            </div>
+            <span class="ci-arr">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-cta fi">
+        <p>"Innovation distinguishes between a leader and a follower." Steve Jobs</p>
+        <a href="resume.pdf" target="_blank" class="btn-p" style="margin-top:28px;display:inline-flex;">Download Resume ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Ashish Kishore</div>
+      <p class="footer-tag">AI/ML Researcher · Gen-AI Specialist<br>Autonomous Systems · Research Innovator</p>
+    </div>
+    <nav class="footer-nav">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#experience">Experience</a>
+      <a href="#awards">Awards</a>
+      <a href="#projects">Projects</a>
+      <a href="#conferences">Conferences</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <a href="resume.pdf" target="_blank">Resume ↗</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Ashish Kishore. Designed with precision and passion.</span>
+    <span>Bengaluru, India</span>
+  </div>
+</footer>
+
+<!-- SPATIAL BG CANVAS -->
+<canvas id="mesh-bg" aria-hidden="true"></canvas>
+
+<script>
+/* ══════════════════════════════════
+   SPATIAL BACKGROUND ENGINE
+══════════════════════════════════ */
+class SpatialBackground {
+  constructor() {
+    this.canvas = document.getElementById('mesh-bg');
+    if (!this.canvas) return;
+    this.ctx = this.canvas.getContext('2d', { alpha: false });
+    this.orbs = []; this.nodes = [];
+    this.animId = null; this.lastFrame = 0; this.interval = 1000/30;
+    this.reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    this.mouseX = window.innerWidth/2; this.mouseY = window.innerHeight/2;
+    this.init();
+  }
+  init() {
+    this.resize(); this.buildOrbs(); this.buildNodes();
+    let rt;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => { this.resize(); this.buildOrbs(); this.buildNodes(); }, 200);
+    }, { passive: true });
+    window.addEventListener('mousemove', e => {
+      this.mouseX += (e.clientX - this.mouseX) * 0.04;
+      this.mouseY += (e.clientY - this.mouseY) * 0.04;
+    }, { passive: true });
+    this.reduced ? this.draw() : this.loop(0);
+  }
+  resize() {
+    this.W = window.innerWidth; this.H = window.innerHeight;
+    this.canvas.width = this.W; this.canvas.height = this.H;
+    this.canvas.style.width = this.W+'px'; this.canvas.style.height = this.H+'px';
+  }
+  buildOrbs() {
+    const s = Math.max(this.W, this.H);
+    this.orbs = [
+      { x:this.W*0.10, y:this.H*0.72, r:s*0.58, cr:[12,5,55],   a:0.60, vx:0.13,  vy:-0.09 },
+      { x:this.W*0.88, y:this.H*0.12, r:s*0.52, cr:[5,18,65],   a:0.52, vx:-0.10, vy:0.11  },
+      { x:this.W*0.50, y:this.H*0.45, r:s*0.42, cr:[28,5,45],   a:0.38, vx:0.07,  vy:0.06  },
+      { x:this.W*0.75, y:this.H*0.65, r:s*0.36, cr:[3,30,52],   a:0.32, vx:-0.12, vy:-0.08 },
+      { x:this.W*0.42, y:this.H*0.02, r:s*0.32, cr:[10,28,85],  a:0.28, vx:0.09,  vy:0.13  },
+      { x:this.W*0.20, y:this.H*0.30, r:s*0.28, cr:[80,10,140], a:0.20, vx:-0.06, vy:0.08  },
+    ];
+  }
+  buildNodes() {
+    const count = Math.min(65, Math.floor((this.W * this.H) / 18000));
+    this.nodes = Array.from({ length: count }, () => ({
+      x: Math.random()*this.W, y: Math.random()*this.H,
+      vx: (Math.random()-.5)*0.3, vy: (Math.random()-.5)*0.3,
+      r: Math.random()*1.8+0.5,
+      phase: Math.random()*Math.PI*2,
+      speed: 0.012+Math.random()*0.018,
+    }));
+  }
+  drawBase() {
+    const g = this.ctx.createLinearGradient(0,0,this.W,this.H);
+    g.addColorStop(0,'#0a0a0d'); g.addColorStop(0.5,'#0d0b14'); g.addColorStop(1,'#080810');
+    this.ctx.fillStyle = g;
+    this.ctx.fillRect(0,0,this.W,this.H);
+  }
+  drawOrbs() {
+    const ctx = this.ctx;
+    ctx.globalCompositeOperation = 'screen';
+    for (const o of this.orbs) {
+      const g = ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,`rgba(${o.cr[0]},${o.cr[1]},${o.cr[2]},${o.a})`);
+      g.addColorStop(0.45,`rgba(${o.cr[0]},${o.cr[1]},${o.cr[2]},${o.a*0.4})`);
+      g.addColorStop(1,'transparent');
+      ctx.fillStyle = g;
+      ctx.fillRect(o.x-o.r,o.y-o.r,o.r*2,o.r*2);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  drawNodes() {
+    const ctx = this.ctx;
+    const maxDist = 185;
+    const pr=173, pg=198, pb=255;
+    for (let i=0;i<this.nodes.length;i++) {
+      for (let j=i+1;j<this.nodes.length;j++) {
+        const a=this.nodes[i], b=this.nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if (d<maxDist) {
+          const t=1-d/maxDist;
+          ctx.strokeStyle=`rgba(${pr},${pg},${pb},${t*0.13})`;
+          ctx.lineWidth=t*0.9;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for (const n of this.nodes) {
+      const pulse=(Math.sin(n.phase)*0.5+0.5);
+      const alpha=0.18+pulse*0.3;
+      const glo=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
+      glo.addColorStop(0,`rgba(${pr},${pg},${pb},${alpha*0.5})`);
+      glo.addColorStop(1,'transparent');
+      ctx.fillStyle=glo;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${alpha*2.8})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r+pulse*0.6,0,Math.PI*2); ctx.fill();
+    }
+  }
+  update() {
+    for (const o of this.orbs) {
+      o.x+=o.vx; o.y+=o.vy;
+      if (o.x<-o.r*0.3||o.x>this.W+o.r*0.3) o.vx*=-1;
+      if (o.y<-o.r*0.3||o.y>this.H+o.r*0.3) o.vy*=-1;
+    }
+    for (const n of this.nodes) {
+      n.x+=n.vx; n.y+=n.vy; n.phase+=n.speed;
+      const dx=n.x-this.mouseX, dy=n.y-this.mouseY;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if (d<140) { const f=(140-d)/140*0.05; n.vx+=dx/d*f; n.vy+=dy/d*f; }
+      const sp=Math.sqrt(n.vx*n.vx+n.vy*n.vy);
+      if (sp>0.7) { n.vx*=0.7/sp; n.vy*=0.7/sp; }
+      if (n.x<0||n.x>this.W) n.vx*=-1;
+      if (n.y<0||n.y>this.H) n.vy*=-1;
+      n.x=Math.max(0,Math.min(this.W,n.x));
+      n.y=Math.max(0,Math.min(this.H,n.y));
+    }
+  }
+  draw() { this.drawBase(); this.drawOrbs(); this.drawNodes(); }
+  loop(ts) {
+    this.animId=requestAnimationFrame(t=>this.loop(t));
+    if (ts-this.lastFrame<this.interval) return;
+    this.lastFrame=ts; this.update(); this.draw();
+  }
+}
+
+/* ══════════════════════════════════
+   NEURAL CANVAS — HERO
+══════════════════════════════════ */
+class HeroNeuralNet {
+  constructor() {
+    this.canvas = document.getElementById('heroNeuralCanvas');
+    if (!this.canvas) return;
+    this.ctx = this.canvas.getContext('2d');
+    this.nodes = []; this.signals = [];
+    this.layers = [4,6,8,6,4];
+    this.lastFrame = 0; this.interval = 1000/30; this.tick = 0;
+    this.resize(); this.buildNetwork();
+    window.addEventListener('resize', () => { this.resize(); this.buildNetwork(); });
+    requestAnimationFrame(t => this.loop(t));
+  }
+  resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = this.canvas.getBoundingClientRect();
+    this.W = rect.width || 480; this.H = rect.height || 260;
+    this.canvas.width = this.W*dpr; this.canvas.height = this.H*dpr;
+    this.ctx.scale(dpr, dpr);
+  }
+  buildNetwork() {
+    this.nodes = [];
+    const tl=this.layers.length, padX=60, padY=40;
+    const usW=this.W-padX*2, usH=this.H-padY*2;
+    this.layers.forEach((count,li) => {
+      const x=padX+(li/(tl-1))*usW;
+      for (let ni=0;ni<count;ni++) {
+        const y=padY+((ni+0.5)/count)*usH;
+        this.nodes.push({ x,y,layer:li,index:ni,r:3+Math.random()*2,phase:Math.random()*Math.PI*2,speed:0.02+Math.random()*0.02,active:false,brightness:0 });
+      }
+    });
+  }
+  getLN(layer) { return this.nodes.filter(n=>n.layer===layer); }
+  spawnSignal() {
+    // Fire from a random node in any non-last layer for full neural network firing
+    const fromLayer = Math.floor(Math.random() * (this.layers.length - 1));
+    const sn = this.getLN(fromLayer);
+    const from = sn[Math.floor(Math.random() * sn.length)];
+    if (!from) return;
+    const nn = this.getLN(fromLayer + 1); if (!nn.length) return;
+    const to = nn[Math.floor(Math.random() * nn.length)];
+    this.signals.push({ fromX:from.x,fromY:from.y,toX:to.x,toY:to.y,x:from.x,y:from.y,progress:0,speed:0.035+Math.random()*0.025,fromLayer:fromLayer,toLayer:fromLayer+1,toNodeIndex:this.nodes.indexOf(to) });
+    // Also activate source node visually
+    from.active = true; from.brightness = 0.7;
+  }
+  propagateSignal(sig) {
+    const nl=sig.toLayer+1; if (nl>=this.layers.length) return;
+    const nn=this.getLN(nl); if (!nn.length) return;
+    const to=nn[Math.floor(Math.random()*nn.length)];
+    this.signals.push({ fromX:sig.toX,fromY:sig.toY,toX:to.x,toY:to.y,x:sig.toX,y:sig.toY,progress:0,speed:0.04+Math.random()*0.02,fromLayer:sig.toLayer,toLayer:nl,toNodeIndex:this.nodes.indexOf(to) });
+  }
+  draw() {
+    const ctx=this.ctx; ctx.clearRect(0,0,this.W,this.H);
+    const pr=173,pg=198,pb=255;
+    for (let li=0;li<this.layers.length-1;li++) {
+      const fn=this.getLN(li), tn=this.getLN(li+1);
+      for (const f of fn) for (const t of tn) {
+        ctx.strokeStyle=`rgba(${pr},${pg},${pb},0.04)`; ctx.lineWidth=0.5;
+        ctx.beginPath(); ctx.moveTo(f.x,f.y); ctx.lineTo(t.x,t.y); ctx.stroke();
+      }
+    }
+    for (const sig of this.signals) {
+      sig.x=sig.fromX+(sig.toX-sig.fromX)*sig.progress;
+      sig.y=sig.fromY+(sig.toY-sig.fromY)*sig.progress;
+      const tl=0.18, ts=Math.max(0,sig.progress-tl);
+      const tx=sig.fromX+(sig.toX-sig.fromX)*ts, ty=sig.fromY+(sig.toY-sig.fromY)*ts;
+      const grad=ctx.createLinearGradient(tx,ty,sig.x,sig.y);
+      grad.addColorStop(0,'transparent'); grad.addColorStop(1,`rgba(${pr},${pg},${pb},0.7)`);
+      ctx.strokeStyle=grad; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(sig.x,sig.y); ctx.stroke();
+      const grd=ctx.createRadialGradient(sig.x,sig.y,0,sig.x,sig.y,8);
+      grd.addColorStop(0,`rgba(${pr},${pg},${pb},0.6)`); grd.addColorStop(1,'transparent');
+      ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(sig.x,sig.y,8,0,Math.PI*2); ctx.fill();
+      sig.progress+=sig.speed;
+    }
+    this.signals=this.signals.filter(sig => {
+      if (sig.progress>=1) {
+        const n=this.nodes[sig.toNodeIndex];
+        if (n) { n.active=true; n.brightness=1; }
+        if (sig.toLayer<this.layers.length-1) this.propagateSignal(sig);
+        return false;
+      }
+      return true;
+    });
+    for (const n of this.nodes) {
+      n.phase+=n.speed; n.brightness=Math.max(0,n.brightness-0.015);
+      if (n.brightness<=0) n.active=false;
+      const pulse=Math.sin(n.phase)*0.5+0.5;
+      const base=n.active?0.6+n.brightness*0.4:0.15+pulse*0.15;
+      const glo=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
+      glo.addColorStop(0,`rgba(${pr},${pg},${pb},${base*0.5})`); glo.addColorStop(1,'transparent');
+      ctx.fillStyle=glo; ctx.beginPath(); ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(${pr},${pg},${pb},${base*3})`;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(n.active?2:pulse*0.8),0,Math.PI*2); ctx.fill();
+    }
+  }
+  loop(ts) {
+    requestAnimationFrame(t=>this.loop(t));
+    if (ts-this.lastFrame<this.interval) return;
+    this.lastFrame=ts; this.tick++;
+    // Spawn multiple signals per tick across different layers for full firing
+    if (this.tick%4===0) { this.spawnSignal(); this.spawnSignal(); }
+    if (this.tick%12===0) { this.spawnSignal(); }
+    this.draw();
+  }
+}
+
+/* ══════════════════════════════════
+   NAVBAR — DETACH BEHAVIOR
+══════════════════════════════════ */
+function initNavbar() {
+  const nav = document.getElementById('navbar');
+
+  function update() {
+    if (window.scrollY > 50) {
+      nav.classList.add('detached');
+    } else {
+      nav.classList.remove('detached');
+    }
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
+/* ══════════════════════════════════
+   MOBILE MENU
+══════════════════════════════════ */
+function initMobileMenu() {
+  const btn = document.getElementById('mobile-menu');
+  const drawer = document.getElementById('mobileDrawer');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = btn.classList.toggle('open');
+    drawer.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', () => {
+      btn.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+/* ══════════════════════════════════
+   SCROLL FADE-IN
+══════════════════════════════════ */
+function initScrollAnimations() {
+  const els = document.querySelectorAll('.fi');
+  if (!els.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const siblings = el.parentElement ? el.parentElement.querySelectorAll('.fi:not(.vis)') : [];
+        let delay = 0;
+        siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
+        setTimeout(() => el.classList.add('vis'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ══════════════════════════════════
+   COUNTERS
+══════════════════════════════════ */
+function initCounters() {
+  const els = document.querySelectorAll('.stat-n');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isFloat = String(target).includes('.');
+      const dur = 1400, steps = 60;
+      let cur = 0;
+      const inc = target / steps;
+      const interval = dur / steps;
+      const timer = setInterval(() => {
+        cur = Math.min(cur + inc, target);
+        el.textContent = (isFloat ? cur.toFixed(1) : Math.floor(cur)) + suffix;
+        if (cur >= target) clearInterval(timer);
+      }, interval);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  els.forEach(el => observer.observe(el));
+}
+
+/* ══════════════════════════════════
+   SMOOTH SCROLL
+══════════════════════════════════ */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const navH = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ══════════════════════════════════
+   HAPTIC LIGHT — Glass hover bloom
+══════════════════════════════════ */
+function initHapticLight() {
+  document.querySelectorAll('.glass, .rc, .neural-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(173,198,255,0.07) 0%, rgba(18,17,28,0.55) 60%)`;
+      card.style.backdropFilter = 'blur(40px) saturate(180%)';
+      card.style.webkitBackdropFilter = 'blur(40px) saturate(180%)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.background = '';
+      card.style.backdropFilter = '';
+      card.style.webkitBackdropFilter = '';
+    });
+  });
+}
+
+/* ══════════════════════════════════
+   CURSOR GLOW
+══════════════════════════════════ */
+function initCursorGlow() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const glow = document.createElement('div');
+  glow.style.cssText = `position:fixed;width:300px;height:300px;background:radial-gradient(circle,rgba(173,198,255,0.04) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:opacity .3s;mix-blend-mode:screen;`;
+  document.body.appendChild(glow);
+  let mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function animate() {
+    cx+=(mx-cx)*0.08; cy+=(my-cy)*0.08;
+    glow.style.left=cx+'px'; glow.style.top=cy+'px';
+    requestAnimationFrame(animate);
+  })();
+  document.addEventListener('mouseleave', () => glow.style.opacity='0');
+  document.addEventListener('mouseenter', () => glow.style.opacity='1');
+}
+
+/* ══════════════════════════════════
+   MAGIC EASTER EGG
+══════════════════════════════════ */
+function initMagicEasterEgg() {
+  const overlay = document.getElementById('magicOverlay');
+  const logo = document.getElementById('magicLogo');
+  const closeBtn = document.getElementById('magicClose');
+  const canvas = document.getElementById('particleCanvas');
+  if (!overlay || !logo || !canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [], animId;
+  function resizeCanvas() { canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+  function spawnParticles() {
+    particles = [];
+    for (let i=0;i<120;i++) {
+      const angle=Math.random()*Math.PI*2, speed=1+Math.random()*3;
+      particles.push({ x:window.innerWidth/2+(Math.random()-.5)*200, y:window.innerHeight/2+(Math.random()-.5)*200, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed, life:1, decay:0.008+Math.random()*0.01, r:2+Math.random()*4, hue:200+Math.random()*80 });
+    }
+  }
+  function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles = particles.filter(p=>p.life>0);
+    for (const p of particles) {
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.04; p.life-=p.decay;
+      ctx.globalAlpha=p.life; ctx.fillStyle=`hsl(${p.hue},90%,70%)`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    animId=requestAnimationFrame(drawParticles);
+  }
+  logo.addEventListener('click', e => {
+    e.preventDefault(); resizeCanvas(); overlay.classList.add('active'); spawnParticles(); drawParticles();
+  });
+  function close() { overlay.classList.remove('active'); cancelAnimationFrame(animId); }
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target===overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key==='Escape') close(); });
+}
+
+/* ══════════════════════════════════
+   SPRING-TRAILING CUSTOM CURSOR ENGINE
+══════════════════════════════════ */
+function initCustomCursor() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const arrow = document.getElementById('magic-cursor');
+  const trail = document.getElementById('cursor-trail');
+  if (!arrow || !trail) return;
+  
+  let mx = -100, my = -100;
+  let tx = -100, ty = -100;
+  
+  // INSTANT arrow positioning — zero lag, direct GPU composite
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    arrow.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    if (!arrow.classList.contains('active')) {
+      arrow.classList.add('active');
+      trail.classList.add('active');
+    }
+  }, { passive: true });
+  
+  // Touch interaction detector to gracefully fall back on hybrid devices
+  document.addEventListener('touchstart', function detectTouch() {
+    document.body.classList.add('has-touch');
+    document.removeEventListener('touchstart', detectTouch);
+  }, { passive: true });
+  
+  // Smooth trailing glow — high performance spring interpolation
+  (function animateTrail() {
+    tx += (mx - tx) * 0.15;
+    ty += (my - ty) * 0.15;
+    trail.style.transform = `translate3d(${tx - 22}px, ${ty - 22}px, 0)`;
+    requestAnimationFrame(animateTrail);
+  })();
+  
+  // Interactive hover detection
+  function bindHovers() {
+    document.querySelectorAll('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]').forEach(el => {
+      if (el.dataset.cursorBound) return;
+      el.dataset.cursorBound = 'true';
+      el.addEventListener('mouseenter', () => arrow.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => arrow.classList.remove('hovering'));
+    });
+  }
+  bindHovers();
+  setInterval(bindHovers, 2000);
+  
+  // Click micro-feedback
+  document.addEventListener('mousedown', () => arrow.classList.add('clicking'));
+  document.addEventListener('mouseup', () => arrow.classList.remove('clicking'));
+  
+  // Viewport enter/leave
+  document.addEventListener('mouseleave', () => { arrow.classList.remove('active'); trail.classList.remove('active'); });
+  document.addEventListener('mouseenter', () => { arrow.classList.add('active'); trail.classList.add('active'); });
+}
+
+/* ══════════════════════════════════
+   TERMINAL LIVE SIMULATION ENGINE & TELEMETRY
+══════════════════════════════════ */
+function initTerminalSimulation() {
+  const terminal = document.querySelector('.terminal');
+  if (!terminal) return;
+
+  // Dynamic injection of styled syntax highlighting and active glows
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .terminal:focus-within {
+      border-color: rgba(80, 227, 194, 0.4) !important;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(80, 227, 194, 0.15) !important;
+      transition: all 0.3s ease;
+    }
+    .cli-input {
+      caret-color: #50e3c2 !important;
+    }
+    .code-comment { color: rgba(255,255,255,0.38) !important; font-style: italic; }
+    .code-keyword { color: #ff7b72 !important; font-weight: bold; }
+    .code-string { color: #a5d6ff !important; }
+    .code-number { color: #d2a8ff !important; }
+    .code-type { color: #79c0ff !important; }
+    .code-val { color: #ffdf80 !important; }
+  `;
+  document.head.appendChild(style);
+
+  // 1. Tab Switching
+  const tabs = terminal.querySelectorAll('.term-tab');
+  const contents = terminal.querySelectorAll('.term-tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      tab.classList.add('active');
+      const targetId = `tab-${tab.dataset.tab}`;
+      const targetContent = terminal.querySelector(`#${targetId}`);
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+
+      if (tab.dataset.tab === 'interactive-cli') {
+        const input = terminal.querySelector('#cli-terminal-input');
+        if (input) input.focus();
+      }
+    });
+  });
+
+  // 2. Interactive CLI input commands handler
+  const input = terminal.querySelector('#cli-terminal-input');
+  const logStream = terminal.querySelector('#cli-log-stream');
+  
+  const promptSpan = terminal.querySelector('.cli-prompt span');
+  if (promptSpan) {
+    promptSpan.innerHTML = `<span class="log-green" style="font-weight:bold;">visitor@ashish-kishore</span>:<span class="log-blue">~</span><span class="log-dim" style="font-size:0.6875rem;"> (main)</span>$`;
+  }
+
+  // Virtual Files Database
+  const virtualFiles = {
+    'about_me.txt': `# Ashish Kishore - Research Portfolio Summary
+Role: Decision Scientist at Mu Sigma
+Education: Electronics & Telecommunication Engineering, BIT Bangalore
+
+[Research Publications Overview]
+- Authored 3 papers in Q1 journals, 1 in IEEE International Conference.
+- Focus Areas: Deep Learning, Affective HRI Robotics, Computer Vision,
+  Clinical Decision Support Systems, and Real-Time Embedded AI.
+
+[Core Experience]
+1. Mu Sigma - Decision Scientist: Multi-agent optimization and data intelligence.
+2. DRDO LRDE - Research Intern: Fire Control Radar target tracking attention networks.
+3. ISRO URSC - Research Intern: Assembly, testing, and satellite telemetry.
+
+Keynote Speaker: Presented advanced ML research at Google Bangalore.`,
+
+    'yolov8x_jackfruit.cfg': `# YOLOv8x Jackfruit Yield Estimation Hyperparameters
+# Venue: IEEE Conference (ICEI 2025 Swinburne)
+
+model: yolov8x.yaml
+epochs: 200
+imgsz: 640
+batch: 8
+optimizer: AdamW
+lr0: 0.001
+lrf: 1.495e-05
+momentum: 0.937
+weight_decay: 0.05
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+# Loss Coefficients
+box: 7.5      # Complete IoU loss gain
+cls: 0.5      # BCE classification loss gain
+dfl: 1.5      # Distribution Focal Loss gain
+
+augmentations:
+  flipud: 0.5
+  fliplr: 0.5
+  degrees: 15.0
+  scale: 0.5
+  shear: 2.0
+  blur: 0.2`,
+
+    'hri_cognitive_robot.py': `# Multimodal Empathetic HRI Robot Module (Project ORION)
+# Venue: Springer Nature MTAP (Multimedia Tools and Applications)
+
+import torch
+from peft import DoraConfig, get_peft_model
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+class EmpatheticCognitiveCore:
+    def __init__(self):
+        self.model_id = "google/gemma-2-27b-it"
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
+        self.base_model = AutoModelForCausalLM.from_pretrained(
+            self.model_id, 
+            torch_dtype=torch.bfloat16, 
+            device_map="auto"
+        )
+        
+        # Configure DoRA for fine-tuning parameter adaptation
+        self.peft_config = DoraConfig(
+            r=16,
+            lora_alpha=32,
+            target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],
+            lora_dropout=0.05,
+            bias="none",
+            task_type="CAUSAL_LM"
+        )
+        self.model = get_peft_model(self.base_model, self.peft_config)
+        
+    def generate_response(self, user_affect_state, history_context):
+        # Asymmetric GraphRAG memory grounding on causal-temporal EventKG
+        prompt = f"System: User affect detected as {user_affect_state}.\\nContext: {history_context}"
+        inputs = self.tokenizer(prompt, return_tensors="pt").to("cuda")
+        output = self.model.generate(**inputs, max_new_tokens=150)
+        return self.tokenizer.decode(output[0])`,
+
+    'edge_traffic_sign.h': `/*
+ * Edge Autonomous Control Interface (CTSD/GTSRB Arduino Serial Driver)
+ * Venue: Springer Nature MTAP (Multimedia Tools and Applications)
+ */
+#include <Arduino.h>
+
+const int MOTOR_STEER_PIN = 9;
+const int MOTOR_SPEED_PIN = 5;
+const unsigned long UART_BAUD = 115200;
+
+enum TrafficSignClass {
+  SIGN_SPEED_LIMIT_30 = 1,
+  SIGN_SPEED_LIMIT_60 = 2,
+  SIGN_STOP           = 14,
+  SIGN_NO_ENTRY       = 17,
+  SIGN_PEDESTRIAN     = 27,
+  SIGN_GO_STRAIGHT    = 35
+};
+
+void setup() {
+  Serial.begin(UART_BAUD);
+  pinMode(MOTOR_STEER_PIN, OUTPUT);
+  pinMode(MOTOR_SPEED_PIN, OUTPUT);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    byte signClass = Serial.read();
+    adjustVehicleActuation((TrafficSignClass)signClass);
+  }
+}
+
+void adjustVehicleActuation(TrafficSignClass sign) {
+  switch (sign) {
+    case SIGN_STOP:
+      analogWrite(MOTOR_SPEED_PIN, 0); // Active braking
+      break;
+    case SIGN_SPEED_LIMIT_30:
+      analogWrite(MOTOR_SPEED_PIN, 100); // 30% duty cycle
+      break;
+    case SIGN_SPEED_LIMIT_60:
+      analogWrite(MOTOR_SPEED_PIN, 180); // 60% duty cycle
+      break;
+    case SIGN_PEDESTRIAN:
+      analogWrite(MOTOR_SPEED_PIN, 50);  // Pre-emptive slow down
+      break;
+  }
+}`,
+
+    'ayuseva_d2b2c_iifnn_model.json': `{
+  "model_name": "AyuSeva D2B2C-IIFNN Model",
+  "venue": "Springer Nature NCAA (Neural Computing and Applications)",
+  "layers": {
+    "symptom_input": {
+      "shape": [132],
+      "type": "BinaryFeatureMap"
+    },
+    "densenet_encoder": {
+      "blocks": 4,
+      "growth_rate": 32,
+      "dense_features": 256
+    },
+    "dual_attention": {
+      "saliency_weighting": true,
+      "heads": 4
+    },
+    "conv1d_fusion": {
+      "kernel_size": 3,
+      "filters": 128,
+      "fusion_mode": "IntraInterFusion"
+    },
+    "bilstm_context": {
+      "units": 128,
+      "bidirectional": true
+    },
+    "output_classifier": {
+      "classes": 41,
+      "activation": "softmax",
+      "calibration": "PlattScaling"
+    }
+  },
+  "nlp_pipeline": {
+    "embedding": 256,
+    "spatial_dropout": 0.3,
+    "bilstm_units": 128,
+    "attention": "DotProduct",
+    "classes": 55
+  }
+}`,
+
+    'drdo_att_lstm_kf.weights': `================================================================================
+AttLSTM-KF Targets Tracking Framework - LRDE DRDO
+================================================================================
+State Vector:  X_t = [x, y, vx, vy]^T  (Position & Velocity)
+Measurement:   Z_t = [x_m, y_m]^T
+
+[Transition Matrix F]
+| 1  0  dt 0  |
+| 0  1  0  dt |
+| 0  0  1  0  |
+| 0  0  0  1  |
+
+[Dynamic Process Noise Covariance Q_t (Estimated via Cholesky Bi-LSTM)]
+Q_t = L_t * L_t^T + epsilon * I
+Where L_t is predicted in real-time under Coordinated Turn (CT) maneuvers.
+
+[Measurement Noise Covariance R_t (Radar Clutter Adaptive)]
+R_t = [ [sigma_r^2, 0], [0, sigma_theta^2] ]
+
+[Maneuver Detection Gate]
+gamma_t = (Z_t - H*X_pred)^T * S_t^-1 * (Z_t - H*X_pred)
+If gamma_t > Gate_Threshold:
+  Re-initialize Q_t scaling coefficients (Mitigates Lag)
+================================================================================
+Test Trajectory Evaluation Summary:
+- Mean Trajectory Length: 100 steps
+- Radar Clutter Level: High (multi-path reflections)
+- RMSE position deviation: 0.950m
+================================================================================`
+  };
+
+  // Helper function to colorize code output in the terminal virtual files
+  function highlightVirtualFile(filename, content) {
+    if (filename.endsWith('.cfg')) {
+      return content
+        .replace(/(#.*)/g, '<span class="code-comment">$1</span>')
+        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>')
+        .replace(/([a-zA-Z0-9_\-]+):/g, '<span class="log-cyan">$1</span>:');
+    } else if (filename.endsWith('.py')) {
+      return content
+        .replace(/(#.*)/g, '<span class="code-comment">$1</span>')
+        .replace(/\b(def|class|import|from|return|print|in|if|else|for)\b/g, '<span class="code-keyword">$1</span>')
+        .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>')
+        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>');
+    } else if (filename.endsWith('.h')) {
+      return content
+        .replace(/(\/\*[\s\S]*?\*\/|\/\/.*)/g, '<span class="code-comment">$1</span>')
+        .replace(/\b(include|const|int|unsigned|long|void|setup|loop|if|switch|case|break|enum|default|byte)\b/g, '<span class="code-keyword">$1</span>')
+        .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>')
+        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>');
+    } else if (filename.endsWith('.json')) {
+      return content
+        .replace(/(".*?"|'.*?'|\b(true|false|null)\b)/g, '<span class="code-string">$1</span>')
+        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>')
+        .replace(/([a-zA-Z0-9_\-]+):/g, '<span class="log-cyan">$1</span>:');
+    }
+    return content;
+  }
+
+  const asciiBanner = `
+<span class="log-green">  █████   ██████  ██   ██ ██  ██████  ██   ██</span>
+<span class="log-green"> ██   ██ ██       ██   ██ ██ ██       ██   ██</span>
+<span class="log-green"> ███████  █████   ███████ ██  █████   ███████</span>
+<span class="log-green"> ██   ██       ██ ██   ██ ██       ██ ██   ██</span>
+<span class="log-green"> ██   ██  ██████  ██   ██ ██  ██████  ██   ██</span>
+`;
+
+  if (input && logStream) {
+    const welcomeBanner = `${asciiBanner}
+================================================================================
+<span class="log-cyan">🤖 SYSTEM SHELL : ACTIVE (HOST: NVIDIA H100 TENSOR GRAPH EMULATOR)</span>
+================================================================================
+* Core Frameworks: <span class="log-purple">Deep Learning, Affective HRI Robotics, Real-Time Systems</span>
+* Active Journals: <span class="log-purple">MTAP (Q1), NCAA (Q1), IEEE Conference</span>
+* Status: <span class="log-green">Telemetry Online & Signal Sweep Firing (60 FPS)</span>
+
+Type '<span class="log-green">help</span>' for system commands, or '<span class="log-green">banner</span>' to draw the ASCII matrix!
+Try '<span class="log-green">train [model]</span>' to run dynamic parameter backpropagation!
+================================================================================
+`;
+    logStream.innerHTML = `<div class="log-line">${welcomeBanner}</div>`;
+
+    let cmdHistory = [];
+    let historyIndex = -1;
+    const commandsList = [
+      'help', 'papers', 'internships', 'drdo', 'jackfruit', 
+      'robot', 'ayuseva', 'traffic', 'neofetch', 'matrix', 
+      'neural', 'clear', 'ls', 'cat', 'train', 'banner', 'cert'
+    ];
+
+    input.addEventListener('keydown', e => {
+      // 1. Tab Auto-Completion
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const currentInput = input.value.trim().toLowerCase();
+        if (currentInput === '') return;
+
+        const parts = currentInput.split(' ');
+        const prefix = parts[0];
+
+        if (parts.length === 1) {
+          const matches = commandsList.filter(c => c.startsWith(prefix));
+          if (matches.length === 1) {
+            input.value = matches[0] + (['cat', 'train'].includes(matches[0]) ? ' ' : '');
+          } else if (matches.length > 1) {
+            const typedLine = document.createElement('div');
+            typedLine.className = 'log-line';
+            typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${input.value}`;
+            logStream.appendChild(typedLine);
+
+            const suggestionsLine = document.createElement('div');
+            suggestionsLine.className = 'log-line';
+            suggestionsLine.innerHTML = `<span class="log-yellow">Possibilities:</span> ${matches.join(', ')}`;
+            logStream.appendChild(suggestionsLine);
+            logStream.scrollTop = logStream.scrollHeight;
+          }
+        } else if (parts.length === 2 && ['cat', 'train', 'cert'].includes(prefix)) {
+          const arg = parts[1];
+          const targets = prefix === 'cat' ? Object.keys(virtualFiles) : (prefix === 'train' ? ['jackfruit', 'traffic', 'robot', 'ayuseva', 'drdo'] : ['drdo', 'isro', 'codsoft', 'prodigy']);
+          const matches = targets.filter(t => t.startsWith(arg));
+          if (matches.length === 1) {
+            input.value = `${prefix} ${matches[0]}`;
+          } else if (matches.length > 1) {
+            const typedLine = document.createElement('div');
+            typedLine.className = 'log-line';
+            typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${input.value}`;
+            logStream.appendChild(typedLine);
+
+            const suggestionsLine = document.createElement('div');
+            suggestionsLine.className = 'log-line';
+            suggestionsLine.innerHTML = `<span class="log-yellow">Possibilities:</span> ${matches.join(', ')}`;
+            logStream.appendChild(suggestionsLine);
+            logStream.scrollTop = logStream.scrollHeight;
+          }
+        }
+        return;
+      }
+
+      // 2. Up Arrow
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (cmdHistory.length > 0) {
+          if (historyIndex === -1) {
+            historyIndex = cmdHistory.length - 1;
+          } else if (historyIndex > 0) {
+            historyIndex--;
+          }
+          input.value = cmdHistory[historyIndex];
+        }
+        return;
+      }
+
+      // 3. Down Arrow
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex !== -1) {
+          if (historyIndex < cmdHistory.length - 1) {
+            historyIndex++;
+            input.value = cmdHistory[historyIndex];
+          } else {
+            historyIndex = -1;
+            input.value = '';
+          }
+        }
+        return;
+      }
+
+      // 4. Enter Key (Execute Command)
+      if (e.key === 'Enter') {
+        const cmdVal = input.value.trim();
+        const cleanCmd = cmdVal.toLowerCase().split(' ')[0];
+        input.value = '';
+
+        const typedLine = document.createElement('div');
+        typedLine.className = 'log-line';
+        typedLine.innerHTML = `<span class="log-dim">visitor@ashish-kishore:~$</span> ${cmdVal}`;
+        logStream.appendChild(typedLine);
+
+        if (cmdVal === '') {
+          logStream.scrollTop = logStream.scrollHeight;
+          return;
+        }
+
+        cmdHistory.push(cmdVal);
+        historyIndex = -1;
+
+        const resLine = document.createElement('div');
+        resLine.className = 'log-line';
+
+        switch (cleanCmd) {
+          case 'help':
+            resLine.innerHTML = `
+<span class="log-cyan">System Navigation Commands:</span>
+  <span class="log-green">help</span>         - Display this detailed system command index.
+  <span class="log-green">banner</span>       - Render the full high-definition terminal ASCII matrix.
+  <span class="log-green">papers</span>       - Core databases indexing all 4 peer-reviewed papers.
+  <span class="log-green">internships</span>  - Work chronology (DRDO, ISRO URSC, Mu Sigma).
+  <span class="log-green">ls</span>           - Lists virtual training structures and telemetry files.
+  <span class="log-green">cat [file]</span>   - Stream contents with custom neural compiler colors.
+  <span class="log-green">train [mod]</span>  - Backpropagate deep parameters in high-definition simulation.
+  <span class="log-green">cert [name]</span>  - Open PDF internship certificate directly in browser (drdo|isro|codsoft|prodigy).
+  <span class="log-green">clear</span>        - Wipes interactive terminal buffer.
+
+<span class="log-cyan">Specific Technical Modules:</span>
+  <span class="log-green">jackfruit</span>    - YOLOv8x Yield estimation (IEEE Conference).
+  <span class="log-green">drdo</span>         - Target tracking AttLSTM-KF (LRDE Division).
+  <span class="log-green">robot</span>        - Affective Cognitive HRI robot (Springer Nature MTAP).
+  <span class="log-green">ayuseva</span>      - AyuSeva Clinical Diagnostics (Springer Nature NCAA).
+  <span class="log-green">traffic</span>      - Edge Autonomous Vehicles (Springer Nature MTAP).
+
+<span class="log-cyan">Visualizer Extensions:</span>
+  <span class="log-green">neofetch</span>     - Host hardware configuration and research constraints.
+  <span class="log-green">matrix</span>       - Digital green binary rain flow cascade.
+  <span class="log-green">neural</span>       - Active feedforward multilayer signal sweep logs.
+`;
+            break;
+
+          case 'banner':
+            resLine.innerHTML = asciiBanner;
+            break;
+
+          case 'papers':
+            resLine.innerHTML = `
+<span class="log-blue">=== PEER-REVIEWED PUBLICATIONS DATABASE ===</span>
+
+1. <span class="log-yellow">YOLOv8x Jackfruit Yield Estimation</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">IEEE Conference</span> (ICEI Swinburne)
+   - <span class="log-cyan">Title:</span> Automated Jackfruit Counting and Yield Estimation via Advanced YOLOv8x-Based Computer Vision in Smart Agriculture
+   - <span class="log-cyan">Metrics:</span> 99.28% Precision, 94.37% mAP@50
+   - Run '<span class="log-green">jackfruit</span>' for training parameters and graphs.
+
+2. <span class="log-yellow">Cognitive HRI Robot (EfficientNetV2 + Gemma-2)</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature MTAP</span> (Multimedia Tools and Applications)
+   - <span class="log-cyan">Title:</span> A Multimodal Cognitive Robot for Real-Time Empathetic Human Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence
+   - <span class="log-cyan">Metrics:</span> 98.7% Face verification, 94.8% Memory Grounding
+   - Run '<span class="log-green">robot</span>' for cognitive layer breakdown.
+
+3. <span class="log-yellow">Medical AyuSeva D2B2C-IIFNN Model</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature NCAA</span> (Neural Computing and Applications)
+   - <span class="log-cyan">Title:</span> A Multimodal Deep Learning Framework for Symptom-Based Disease Prediction and Clinical Decision Support
+   - <span class="log-cyan">Metrics:</span> 99.52% symptom classifier, 93.91% NLP narrative accuracy
+   - Run '<span class="log-green">ayuseva</span>' to check clinical model layers.
+
+4. <span class="log-yellow">Traffic Sign Recognition (Edge CNN)</span>
+   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer Nature MTAP</span> (Multimedia Tools and Applications)
+   - <span class="log-cyan">Title:</span> Real-time traffic sign recognition and autonomous vehicle control system using convolutional neural networks
+   - <span class="log-cyan">Metrics:</span> 99.63% GTSRB accuracy, 24-26 ms latency
+   - Run '<span class="log-green">traffic</span>' to inspect microcontroller serial protocols.
+`;
+            break;
+
+          case 'internships':
+            resLine.innerHTML = `
+<span class="log-blue">=== CHRONOLOGY OF RESEARCH INTERNSHIPS ===</span>
+
+1. <span class="log-yellow">DRDO - LRDE (Electronics and Radar Development Establishment)</span>
+   - <span class="log-cyan">Role:</span> Research Intern, Fire Control Radar Division (under Sci 'E' Shri B. Mondal)
+   - <span class="log-cyan">Topic:</span> Deep Attention Networks and Kalman Filtering target tracking
+   - Run '<span class="log-green">drdo</span>' to inspect AttLSTM-KF architecture and results.
+
+2. <span class="log-yellow">ISRO - URSC (U R Rao Satellite Centre)</span>
+   - <span class="log-cyan">Role:</span> Research Intern, Assembly and Integration Testing
+   - <span class="log-cyan">Topic:</span> Space electronics telemetry protocols and thermal testing diagnostics.
+
+3. <span class="log-yellow">Mu Sigma Inc.</span>
+   - <span class="log-cyan">Role:</span> Decision Scientist
+   - <span class="log-cyan">Topic:</span> High-dimensional multi-agent optimization and business intelligence pipelines.
+`;
+            break;
+
+          case 'drdo':
+            resLine.innerHTML = `
+<span class="log-yellow">Project:</span> Deep Attention Networks and Adaptive Kalman Filtering
+<span class="log-cyan">Advisor:</span> Sci 'E' Shri Bibhabasu Mondal, Fire Control Radar Division, LRDE - DRDO
+--------------------------------------------------------------------------------
+<span class="log-purple">Architecture (AttLSTM-KF):</span>
+  - Residual Dual-Scale Temporal CNN with Positional Sinusoidal Embeddings.
+  - 3 Causal Self-Attention blocks for multi-radar sequence alignment.
+  - 3-Layer LSTM Velocity Predictor (LSTM-F).
+  - Differentiable 4D constant-velocity Kalman Filter layer.
+  - Adaptive process covariance Q_t via Cholesky Bi-LSTM network.
+<span class="log-purple">Key Results:</span>
+  - Trajectory tracking RMSE under extreme coordinated turns: <span class="log-green">0.950m</span>.
+  - Successfully mitigates severe radar multi-path reflections.
+`;
+            break;
+
+          case 'jackfruit':
+            resLine.innerHTML = `
+<span class="log-yellow">Project:</span> YOLOv8x-Based Automated Jackfruit Counting and Yield Estimation
+<span class="log-cyan">Venue:</span> IEEE International Conference (ICEI Swinburne)
+--------------------------------------------------------------------------------
+<span class="log-purple">Architecture Details:</span>
+  - YOLOv8x Deep CNN, efficient C2f modules, Spatial Pyramid Pooling Fast (SPPF).
+  - Anchor-free decoupled multi-scale detection head.
+  - Custom Composite Loss: Complete IoU (CIoU) + Distribution Focal Loss (DFL) + BCE.
+<span class="log-purple">Dataset and Training:</span>
+  - 1,634 field images expanded to 6,536 via Albumentations pipeline.
+  - Optimizer: Cosine-annealed AdamW (lr0: 0.001, lrf: 1.495e-5) over 200 epochs.
+  - Training duration: 619.5 GPU-minutes.
+<span class="log-purple">Key Results:</span>
+  - <span class="log-green">99.28% Precision</span> | <span class="log-green">85.71% Recall</span>
+  - <span class="log-green">94.37% mAP@50</span>   | <span class="log-green">81.01% mAP@50-95</span>
+`;
+            break;
+
+          case 'robot':
+            resLine.innerHTML = `
+<span class="log-yellow">Project:</span> Multimodal Empathetic HRI Cognitive Robot Framework
+<span class="log-cyan">Venue:</span> Springer Nature MTAP (Multimedia Tools and Applications)
+--------------------------------------------------------------------------------
+<span class="log-purple">Neural Pipeline and Layers:</span>
+  - <span class="log-cyan">Face Auth:</span> HOG-SVM face detection + ResNet-34 metric embeddings.
+  - <span class="log-cyan">Affective Percept:</span> FER-EfficientNetV2-S trained on FER-2013 with CLAHE preprocessing.
+  - <span class="log-cyan">Dialogue Core:</span> Gemma-2-27B-IT fine-tuned via DoRA + DPO alignment.
+  - <span class="log-cyan">Memory Grounding:</span> Causal-Temporal EventKG GraphRAG traversal.
+<span class="log-purple">Key Results:</span>
+  - Face Verification Accuracy: <span class="log-green">98.7%</span>
+  - Dialog Grounding Recall@1: <span class="log-green">94.8%</span>
+  - Edge Inference Performance: <span class="log-green">24.5 tokens/sec</span>, <span class="log-green">180 ms</span> latency.
+`;
+            break;
+
+          case 'ayuseva':
+            resLine.innerHTML = `
+<span class="log-yellow">Project:</span> AyuSeva Multimodal D2B2C-IIFNN Model
+<span class="log-cyan">Venue:</span> Springer Nature NCAA (Neural Computing and Applications)
+--------------------------------------------------------------------------------
+<span class="log-purple">Architecture (D2B2C-IIFNN):</span>
+  - DenseNet-121 visual extractor + Dual Attention mechanism.
+  - Bidirectional LSTM with 1D Convolutional Intra-Inter Fusion blocks.
+  - Mappings across 41 disease symptom groups and 55 clinical NLP categories.
+<span class="log-purple">Key Results:</span>
+  - Symptom Model Test Accuracy: <span class="log-green">99.52% +/- 1.08%</span> (macro-F1: 0.9935, ROC-AUC: 0.9999).
+  - NLP Narrative Model Test Accuracy: <span class="log-green">93.91% +/- 0.94%</span> (macro-F1: 0.9063, ROC-AUC: 0.9975).
+`;
+            break;
+
+          case 'traffic':
+            resLine.innerHTML = `
+<span class="log-yellow">Project:</span> Edge CNN Autonomous Vehicle Traffic Sign Control System
+<span class="log-cyan">Venue:</span> Springer Nature MTAP (Multimedia Tools and Applications)
+--------------------------------------------------------------------------------
+<span class="log-purple">Architecture and Hardware:</span>
+  - Conv2D + ReLU + Dropout + MaxPool + Dense (378,023 parameters, 1.44 MB memory weight).
+  - Microcontroller integration via high-speed UART Arduino serial interface.
+  - Active brake, steer, speed actuation on extreme road environments.
+<span class="log-purple">Key Results:</span>
+  - GTSRB (German Traffic Sign Dataset) Test Accuracy: <span class="log-green">99.63%</span>
+  - CTSD (Chinese Traffic Sign Dataset) Test Accuracy: <span class="log-green">99.68%</span>
+  - Microcontroller Execution Latency: <span class="log-green">24-26 ms</span>.
+`;
+            break;
+
+          case 'neofetch':
+            resLine.innerHTML = `
+<span class="log-green">      ┌───┐      </span>   <span class="log-yellow">ashish-kishore@portfolio</span>
+<span class="log-green">  ┌───┤   ├───┐  </span>   ------------------------
+<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">OS:</span> macOS Sequoia 15.4 (Apple Silicon)
+<span class="log-green">  ├───┐   ┌───┤  </span>   <span class="log-purple">Host:</span> Mac15,10 (MacBook Pro 16")
+<span class="log-green">  │   └─┬─┘   │  </span>   <span class="log-purple">Kernel:</span> Darwin 24.3.0 (arm64)
+<span class="log-green">  └───┤   ├───┘  </span>   <span class="log-purple">Uptime:</span> 2 hours, 45 mins
+      <span class="log-green">└───┘      </span>   <span class="log-purple">Shell:</span> zsh 5.9 (interactive shell)
+                    <span class="log-purple">CPU:</span> Apple M3 Max (16-core CPU/GPU/Neural Engine)
+                    <span class="log-purple">Memory:</span> 64 GB Unified LPDDR5x RAM
+                    <span class="log-purple">Research:</span> AI/ML, Cognitive HRI Robotics, Radar Tracking
+                    <span class="log-purple">Publications:</span> 4 Peer-Reviewed (MTAP, NCAA, IEEE Conf)
+                    <span class="log-purple">Host URL:</span> https://ashish-kishore.github.io
+`;
+            break;
+
+          case 'matrix':
+            resLine.innerHTML = `<span class="log-green">Initialising digital rain protocol... 3D depth stream active.</span><br><br>`;
+            input.disabled = true;
+            let matrixInterval;
+            let matrixLines = 0;
+            const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$#@%&*+-/|\\";
+            matrixInterval = setInterval(() => {
+              if (matrixLines >= 18) {
+                clearInterval(matrixInterval);
+                const finishLine = document.createElement('div');
+                finishLine.className = 'log-line';
+                finishLine.innerHTML = `<br><span class="log-cyan">Protocol Complete. Secure Connection Verified.</span><br>&nbsp;`;
+                logStream.appendChild(finishLine);
+                logStream.scrollTop = logStream.scrollHeight;
+                input.disabled = false;
+                input.focus();
+                return;
+              }
+              let stream = "";
+              for (let i = 0; i < 6; i++) {
+                let col = Math.floor(Math.random() * 25);
+                let space = " ".repeat(col) + chars[Math.floor(Math.random() * chars.length)];
+                stream += `<span class="log-green" style="opacity: ${0.3 + Math.random()*0.7}; font-weight: ${Math.random() > 0.6 ? 'bold' : 'normal'}">${space}</span>`;
+              }
+              const matrixRow = document.createElement('div');
+              matrixRow.className = 'log-line';
+              matrixRow.style.color = '#30d158';
+              matrixRow.style.fontFamily = 'monospace';
+              matrixRow.innerHTML = stream;
+              logStream.appendChild(matrixRow);
+              logStream.scrollTop = logStream.scrollHeight;
+              matrixLines++;
+            }, 90);
+            break;
+
+          case 'neural':
+            resLine.innerHTML = `<span class="log-cyan">=== INITIATING TOPOLOGY SIGNAL PROPAGATION WAVE ===</span><br>`;
+            logStream.appendChild(resLine);
+            input.disabled = true;
+            
+            setTimeout(() => {
+              const l0 = document.createElement('div');
+              l0.className = 'log-line';
+              l0.innerHTML = `<span class="log-green">● L-0 (Input Coordinates):</span> x₀=98.4 (speed), x₁=12.8 (steer), x₂=0.55 (accel), x₃=1.02 (yaw)`;
+              logStream.appendChild(l0);
+              logStream.scrollTop = logStream.scrollHeight;
+            }, 300);
+
+            setTimeout(() => {
+              const l1 = document.createElement('div');
+              l1.className = 'log-line';
+              l1.innerHTML = `<span class="log-yellow">● L-1 (Convolved Latent Saliencies):</span> h₀=<span class="log-green">0.45</span>, h₁=<span class="log-green">0.89</span>, h₂=<span class="log-dim">0.12</span> [Active Path: h₀, h₁]`;
+              logStream.appendChild(l1);
+              logStream.scrollTop = logStream.scrollHeight;
+            }, 600);
+
+            setTimeout(() => {
+              const l2 = document.createElement('div');
+              l2.className = 'log-line';
+              l2.innerHTML = `<span class="log-blue">● L-2 (Softmax Classification Vector):</span> [Pedestrian: <span class="log-green">0.9963</span>, Speed30: <span class="log-dim">0.0021</span>, Stop: <span class="log-dim">0.0016</span>]`;
+              logStream.appendChild(l2);
+              logStream.scrollTop = logStream.scrollHeight;
+            }, 900);
+
+            setTimeout(() => {
+              const out = document.createElement('div');
+              out.className = 'log-line';
+              out.innerHTML = `<span class="log-purple">● Output Decoded Prediction:</span> <span class="log-green" style="font-weight:bold;">Pedestrian detected (99.63% confidence)</span>`;
+              logStream.appendChild(out);
+              
+              const pad = document.createElement('div');
+              pad.className = 'log-line';
+              pad.innerHTML = '&nbsp;';
+              logStream.appendChild(pad);
+              
+              logStream.scrollTop = logStream.scrollHeight;
+              input.disabled = false;
+              input.focus();
+            }, 1200);
+            break;
+
+          case 'clear':
+            logStream.innerHTML = `<div class="log-line">${welcomeBanner}\n<span class="log-dim" style="color:var(--primary); font-weight:500;">⚡ Terminal cleared successfully. System telemetry active. Type 'help' for commands.</span></div>`;
+            logStream.scrollTop = 0;
+            return;
+
+          case 'ls':
+            resLine.innerHTML = `
+<span class="log-cyan">Directory: visitor@ashish-kishore:~$ ls</span>
+Total 6 virtual files:
+-rwxr-xr-x  1 ashish  staff   1.4K May 20 22:27 <span class="log-green" style="font-weight:bold;">about_me.txt</span>
+-rw-r--r--  1 ashish  staff   850B May 20 22:27 <span class="log-blue" style="font-weight:bold;">yolov8x_jackfruit.cfg</span>
+-rw-r--r--  1 ashish  staff   1.1K May 20 22:27 <span class="log-blue" style="font-weight:bold;">hri_cognitive_robot.py</span>
+-rw-r--r--  1 ashish  staff   1.2K May 20 22:27 <span class="log-blue" style="font-weight:bold;">edge_traffic_sign.h</span>
+-rw-r--r--  1 ashish  staff   950B May 20 22:27 <span class="log-blue" style="font-weight:bold;">ayuseva_d2b2c_iifnn_model.json</span>
+-r--r--r--  1 ashish  staff   1.5K May 20 22:27 <span class="log-yellow" style="font-weight:bold;">drdo_att_lstm_kf.weights</span>
+
+Use '<span class="log-green">cat [filename]</span>' to read any file with full syntax highlighting.
+`;
+            break;
+
+          case 'cat':
+            {
+              const parts = cmdVal.split(' ');
+              if (parts.length < 2) {
+                resLine.innerHTML = `<span class="log-yellow">Usage:</span> cat [filename]`;
+              } else {
+                const targetFile = parts[1].trim();
+                if (virtualFiles[targetFile]) {
+                  const rawContent = virtualFiles[targetFile];
+                  const highlighted = highlightVirtualFile(targetFile, rawContent);
+                  resLine.innerHTML = `<span class="log-dim">File Content: ${targetFile}</span><hr style="border:0; border-top:0.5px solid rgba(255,255,255,0.08); margin:6px 0;" /><pre style="white-space:pre-wrap; font-family:'Space Mono', monospace; font-size:0.6875rem;">${highlighted}</pre>`;
+                } else {
+                  resLine.innerHTML = `<span class="log-yellow">cat: ${targetFile}: No such file or directory. Try 'ls' to see files.</span>`;
+                }
+              }
+            }
+            break;
+
+          case 'train':
+            {
+              const parts = cmdVal.split(' ');
+              if (parts.length < 2) {
+                resLine.innerHTML = `
+<span class="log-yellow">Usage:</span> train [model]
+
+<span class="log-cyan">Available models to optimize:</span>
+  <span class="log-green">jackfruit</span> - Automated Jackfruit Yield Counting (YOLOv8x - IEEE Conference)
+  <span class="log-green">traffic</span>   - Edge Traffic Sign recognition system (Edge CNN - MTAP)
+  <span class="log-green">robot</span>     - Multimodal HRI Cognitive Robot framework (Gemma-2 - MTAP)
+  <span class="log-green">ayuseva</span>   - AyuSeva Clinical Diagnostics (D2B2C-IIFNN - NCAA)
+  <span class="log-green">drdo</span>      - Radar Target Tracking Attention Kalman Filter (AttLSTM-KF - DRDO)
+`;
+              } else {
+                const modelTarget = parts[1].trim().toLowerCase();
+                const validModels = ['jackfruit', 'traffic', 'robot', 'ayuseva', 'drdo'];
+                if (!validModels.includes(modelTarget)) {
+                  resLine.innerHTML = `<span class="log-yellow">train: unknown model '${modelTarget}'. Type 'train' to see options.</span>`;
+                } else {
+                  input.disabled = true;
+                  input.placeholder = "Model training execution in progress...";
+                  resLine.innerHTML = `<span class="log-cyan">Initializing telemetry pipeline for ${modelTarget.toUpperCase()} model optimization...</span>`;
+                  logStream.appendChild(resLine);
+                  logStream.scrollTop = logStream.scrollHeight;
+                  
+                  const trainSteps = [
+                    { t: 250, msg: `<span class="log-dim">[COMPILE] Initialized telemetry tracking layers on NVIDIA H100 cores...</span>` },
+                    { t: 550, msg: `<span class="log-dim">[DATA] Loaded dataset, compiled Positional Attention layers.</span>` },
+                    { t: 900, msg: `Epoch 001/200: [<span class="log-green">█░░░░░░░░░░░░░░░░░░░</span>] 0.5% | Loss: 2.871 | Accuracy: 12.4%` },
+                    { t: 1200, msg: `Epoch 040/200: [<span class="log-green">████░░░░░░░░░░░░░░░░</span>] 20%  | Loss: 1.254 | Accuracy: 65.4%` },
+                    { t: 1500, msg: `Epoch 080/200: [<span class="log-green">████████░░░░░░░░░░░░</span>] 40%  | Loss: 0.612 | Accuracy: 81.2%` },
+                    { t: 1800, msg: `Epoch 120/200: [<span class="log-green">████████████░░░░░░░░</span>] 60%  | Loss: 0.187 | Accuracy: 92.4%` },
+                    { t: 2100, msg: `Epoch 160/200: [<span class="log-green">████████████████░░░░</span>] 80%  | Loss: 0.052 | Accuracy: 98.1%` },
+                    { t: 2400, msg: `Epoch 200/200: [<span class="log-green">████████████████████</span>] 100% | Loss: 0.021 | Accuracy: 99.4%` },
+                    { t: 2650, msg: `<br><span class="log-green">[SUCCESS] Dynamic optimization cycle complete. Saving checkpoints...</span>` }
+                  ];
+
+                  const summaries = {
+                    'jackfruit': `================================================================================
+<span class="log-purple">Final YOLOv8x Yield Estimation Model Summary</span>
+================================================================================
+* Venue: <span class="log-cyan">IEEE International Conference</span> (ICEI Swinburne)
+* File Weights: 'yolov8x_jackfruit_best.pt'
+* Optimized Metrics:
+  - Precision: <span class="log-green">99.28%</span>
+  - Recall: <span class="log-green">85.71%</span>
+  - mAP@50: <span class="log-green">94.37%</span>
+  - mAP@50-95: <span class="log-green">81.01%</span>
+* Hardware Runtime: 619.5 GPU-minutes on NVIDIA H100 cluster
+================================================================================`,
+                    'traffic': `================================================================================
+<span class="log-purple">Final Edge CNN Traffic Sign Control System Summary</span>
+================================================================================
+* Venue: <span class="log-cyan">Springer Nature MTAP</span> (Multimedia Tools and Applications)
+* Code Weight: 'edge_traffic_sign.h' (1.44 MB microcontroller flash footprint)
+* Optimized Metrics:
+  - GTSRB Test Accuracy: <span class="log-green">99.63%</span> (German Traffic Sign Dataset)
+  - CTSD Test Accuracy: <span class="log-green">99.68%</span> (Chinese Traffic Sign Dataset)
+  - Microcontroller Latency: <span class="log-green">24-26 ms</span> per frame (UART Interface)
+================================================================================`,
+                    'robot': `================================================================================
+<span class="log-purple">Final Empathetic HRI Cognitive Robot framework Summary</span>
+================================================================================
+* Venue: <span class="log-cyan">Springer Nature MTAP</span> (Multimedia Tools and Applications)
+* Model Base: Gemma-2-27B-IT + DoRA (Parameter-efficient fine-tuning)
+* Optimized Metrics:
+  - Face Verification Accuracy: <span class="log-green">98.7%</span>
+  - Dialog Grounding Recall@1: <span class="log-green">94.8%</span>
+  - Generation Speed: <span class="log-green">24.5 tokens/sec</span>
+================================================================================`,
+                    'ayuseva': `================================================================================
+<span class="log-purple">Final AyuSeva D2B2C-IIFNN Model Summary</span>
+================================================================================
+* Venue: <span class="log-cyan">Springer Nature NCAA</span> (Neural Computing and Applications)
+* Model Base: D2B2C-IIFNN (DenseNet, Dual Attention, BiLSTM, Conv1D)
+* Optimized Metrics:
+  - Symptom Model Test Accuracy: <span class="log-green">99.52% +/- 1.08%</span> (ROC-AUC: 0.9999)
+  - NLP Clinical Model Accuracy: <span class="log-green">93.91% +/- 0.94%</span> (ROC-AUC: 0.9975)
+================================================================================`,
+                    'drdo': `================================================================================
+<span class="log-purple">Final Radar Target Tracking AttLSTM-KF Framework Summary</span>
+================================================================================
+* Institution: <span class="log-cyan">DRDO LRDE Fire Control Radar Research</span>
+* Advisor: Sci 'E' Shri Bibhabasu Mondal, LRDE - DRDO
+* Optimized Metrics:
+  - Maneuver tracking RMSE: <span class="log-green">0.950m</span> (extreme coordinated turns)
+  - Covariance adaptation latency: <span class="log-green">Zero-lag Cholesky tracking</span>
+================================================================================`
+                  };
+
+                  trainSteps.forEach(s => {
+                    setTimeout(() => {
+                      const row = document.createElement('div');
+                      row.className = 'log-line';
+                      row.innerHTML = s.msg;
+                      logStream.appendChild(row);
+                      logStream.scrollTop = logStream.scrollHeight;
+                    }, s.t);
+                  });
+
+                  setTimeout(() => {
+                    const row = document.createElement('div');
+                    row.className = 'log-line';
+                    row.innerHTML = summaries[modelTarget];
+                    logStream.appendChild(row);
+                    
+                    const pad = document.createElement('div');
+                    pad.className = 'log-line';
+                    pad.innerHTML = '&nbsp;';
+                    logStream.appendChild(pad);
+                    
+                    logStream.scrollTop = logStream.scrollHeight;
+                    
+                    input.disabled = false;
+                    input.placeholder = "Type 'help' to explore papers & internships...";
+                    input.focus();
+                  }, 2800);
+                  
+                  return;
+                }
+              }
+            }
+            break;
+
+          case 'cert':
+            {
+              const parts = cmdVal.split(' ');
+              if (parts.length < 2) {
+                resLine.innerHTML = `
+<span class="log-yellow">Usage:</span> cert [drdo|isro|codsoft|prodigy]
+
+<span class="log-cyan">Available Internship Certificates:</span>
+  <span class="log-green">drdo</span>    - DRDO LRDE Fire Control Radar Research Internship Certificate
+  <span class="log-green">isro</span>    - ISRO URSC Satellite Assembly & Telemetry Internship Certificate
+  <span class="log-green">codsoft</span> - CodSoft Software Development Internship Certificate
+  <span class="log-green">prodigy</span> - Prodigy InfoTech Machine Learning Internship Certificate
+`;
+              } else {
+                const target = parts[1].trim().toLowerCase();
+                const certMap = {
+                  'drdo': { file: 'DRDO.pdf', title: 'DRDO Research Internship Certificate' },
+                  'isro': { file: 'ISRO.pdf', title: 'ISRO Research Internship Certificate' },
+                  'codsoft': { file: 'Codsoft.pdf', title: 'CodSoft Internship Certificate' },
+                  'prodigy': { file: 'Prodigy.pdf', title: 'Prodigy InfoTech Internship Certificate' }
+                };
+                if (certMap[target]) {
+                  const cert = certMap[target];
+                  resLine.innerHTML = `<span class="log-green">📜 Launching ${cert.title} in visual viewer modal...</span>`;
+                  setTimeout(() => {
+                    openCertModal(cert.file, cert.title);
+                  }, 300);
+                } else {
+                  resLine.innerHTML = `<span class="log-yellow">cert: unknown certificate '${target}'. Type 'cert' to view options.</span>`;
+                }
+              }
+            }
+            break;
+
+          default:
+            resLine.innerHTML = `<span class="log-yellow">Command not found: '${cmdVal}'. Type 'help' for available system commands.</span>`;
+            break;
+        }
+
+        logStream.appendChild(resLine);
+        const padLine = document.createElement('div');
+        padLine.className = 'log-line';
+        padLine.innerHTML = '&nbsp;';
+        logStream.appendChild(padLine);
+
+        logStream.scrollTop = logStream.scrollHeight;
+      }
+    });
+  }
+
+  // 3. TRAIN_MONITOR Telemetry loop logic
+  const monLoss = terminal.querySelector('#mon-loss');
+  const monAcc = terminal.querySelector('#mon-acc');
+  const gpuVal = terminal.querySelector('#gpu-val');
+  const gpuBar = terminal.querySelector('#gpu-bar');
+  const vramVal = terminal.querySelector('#vram-val');
+  const vramBar = terminal.querySelector('#vram-bar');
+  const sparkLossContainer = terminal.querySelector('#spark-loss');
+  const sparkAccContainer = terminal.querySelector('#spark-acc');
+
+  let lossHistory = Array.from({length: 15}, () => 0.024 + (Math.random() - 0.5) * 0.004);
+  let accHistory = Array.from({length: 15}, () => 98.8 + (Math.random() - 0.5) * 0.2);
+
+  function drawSparklines() {
+    if (sparkLossContainer) {
+      sparkLossContainer.innerHTML = '';
+      const minL = Math.min(...lossHistory);
+      const maxL = Math.max(...lossHistory);
+      lossHistory.forEach(val => {
+        const heightPct = maxL === minL ? 50 : ((val - minL) / (maxL - minL)) * 80 + 20;
+        const bar = document.createElement('div');
+        bar.className = 'sparkline-bar';
+        bar.style.height = `${heightPct}%`;
+        bar.style.background = '#ff453a';
+        sparkLossContainer.appendChild(bar);
+      });
+    }
+
+    if (sparkAccContainer) {
+      sparkAccContainer.innerHTML = '';
+      const minA = Math.min(...accHistory);
+      const maxA = Math.max(...accHistory);
+      accHistory.forEach(val => {
+        const heightPct = maxA === minA ? 50 : ((val - minA) / (maxA - minA)) * 80 + 20;
+        const bar = document.createElement('div');
+        bar.className = 'sparkline-bar';
+        bar.style.height = `${heightPct}%`;
+        bar.style.background = '#30d158';
+        sparkAccContainer.appendChild(bar);
+      });
+    }
+  }
+
+  drawSparklines();
+
+  setInterval(() => {
+    const isTabActive = terminal.querySelector('#tab-train-monitor').classList.contains('active');
+
+    const flucLoss = Math.max(0.015, Math.min(0.035, 0.024 + (Math.random() - 0.5) * 0.003));
+    const flucAcc = Math.max(97.5, Math.min(99.9, 98.8 + (Math.random() - 0.5) * 0.15));
+
+    lossHistory.push(flucLoss); lossHistory.shift();
+    accHistory.push(flucAcc); accHistory.shift();
+
+    if (monLoss) monLoss.textContent = flucLoss.toFixed(4);
+    if (monAcc) monAcc.textContent = `${flucAcc.toFixed(1)}%`;
+
+    const corePct = Math.floor(82 + Math.random() * 10);
+    if (gpuVal) gpuVal.textContent = `${corePct}%`;
+    if (gpuBar) gpuBar.style.width = `${corePct}%`;
+
+    const activeVram = 4.18 + Math.random() * 0.16;
+    if (vramVal) vramVal.textContent = `${activeVram.toFixed(2)} GB`;
+    const sramPct = Math.floor((activeVram / 8.0) * 100);
+    if (vramBar) vramBar.style.width = `${sramPct}%`;
+
+    if (isTabActive) {
+      drawSparklines();
+    }
+  }, 1000);
+
+  // 4. PAPERS_DB static display list builder
+  const papersStaticStream = terminal.querySelector('#papers-static-stream');
+  if (papersStaticStream) {
+    papersStaticStream.innerHTML = `
+<div style="padding: 4px; display: flex; flex-direction: column; gap: 14px;">
+  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <strong style="color:var(--primary); font-size:0.8rem;">YOLOv8x Smart Agriculture Yield Estimation</strong>
+      <span class="log-purple" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">IEEE CONFERENCE</span>
+    </div>
+    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Automated Jackfruit Counting and Yield Estimation via YOLOv8x deep CNN. Includes Albumentations pipeline, CIoU/DFL loss.</div>
+    <div style="font-size:0.6875rem;"><span class="log-green">mAP@50: 94.37%</span> | <span class="log-green">Precision: 99.28%</span> | <span class="log-green">Recall: 85.71%</span></div>
+  </div>
+
+  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <strong style="color:var(--primary); font-size:0.8rem;">Affective Cognitive HRI Robot System</strong>
+      <span class="log-purple" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">SPRINGER NATURE MTAP</span>
+    </div>
+    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Multimodal HRI framework with ResNet-34 face auth, EfficientNetV2-S FER affect perception, Gemma-2 DPO dialog, EventKG GraphRAG memory grounding.</div>
+    <div style="font-size:0.6875rem;"><span class="log-green">Face Auth: 98.7%</span> | <span class="log-green">GraphRAG: 94.8%</span></div>
+  </div>
+
+  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <strong style="color:var(--primary); font-size:0.8rem;">DRDO Radar target tracking (AttLSTM-KF)</strong>
+      <span class="log-cyan" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">DRDO LRDE RESEARCH</span>
+    </div>
+    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Hybrid Attention Networks and Kalman Filtering target tracking at LRDE. Sinusoidal embeddings, 3-layer velocity LSTM, Cholesky Bi-LSTM.</div>
+    <div style="font-size:0.6875rem;"><span class="log-green">RMSE: 0.950m</span></div>
+  </div>
+
+  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <strong style="color:var(--primary); font-size:0.8rem;">AyuSeva Medical D2B2C-IIFNN Model</strong>
+      <span class="log-purple" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">SPRINGER NATURE NCAA</span>
+    </div>
+    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Multimodal Deep Learning AyuSeva Clinical framework (DenseNet, Dual Attention, BiLSTM, Conv1D fusion). Mappings over 55 disease symptom groups.</div>
+    <div style="font-size:0.6875rem;"><span class="log-green">Symptom Acc: 99.52%</span> | <span class="log-green">NLP Clinical Acc: 93.91%</span></div>
+  </div>
+
+  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+      <strong style="color:var(--primary); font-size:0.8rem;">Real-time Traffic Sign Control System</strong>
+      <span class="log-purple" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">SPRINGER NATURE MTAP 2025</span>
+    </div>
+    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Real-time traffic sign recognition edge CNN on GTSRB/CTSD with Arduino serial controls. Edge latency 24-26 ms.</div>
+    <div style="font-size:0.6875rem;"><span class="log-green">GTSRB Acc: 99.63%</span> | <span class="log-green">CTSD Acc: 99.68%</span></div>
+  </div>
+</div>
+`;
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  new SpatialBackground();
+  initNavbar();
+  initMobileMenu();
+  initScrollAnimations();
+  initCounters();
+  initSmoothScroll();
+  initMagicEasterEgg();
+  initHapticLight();
+  initCursorGlow();
+  initCustomCursor();
+  initTerminalSimulation();
+  requestAnimationFrame(() => {
+    setTimeout(() => new HeroNeuralNet(), 100);
+  });
+});
+/* ══════════════════════════════════
+   PDF CERTIFICATE MODAL
+══════════════════════════════════ */
+function openCertModal(pdfFile, title) {
+  const overlay = document.getElementById('certModal');
+  const frame = document.getElementById('certModalFrame');
+  const titleEl = document.getElementById('certModalTitle');
+  if (!overlay || !frame) return;
+  titleEl.textContent = title;
+  frame.src = pdfFile;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeCertModal() {
+  const overlay = document.getElementById('certModal');
+  const frame = document.getElementById('certModalFrame');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  setTimeout(() => { frame.src = ''; }, 400);
+}
+function initCertModal() {
+  const overlay = document.getElementById('certModal');
+  const closeBtn = document.getElementById('certModalClose');
+  if (!overlay || !closeBtn) return;
+  closeBtn.addEventListener('click', closeCertModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeCertModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeCertModal(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ... existing init already runs above, just add cert modal init
+  initCertModal();
+});
+</script>
+<div id="magic-cursor" aria-hidden="true">
+  <div id="magic-cursor-inner">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="arrow-fill" d="M3 2L21 11L12 13L9 19L3 2Z" fill="url(#arrowGrad)" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="11.5" cy="12.5" r="1.5" fill="#50e3c2" class="arrow-node"/>
+      <defs>
+        <linearGradient id="arrowGrad" x1="3" y1="2" x2="21" y2="19" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#adc6ff"/>
+          <stop offset="50%" stop-color="#7c6ff7"/>
+          <stop offset="100%" stop-color="#50e3c2"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+<div id="cursor-trail" aria-hidden="true"></div>
+</body>
+</html>
