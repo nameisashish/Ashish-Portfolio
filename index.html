@@ -418,6 +418,7 @@ body {
 }
 .nco {
   padding: 24px 28px; position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: center;
 }
 .nco-lbl {
   font-family: var(--fm); font-size: .625rem; letter-spacing: .12em;
@@ -1231,15 +1232,17 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
       <div class="neural-card" style="margin-bottom: 20px;">
         <canvas id="heroNeuralCanvas"></canvas>
         <div class="nco">
-          <div class="nco-lbl">CURRENT ROLE</div>
-          <div class="nco-title-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-            <div class="nco-title" style="margin-bottom: 0;">Decision Scientist</div>
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15);" />
+          <div class="nco-left">
+            <div class="nco-lbl">CURRENT ROLE</div>
+            <div class="nco-title">Decision Scientist</div>
+            <div class="nco-sub">Mu Sigma · Analytics · Data-Driven AI</div>
+            <div class="nco-status">
+              <div class="dot-g"></div>
+              <span>Active Agent Core Running</span>
+            </div>
           </div>
-          <div class="nco-sub">Mu Sigma · Analytics · Data-Driven AI</div>
-          <div class="nco-status">
-            <div class="dot-g"></div>
-            <span>Active Agent Core Running</span>
+          <div class="nco-right">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width: 48px; height: 48px; border-radius: 10px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15); background: #ffffff; padding: 3px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: block;" />
           </div>
         </div>
       </div>
