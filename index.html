@@ -2701,7 +2701,8 @@ function initMagicEasterEgg() {
   let points = [];
   let isTraining = false;
   let epoch = 0;
-  let animId = null;
+  let loopAnimId = null;
+  let pulseOffset = 0;
 
   // Inputs
   const selectDataset = document.getElementById('nnDataset');
@@ -2798,6 +2799,8 @@ function initMagicEasterEgg() {
       }
       nodePositions.push(layerNodes);
     }
+    
+    // Draw connection lines (synapses) with dimming/lightening animated glow
     for (let i = 0; i < nn.weights.length; i++) {
       const w = nn.weights[i];
       const fromNodes = nodePositions[i];
@@ -2807,7 +2810,10 @@ function initMagicEasterEgg() {
           const from = fromNodes[k];
           const to = toNodes[j];
           const weightVal = w[j][k];
-          ctx.strokeStyle = weightVal > 0 ? 'rgba(75, 142, 255, 0.45)' : 'rgba(255, 159, 10, 0.45)';
+          
+          // Animate line opacity slightly based on sine wave of pulseOffset
+          const breathing = 0.2 + 0.2 * Math.sin(pulseOffset * 2.5 + j * 0.7 + k * 0.4);
+          ctx.strokeStyle = weightVal > 0 ? `rgba(75, 142, 255, ${breathing + 0.25})` : `rgba(255, 159, 10, ${breathing + 0.25})`;
           ctx.lineWidth = Math.min(Math.abs(weightVal) * 1.5, 4);
           ctx.beginPath();
           ctx.moveTo(from.x, from.y);
@@ -2816,17 +2822,48 @@ function initMagicEasterEgg() {
         }
       }
     }
+
+    // Draw active firing pulses moving along connections
+    for (let i = 0; i < nn.weights.length; i++) {
+      const w = nn.weights[i];
+      const fromNodes = nodePositions[i];
+      const toNodes = nodePositions[i + 1];
+      for (let j = 0; j < w.length; j++) {
+        for (let k = 0; k < w[j].length; k++) {
+          const from = fromNodes[k];
+          const to = toNodes[j];
+          
+          // Traveling interpolation factor (t from 0 to 1) offset staggered per connection
+          const t = (pulseOffset * 0.45 + (i * 0.3) + (j * 0.15) + (k * 0.08)) % 1.0;
+          const px = from.x + (to.x - from.x) * t;
+          const py = from.y + (to.y - from.y) * t;
+          
+          ctx.shadowColor = '#50e3c2';
+          ctx.shadowBlur = 6;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+        }
+      }
+    }
     ctx.shadowBlur = 0;
+
+    // Draw neuron nodes with pulsing glow size/intensity
     for (let i = 0; i < nodePositions.length; i++) {
       const layer = nodePositions[i];
       for (let j = 0; j < layer.length; j++) {
         const node = layer[j];
-        ctx.shadowColor = '#4b8eff';
-        ctx.shadowBlur = 4;
+        
+        // Node glow intensity waves
+        const nodeGlow = 4 + 3.5 * Math.sin(pulseOffset * 3.0 + i * 1.8 + j * 0.8);
+        ctx.shadowColor = '#50e3c2';
+        ctx.shadowBlur = nodeGlow;
         ctx.beginPath();
         ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
+        
         ctx.shadowBlur = 0;
         ctx.strokeStyle = '#12111c';
         ctx.lineWidth = 1.5;
@@ -2851,35 +2888,39 @@ function initMagicEasterEgg() {
     points = generateData(type, 120, noise);
   }
 
-  function runTraining() {
-    if (!isTraining) return;
-    const activation = selectActivation.value;
-    const lr = parseFloat(sliderLr.value);
-    for (let s = 0; s < 15; s++) {
-      epoch++;
-      const shuffled = [...points].sort(() => Math.random() - 0.5);
-      for (const p of shuffled) {
-        nn.forward([p.x, p.y], activation);
-        nn.backward(p.label, lr, activation);
+  function renderLoop() {
+    pulseOffset += 0.04;
+    
+    if (isTraining) {
+      const activation = selectActivation.value;
+      const lr = parseFloat(sliderLr.value);
+      for (let s = 0; s < 15; s++) {
+        epoch++;
+        const shuffled = [...points].sort(() => Math.random() - 0.5);
+        for (const p of shuffled) {
+          nn.forward([p.x, p.y], activation);
+          nn.backward(p.label, lr, activation);
+        }
       }
+      let totalLoss = 0;
+      let correct = 0;
+      for (const p of points) {
+        const pred = nn.forward([p.x, p.y], activation);
+        const err = p.label - pred;
+        totalLoss += err * err;
+        const predLabel = pred >= 0.5 ? 1 : 0;
+        if (predLabel === p.label) correct++;
+      }
+      const loss = totalLoss / points.length;
+      const acc = (correct / points.length) * 100;
+      document.getElementById('nnEpoch').textContent = epoch;
+      document.getElementById('nnLoss').textContent = loss.toFixed(4);
+      document.getElementById('nnAccuracy').textContent = acc.toFixed(1) + '%';
+      drawDecisionBoundary();
     }
-    let totalLoss = 0;
-    let correct = 0;
-    for (const p of points) {
-      const pred = nn.forward([p.x, p.y], activation);
-      const err = p.label - pred;
-      totalLoss += err * err;
-      const predLabel = pred >= 0.5 ? 1 : 0;
-      if (predLabel === p.label) correct++;
-    }
-    const loss = totalLoss / points.length;
-    const acc = (correct / points.length) * 100;
-    document.getElementById('nnEpoch').textContent = epoch;
-    document.getElementById('nnLoss').textContent = loss.toFixed(4);
-    document.getElementById('nnAccuracy').textContent = acc.toFixed(1) + '%';
-    drawDecisionBoundary();
+    
     drawNetworkGraph();
-    animId = requestAnimationFrame(runTraining);
+    loopAnimId = requestAnimationFrame(renderLoop);
   }
 
   function toggleTrain() {
@@ -2887,12 +2928,10 @@ function initMagicEasterEgg() {
       isTraining = false;
       btnTrain.textContent = 'TRAIN MODEL';
       btnTrain.style.background = '';
-      cancelAnimationFrame(animId);
     } else {
       isTraining = true;
       btnTrain.textContent = 'PAUSE CORE';
       btnTrain.style.background = 'linear-gradient(135deg, #ff453a, #ff9f0a)';
-      runTraining();
     }
   }
 
@@ -2902,10 +2941,19 @@ function initMagicEasterEgg() {
     initData();
     resetState();
     overlay.classList.add('active');
+    if (!loopAnimId) {
+      renderLoop();
+    }
   });
 
   function closeOverlay() {
-    if (isTraining) toggleTrain();
+    isTraining = false;
+    btnTrain.textContent = 'TRAIN MODEL';
+    btnTrain.style.background = '';
+    if (loopAnimId) {
+      cancelAnimationFrame(loopAnimId);
+      loopAnimId = null;
+    }
     overlay.classList.remove('active');
   }
 
