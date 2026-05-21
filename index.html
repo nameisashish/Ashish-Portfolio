@@ -4432,7 +4432,7 @@ function initProjectFilters() {
       if (projHero) {
         const heroTags = projHero.dataset.tags ? projHero.dataset.tags.split(',') : [];
         if (filter === 'all' || heroTags.includes(filter)) {
-          projHero.style.display = 'flex';
+          projHero.style.display = '';
           projHero.style.opacity = '0';
           setTimeout(() => {
             projHero.style.transition = 'opacity 0.4s var(--smooth)';
@@ -4447,7 +4447,7 @@ function initProjectFilters() {
       projectCards.forEach(card => {
         const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
         if (filter === 'all' || tags.includes(filter)) {
-          card.style.display = 'flex';
+          card.style.display = '';
           card.style.opacity = '0';
           card.style.transform = 'translateY(16px)';
           setTimeout(() => {
