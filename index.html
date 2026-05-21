@@ -1270,7 +1270,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
             </div>
             <div class="cli-prompt">
               <span>ashish@portfolio:~$</span>
-              <input type="text" class="cli-input" id="cli-terminal-input" placeholder="Type 'help' to explore..." autofocus autocomplete="off" />
+              <input type="text" class="cli-input" id="cli-terminal-input" placeholder="Type 'help' to explore..." autocomplete="off" />
             </div>
           </div>
 
@@ -1895,6 +1895,12 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
 <canvas id="mesh-bg" aria-hidden="true"></canvas>
 
 <script>
+// Force page to start from the top on reload/refresh and disable scroll restoration
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 /* ══════════════════════════════════
    SPATIAL BACKGROUND ENGINE
 ══════════════════════════════════ */
@@ -2416,7 +2422,7 @@ function initTerminalSimulation() {
 
       if (tab.dataset.tab === 'interactive-cli') {
         const input = terminal.querySelector('#cli-terminal-input');
-        if (input) input.focus();
+        if (input) input.focus({ preventScroll: true });
       }
     });
   });
@@ -2428,6 +2434,9 @@ function initTerminalSimulation() {
   const promptSpan = terminal.querySelector('.cli-prompt span');
   if (promptSpan) {
     promptSpan.innerHTML = `<span class="log-green" style="font-weight:bold;">ashish@portfolio</span>:<span class="log-blue">~</span>$`;
+  }
+  if (input) {
+    input.focus({ preventScroll: true });
   }
 
   // Virtual Files Database
@@ -2988,7 +2997,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
                 logStream.appendChild(finishLine);
                 logStream.scrollTop = logStream.scrollHeight;
                 input.disabled = false;
-                input.focus();
+                input.focus({ preventScroll: true });
                 return;
               }
               let stream = "";
@@ -3050,7 +3059,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
               
               logStream.scrollTop = logStream.scrollHeight;
               input.disabled = false;
-              input.focus();
+              input.focus({ preventScroll: true });
             }, 1200);
             break;
 
@@ -3206,7 +3215,7 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
                     
                     input.disabled = false;
                     input.placeholder = "Type 'help' to explore papers & internships...";
-                    input.focus();
+                    input.focus({ preventScroll: true });
                   }, 2800);
                   
                   return;
