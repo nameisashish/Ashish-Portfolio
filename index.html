@@ -6,6 +6,15 @@
 <meta name="description" content="Ashish Kishore — AI/ML Researcher, Gen-AI Specialist, Published Author. Building the future of intelligent systems.">
 <meta name="theme-color" content="#09090f">
 <title>Ashish Kishore — AI/ML Researcher</title>
+<meta property="og:title" content="Ashish Kishore — AI/ML Researcher &amp; Gen-AI Specialist">
+<meta property="og:description" content="Published researcher specializing in computer vision, autonomous systems, cognitive HRI robotics, and medical deep learning architectures.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ashish-kishore-portfolio.netlify.app">
+<meta property="og:image" content="https://ashish-kishore-portfolio.netlify.app/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ashish Kishore — AI/ML Researcher">
+<meta name="twitter:description" content="Published researcher working on deep learning, computer vision, and cognitive HRI robotics.">
+<meta name="twitter:image" content="https://ashish-kishore-portfolio.netlify.app/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -1339,6 +1348,123 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
   #magic-cursor, #cursor-trail { display: none !important; }
   *, *::before, *::after { cursor: auto !important; }
 }
+/* ================================================================
+   PROJECT FILTERS & SIMULATION STYLES
+   ================================================================ */
+.projects-filter-wrap {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.filter-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-s);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-family: var(--fd);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--smooth);
+}
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-p);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.filter-btn.active {
+  background: linear-gradient(135deg, rgba(173, 198, 255, 0.15), rgba(194, 193, 255, 0.15));
+  border-color: var(--primary-c);
+  color: var(--primary);
+  box-shadow: 0 0 12px rgba(173, 198, 255, 0.12);
+}
+
+.yolo-sim-box input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+  box-shadow: 0 0 6px var(--teal);
+  transition: transform 0.1s ease;
+}
+.yolo-sim-box input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+/* Architecture configurator styling */
+.arch-config-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+}
+.arch-title {
+  font-family: var(--fm);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+}
+.arch-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arch-ctrl-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+.arch-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.arch-btn {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+.arch-btn:hover {
+  background: var(--primary-c);
+  border-color: var(--primary);
+}
+.arch-val {
+  font-family: var(--fm);
+  width: 14px;
+  text-align: center;
+}
+
+/* Terminal Matrix canvas */
+.matrix-canvas-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 100;
+  background: #000000;
+  border-radius: 8px;
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -1392,6 +1518,29 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
           <input type="range" id="nnNoise" min="0" max="0.2" step="0.01" value="0.05">
         </div>
 
+        <!-- Dynamic Architecture Configurator Row -->
+        <div class="arch-config-row">
+          <div class="arch-title">Network Architecture</div>
+          <div class="arch-controls">
+            <div class="arch-ctrl-item">
+              <span>Hidden Layer 1 Nodes</span>
+              <div class="arch-btns">
+                <button type="button" class="arch-btn" id="nnArchDec1">-</button>
+                <span class="arch-val" id="nnArchVal1">4</span>
+                <button type="button" class="arch-btn" id="nnArchInc1">+</button>
+              </div>
+            </div>
+            <div class="arch-ctrl-item">
+              <span>Hidden Layer 2 Nodes</span>
+              <div class="arch-btns">
+                <button type="button" class="arch-btn" id="nnArchDec2">-</button>
+                <span class="arch-val" id="nnArchVal2">4</span>
+                <button type="button" class="arch-btn" id="nnArchInc2">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="console-actions">
           <button id="nnTrainBtn" class="btn-console-primary">TRAIN MODEL</button>
           <button id="nnResetBtn" class="btn-console-secondary">RESET WEIGHTS</button>
@@ -1403,11 +1552,14 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
       <div class="magic-console-col panel-canvas">
         <div class="console-section-title">Decision Boundary Landscape</div>
         <div class="canvas-wrapper">
-          <canvas id="nnBoundaryCanvas" width="260" height="260"></canvas>
+          <canvas id="nnBoundaryCanvas" width="260" height="260" style="cursor: crosshair;"></canvas>
         </div>
         <div class="legend">
           <div class="legend-item"><span class="dot dot-orange"></span> Class A</div>
           <div class="legend-item"><span class="dot dot-blue"></span> Class B</div>
+        </div>
+        <div style="font-size: 0.625rem; font-family: var(--fm); color: var(--text-s); margin-top: 8px; text-align: center; line-height: 1.4;">
+          💡 Click landscape to draw Blue points.<br>Shift-Click to draw Orange points.
         </div>
       </div>
 
@@ -1560,7 +1712,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
             </div>
           </div>
           <div class="nco-right">
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width: 48px; height: 48px; border-radius: 10px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15); background: #ffffff; padding: 3px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: block;" />
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" loading="lazy" style="width: 48px; height: 48px; border-radius: 10px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15); background: #ffffff; padding: 3px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: block;" />
           </div>
         </div>
       </div>
@@ -1761,7 +1913,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
               <h4>Mu Sigma Inc.</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" style="width:44px;height:44px;border-radius:10px;object-fit:contain;">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" loading="lazy" style="width:44px;height:44px;border-radius:10px;object-fit:contain;">
             </div>
           </div>
           <p>Decision Scientist at Mu Sigma, one of the world's largest pure-play analytics and decision sciences companies. Joining to craft data-driven solutions that transform business decisions at scale.</p>
@@ -1781,7 +1933,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
               <h4>LRDE-DRDO, Ministry of Defence</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1280px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO" style="width:48px;height:48px;object-fit:contain;">
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1280px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO" loading="lazy" style="width:48px;height:48px;object-fit:contain;">
             </div>
           </div>
           <p>AI Research Intern at LRDE-DRDO, Ministry of Defence, developing advanced deep learning based classification models and target manoeuvre tracking systems for strategic defence applications.</p>
@@ -1801,7 +1953,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
               <h4>U R Rao Satellite Centre (URSC)</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/1280px-Indian_Space_Research_Organisation_Logo.svg.png" alt="ISRO" style="width:48px;height:48px;object-fit:contain;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/1280px-Indian_Space_Research_Organisation_Logo.svg.png" alt="ISRO" loading="lazy" style="width:48px;height:48px;object-fit:contain;">
             </div>
           </div>
           <p>Worked on cutting-edge space technology projects at U R Rao Satellite Centre, contributing to India's space research and satellite development programs.</p>
@@ -1905,7 +2057,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
     <p class="sec-m fi">Innovation through intelligent solutions</p>
 
     <!-- ORION -->
-    <div class="proj-hero glass fi" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank','noopener,noreferrer')">
+    <div class="proj-hero glass fi" data-tags="robotics,cv" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank','noopener,noreferrer')">
       <div class="ph-left">
         <div class="ph-badge">🤖 Flagship Project</div>
         <h3>Project ORION <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
@@ -1931,8 +2083,17 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
       </div>
     </div>
 
+    <!-- Adaptive Projects Filter Navigation -->
+    <div class="projects-filter-wrap fi">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="cv">Computer Vision</button>
+      <button class="filter-btn" data-filter="healthcare">Healthcare AI</button>
+      <button class="filter-btn" data-filter="robotics">Robotics &amp; HRI</button>
+      <button class="filter-btn" data-filter="security">Security &amp; IoT</button>
+    </div>
+
     <div class="projects-grid">
-      <div class="pc glass fi" onclick="window.open('https://ayuseva.vercel.app/','_blank','noopener,noreferrer')">
+      <div class="pc glass fi" data-tags="healthcare" onclick="window.open('https://ayuseva.vercel.app/','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-health">Healthcare AI</div>
         <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
         <h3>AyuSeva: AI Medical Chatbot</h3>
@@ -1941,7 +2102,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
         <div class="pc-arr">↗</div>
       </div>
 
-      <div class="pc glass fi" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank','noopener,noreferrer')" style="cursor:pointer;">
+      <div class="pc glass fi" data-tags="autonomous,cv" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank','noopener,noreferrer')" style="cursor:pointer;">
         <div class="pc-tag pc-res">Research Publication</div>
         <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
         <h3>Autonomous Vehicle System</h3>
@@ -1950,15 +2111,65 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
         <div class="pc-arr">↗</div>
       </div>
 
-      <div class="pc glass fi" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank','noopener,noreferrer')">
+      <div class="pc glass fi" data-tags="cv" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-agri">Precision Agriculture</div>
         <h3>Jackfruit Recognition &amp; Yield</h3>
         <p>AI-driven computer vision framework to detect and count jackfruits in real time, enabling accurate yield estimation for precision agriculture.</p>
+        
+        <!-- Interactive YOLO Visualizer -->
+        <div class="yolo-sim-box" onclick="event.stopPropagation()" style="margin: 12px 0; background: rgba(0,0,0,0.3); border: 0.5px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-family:var(--fm); font-size:0.6875rem;">
+            <span style="color:var(--teal); font-weight:600;">YOLOv8x Visualizer</span>
+            <span style="color:#ffffff;">Detections: <strong id="yolo-count" style="color:var(--green);">4</strong></span>
+          </div>
+          <div style="position:relative; width:100%; height:95px; background:rgba(0,0,0,0.4); border-radius:6px; overflow:hidden; border: 0.5px solid rgba(255,255,255,0.03);">
+            <svg id="yolo-svg" width="100%" height="100%" viewBox="0 0 200 95" style="display:block;">
+              <!-- Branch -->
+              <path d="M 0,25 Q 100,32 200,18" stroke="#4a3b32" stroke-width="4.5" fill="none"/>
+              <path d="M 120,24 Q 128,52 132,60" stroke="#4a3b32" stroke-width="2.5" fill="none"/>
+              <path d="M 50,25 Q 46,45 42,50" stroke="#4a3b32" stroke-width="2" fill="none"/>
+              <!-- Leaves -->
+              <path d="M 28,15 Q 12,-3 38,8 Z" fill="#1b4d22"/>
+              <path d="M 85,22 Q 92,3 108,16 Z" fill="#1b4d22"/>
+              <path d="M 155,12 Q 175,-3 165,16 Z" fill="#1b4d22"/>
+              
+              <!-- Jackfruits -->
+              <g class="jf-obj" data-conf="0.96" transform="translate(30,45)" style="transition: opacity 0.3s ease;">
+                <ellipse cx="10" cy="15" rx="9" ry="13" fill="#9db01e" stroke="#222" stroke-width="0.5"/>
+                <rect x="0" y="1" width="20" height="28" fill="none" stroke="var(--green)" stroke-dasharray="2" stroke-width="1.2" style="transform: translate(-10px, 0px);"/>
+                <text x="-8" y="-2" font-family="monospace" font-size="5.5" fill="var(--green)" font-weight="bold">jackfruit 0.96</text>
+              </g>
+              <g class="jf-obj" data-conf="0.88" transform="translate(122,48)" style="transition: opacity 0.3s ease;">
+                <ellipse cx="10" cy="12" rx="7.5" ry="11" fill="#8ca01a" stroke="#222" stroke-width="0.5"/>
+                <rect x="2" y="1" width="16" height="22" fill="none" stroke="var(--green)" stroke-dasharray="2" stroke-width="1.2" style="transform: translate(-8px, 0px);"/>
+                <text x="-6" y="-3" font-family="monospace" font-size="5.5" fill="var(--green)" font-weight="bold">jackfruit 0.88</text>
+              </g>
+              <g class="jf-obj" data-conf="0.74" transform="translate(85,32)" style="transition: opacity 0.3s ease;">
+                <ellipse cx="8" cy="10" rx="6.5" ry="9.5" fill="#7b9015" stroke="#222" stroke-width="0.5"/>
+                <rect x="1" y="0" width="14" height="20" fill="none" stroke="var(--green)" stroke-dasharray="2" stroke-width="1.2" style="transform: translate(-7px, 0px);"/>
+                <text x="-5" y="-3" font-family="monospace" font-size="5.5" fill="var(--green)" font-weight="bold">jackfruit 0.74</text>
+              </g>
+              <g class="jf-obj" data-conf="0.52" transform="translate(160,25)" style="transition: opacity 0.3s ease;">
+                <ellipse cx="6" cy="8" rx="5" ry="7.5" fill="#6a8010" stroke="#222" stroke-width="0.5"/>
+                <rect x="1" y="0" width="10" height="16" fill="none" stroke="var(--green)" stroke-dasharray="2" stroke-width="1.2" style="transform: translate(-5px, 0px);"/>
+                <text x="-4" y="-3" font-family="monospace" font-size="5.5" fill="var(--green)" font-weight="bold">jackfruit 0.52</text>
+              </g>
+            </svg>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.625rem; font-family:var(--fm); color:var(--text-s);">
+              <span>Conf. Threshold</span>
+              <span id="yolo-threshold-lbl" style="color:var(--teal); font-weight:bold;">0.50</span>
+            </div>
+            <input type="range" id="yolo-threshold" min="0.30" max="0.98" step="0.01" value="0.50" style="width:100%; height:3px; background:rgba(255,255,255,0.1); border-radius:3px; outline:none; -webkit-appearance:none; cursor:pointer;" />
+          </div>
+        </div>
+
         <div class="pc-tech">🐍 Python · 🎯 YOLOv8 · 🔬 TensorFlow · 🧠 Deep Learning</div>
         <div class="pc-arr">↗</div>
       </div>
 
-      <div class="pc glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
+      <div class="pc glass fi" data-tags="cv" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-cv">Computer Vision</div>
         <h3>Gesture-Based Virtual Keyboard</h3>
         <p>Revolutionary mid-air typing system using real-time hand tracking with ultra-low latency performance and high accuracy.</p>
@@ -1966,7 +2177,7 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
         <div class="pc-arr">↗</div>
       </div>
 
-      <div class="pc glass fi" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
+      <div class="pc glass fi" data-tags="security" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-iot">Security &amp; IoT</div>
         <h3>Advanced Bank Security System</h3>
         <p>Next-generation security system with multi-layer authentication including Face ID, fingerprint, and passcode integration.</p>
@@ -2596,8 +2807,8 @@ function initCursorGlow() {
    MAGIC EASTER EGG
 ══════════════════════════════════ */
 class NeuralNetwork {
-  constructor() {
-    this.layers = [2, 4, 4, 1];
+  constructor(layers = [2, 4, 4, 1]) {
+    this.layers = layers;
     this.weights = [];
     this.biases = [];
     for (let i = 1; i < this.layers.length; i++) {
@@ -2697,7 +2908,8 @@ function initMagicEasterEgg() {
   const gCanvas = document.getElementById('nnGraphCanvas');
   if (!overlay || !logo || !bCanvas || !gCanvas) return;
 
-  let nn = new NeuralNetwork();
+  let currentLayers = [2, 4, 4, 1];
+  let nn = new NeuralNetwork(currentLayers);
   let points = [];
   let isTraining = false;
   let epoch = 0;
@@ -2873,7 +3085,7 @@ function initMagicEasterEgg() {
   }
 
   function resetState() {
-    nn = new NeuralNetwork();
+    nn = new NeuralNetwork(currentLayers);
     epoch = 0;
     document.getElementById('nnEpoch').textContent = '0';
     document.getElementById('nnLoss').textContent = '0.0000';
@@ -2983,6 +3195,94 @@ function initMagicEasterEgg() {
     initData();
     resetState();
   });
+
+  // Canvas interactive coordinates drawing
+  bCanvas.addEventListener('mousedown', e => {
+    const rect = bCanvas.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    
+    // Scale to range [-1.0, 1.0]
+    const x = (px / bCanvas.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    
+    // Shift key toggles class
+    const label = e.shiftKey ? 0 : 1;
+    
+    points.push({ x, y, label });
+    drawDecisionBoundary();
+  });
+
+  bCanvas.addEventListener('touchstart', e => {
+    if (e.touches.length === 0) return;
+    e.preventDefault(); // Stop mobile scrolling
+    const rect = bCanvas.getBoundingClientRect();
+    const px = e.touches[0].clientX - rect.left;
+    const py = e.touches[0].clientY - rect.top;
+    
+    const x = (px / bCanvas.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    
+    // Alternates label on touch devices
+    const label = points.length % 2 === 0 ? 1 : 0;
+    
+    points.push({ x, y, label });
+    drawDecisionBoundary();
+  }, { passive: false });
+
+  // Neural Architecture controls
+  const btnDec1 = document.getElementById('nnArchDec1');
+  const btnInc1 = document.getElementById('nnArchInc1');
+  const val1 = document.getElementById('nnArchVal1');
+  const btnDec2 = document.getElementById('nnArchDec2');
+  const btnInc2 = document.getElementById('nnArchInc2');
+  const val2 = document.getElementById('nnArchVal2');
+
+  function updateArchitecture() {
+    const size1 = parseInt(val1.textContent);
+    const size2 = parseInt(val2.textContent);
+    
+    const newLayers = [2];
+    newLayers.push(size1);
+    if (size2 > 0) {
+      newLayers.push(size2);
+    }
+    newLayers.push(1);
+    
+    currentLayers = newLayers;
+    resetState();
+  }
+
+  if (btnDec1 && btnInc1 && val1 && btnDec2 && btnInc2 && val2) {
+    btnDec1.addEventListener('click', () => {
+      let size = parseInt(val1.textContent);
+      if (size > 1) {
+        val1.textContent = size - 1;
+        updateArchitecture();
+      }
+    });
+    btnInc1.addEventListener('click', () => {
+      let size = parseInt(val1.textContent);
+      if (size < 8) {
+        val1.textContent = size + 1;
+        updateArchitecture();
+      }
+    });
+    btnDec2.addEventListener('click', () => {
+      let size = parseInt(val2.textContent);
+      if (size > 0) {
+        val2.textContent = size - 1;
+        updateArchitecture();
+      }
+    });
+    btnInc2.addEventListener('click', () => {
+      let size = parseInt(val2.textContent);
+      if (size < 8) {
+        val2.textContent = size + 1;
+        updateArchitecture();
+      }
+    });
+  }
 }
 
 /* ══════════════════════════════════
@@ -3658,40 +3958,90 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
 `;
             break;
 
-          case 'matrix':
-            resLine.innerHTML = `<span class="log-green">Initialising digital rain protocol... 3D depth stream active.</span><br><br>`;
+          case 'matrix': {
+            resLine.innerHTML = `<span class="log-green">Entering 3D Digital Rain Overlay Mode... Press ANY KEY to escape.</span><br><br>`;
             input.disabled = true;
-            let matrixInterval;
-            let matrixLines = 0;
-            const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$#@%&*+-/|\\";
-            matrixInterval = setInterval(() => {
-              if (matrixLines >= 18) {
-                clearInterval(matrixInterval);
-                const finishLine = document.createElement('div');
-                finishLine.className = 'log-line';
-                finishLine.innerHTML = `<br><span class="log-cyan">Protocol Complete. Secure Connection Verified.</span><br>&nbsp;`;
-                logStream.appendChild(finishLine);
-                logStream.scrollTop = logStream.scrollHeight;
-                input.disabled = false;
-                input.focus({ preventScroll: true });
-                return;
+            
+            const termBody = document.querySelector('.term-body');
+            if (!termBody) {
+              input.disabled = false;
+              break;
+            }
+            
+            const mCanvas = document.createElement('canvas');
+            mCanvas.className = 'matrix-canvas-overlay';
+            termBody.appendChild(mCanvas);
+            
+            const rect = termBody.getBoundingClientRect();
+            mCanvas.width = rect.width;
+            mCanvas.height = rect.height;
+            
+            const ctx = mCanvas.getContext('2d');
+            const fontSize = 12;
+            const columns = Math.floor(mCanvas.width / fontSize);
+            
+            const rainDrops = Array(columns).fill(1);
+            const chars = "0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#%&*+-<>/?";
+            
+            let matrixLoopId;
+            
+            function drawMatrix() {
+              ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+              ctx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+              
+              ctx.fillStyle = '#0f0';
+              ctx.font = fontSize + 'px monospace';
+              
+              for (let i = 0; i < rainDrops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                const x = i * fontSize;
+                const y = rainDrops[i] * fontSize;
+                
+                if (Math.random() > 0.98) {
+                  ctx.fillStyle = '#fff';
+                } else {
+                  ctx.fillStyle = '#0f0';
+                }
+                
+                ctx.fillText(text, x, y);
+                
+                if (y > mCanvas.height && Math.random() > 0.975) {
+                  rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
               }
-              let stream = "";
-              for (let i = 0; i < 6; i++) {
-                let col = Math.floor(Math.random() * 25);
-                let space = " ".repeat(col) + chars[Math.floor(Math.random() * chars.length)];
-                stream += `<span class="log-green" style="opacity: ${0.3 + Math.random()*0.7}; font-weight: ${Math.random() > 0.6 ? 'bold' : 'normal'}">${space}</span>`;
+              
+              matrixLoopId = requestAnimationFrame(drawMatrix);
+            }
+            
+            matrixLoopId = requestAnimationFrame(drawMatrix);
+            
+            function exitMatrixRain(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
               }
-              const matrixRow = document.createElement('div');
-              matrixRow.className = 'log-line';
-              matrixRow.style.color = '#30d158';
-              matrixRow.style.fontFamily = 'monospace';
-              matrixRow.innerHTML = stream;
-              logStream.appendChild(matrixRow);
+              cancelAnimationFrame(matrixLoopId);
+              mCanvas.remove();
+              document.removeEventListener('keydown', exitMatrixRain);
+              document.removeEventListener('mousedown', exitMatrixRain);
+              
+              input.disabled = false;
+              input.focus({ preventScroll: true });
+              
+              const escLine = document.createElement('div');
+              escLine.className = 'log-line';
+              escLine.innerHTML = `<span class="log-cyan">Rain mode terminated. Console ready.</span><br>&nbsp;`;
+              logStream.appendChild(escLine);
               logStream.scrollTop = logStream.scrollHeight;
-              matrixLines++;
-            }, 90);
+            }
+            
+            setTimeout(() => {
+              document.addEventListener('keydown', exitMatrixRain);
+              document.addEventListener('mousedown', exitMatrixRain);
+            }, 100);
             break;
+          }
 
           case 'neural':
             resLine.innerHTML = `<span class="log-cyan">=== INITIATING TOPOLOGY SIGNAL PROPAGATION WAVE ===</span><br>`;
@@ -4118,9 +4468,82 @@ function initCertModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeCertModal(); });
 }
 
+function initProjectFiltersAndYolo() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projHero = document.querySelector('.proj-hero');
+  const projectCards = document.querySelectorAll('.projects-grid .pc');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      if (projHero) {
+        const heroTags = projHero.dataset.tags ? projHero.dataset.tags.split(',') : [];
+        if (filter === 'all' || heroTags.includes(filter)) {
+          projHero.style.display = 'flex';
+          projHero.style.opacity = '0';
+          setTimeout(() => {
+            projHero.style.transition = 'opacity 0.4s var(--smooth)';
+            projHero.style.opacity = '1';
+          }, 50);
+        } else {
+          projHero.style.display = 'none';
+        }
+      }
+
+      let delay = 0;
+      projectCards.forEach(card => {
+        const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+        if (filter === 'all' || tags.includes(filter)) {
+          card.style.display = 'flex';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(16px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.4s var(--smooth), transform 0.4s var(--smooth)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, delay);
+          delay += 50;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  const yoloSlider = document.getElementById('yolo-threshold');
+  const yoloLbl = document.getElementById('yolo-threshold-lbl');
+  const yoloCount = document.getElementById('yolo-count');
+  const yoloObjects = document.querySelectorAll('.jf-obj');
+
+  if (yoloSlider && yoloLbl && yoloCount) {
+    function updateYoloDetections() {
+      const threshold = parseFloat(yoloSlider.value);
+      yoloLbl.textContent = threshold.toFixed(2);
+      let count = 0;
+      yoloObjects.forEach(obj => {
+        const conf = parseFloat(obj.dataset.conf);
+        if (conf >= threshold) {
+          obj.style.opacity = '1';
+          obj.style.pointerEvents = 'auto';
+          count++;
+        } else {
+          obj.style.opacity = '0';
+          obj.style.pointerEvents = 'none';
+        }
+      });
+      yoloCount.textContent = count;
+    }
+    yoloSlider.addEventListener('input', updateYoloDetections);
+    updateYoloDetections();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // ... existing init already runs above, just add cert modal init
   initCertModal();
+  initProjectFiltersAndYolo();
 });
 </script>
 <div id="magic-cursor" aria-hidden="true">
