@@ -122,6 +122,10 @@ body {
 .skills-grid > .fi:nth-child(2) { transition-delay: 60ms; }
 .skills-grid > .fi:nth-child(3) { transition-delay: 120ms; }
 .skills-grid > .fi:nth-child(4) { transition-delay: 180ms; }
+.skills-grid > .fi:nth-child(5) { transition-delay: 240ms; }
+.skills-grid > .fi:nth-child(6) { transition-delay: 300ms; }
+.skills-grid > .fi:nth-child(7) { transition-delay: 360ms; }
+.skills-grid > .fi:nth-child(8) { transition-delay: 420ms; }
 
 .projects-grid > .fi:nth-child(1) { transition-delay: 0ms; }
 .projects-grid > .fi:nth-child(2) { transition-delay: 60ms; }
@@ -1295,59 +1299,6 @@ body {
   animation: pgr 2s ease-in-out infinite;
 }
 
-/* ═══ MAGIC ARROW CURSOR SYSTEM ═══ */
-@media (pointer: fine) {
-  *, *::before, *::after { cursor: none !important; }
-}
-#magic-cursor {
-  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
-  width: 26px; height: 26px;
-  will-change: transform; opacity: 0;
-  transition: opacity 0.2s ease;
-}
-#magic-cursor-inner {
-  width: 100%; height: 100%;
-  will-change: transform, filter;
-  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), filter 0.15s ease;
-  filter: drop-shadow(0 0 4px rgba(173,198,255,0.4)) drop-shadow(0 0 10px rgba(124,111,247,0.2));
-}
-#magic-cursor-inner svg { width: 100%; height: 100%; }
-#magic-cursor.active { opacity: 1; }
-#magic-cursor.hovering #magic-cursor-inner {
-  transform: scale(1.35);
-  filter: drop-shadow(0 0 8px rgba(80,227,194,0.6)) drop-shadow(0 0 16px rgba(75,142,255,0.4));
-}
-#magic-cursor.hovering #magic-cursor-inner svg path.arrow-fill {
-  stroke: #50e3c2;
-  stroke-width: 2;
-}
-#magic-cursor.hovering #magic-cursor-inner svg .arrow-node {
-  fill: #fff;
-  filter: drop-shadow(0 0 4px #50e3c2);
-}
-#magic-cursor.clicking #magic-cursor-inner {
-  transform: scale(0.88);
-}
-#cursor-trail {
-  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99998;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(80,227,194,0.1) 0%, rgba(173,198,255,0.02) 50%, transparent 70%);
-  will-change: transform; opacity: 0;
-  transition: opacity 0.3s ease;
-}
-#cursor-trail.active { opacity: 1; }
-
-/* Mobile, tablet and touch-interface compatibility */
-body.has-touch *, body.has-touch *::before, body.has-touch *::after {
-  cursor: auto !important;
-}
-body.has-touch #magic-cursor, body.has-touch #cursor-trail {
-  display: none !important;
-}
-@media (pointer: coarse) {
-  #magic-cursor, #cursor-trail { display: none !important; }
-  *, *::before, *::after { cursor: auto !important; }
-}
 /* ================================================================
    PROJECT FILTERS & SIMULATION STYLES
    ================================================================ */
@@ -1819,57 +1770,61 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
     <div class="research-stack">
       <div class="rc rc-blue fi">
         <div class="rc-left">
-          <div class="rc-badge rc-q1">Q1 · Springer Nature</div>
+          <div class="rc-badge rc-q1">Q1 · Springer</div>
           <h3>Real-Time Traffic Sign Recognition and Autonomous Vehicle Control System Using CNNs</h3>
           <div class="rc-meta">
             <span>Multimedia Tools and Applications</span>
             <span class="sep">·</span>
+            <span>Published: May 2026</span>
+            <span class="sep">·</span>
             <span>DOI: 10.1007/s11042-025-20853-8</span>
           </div>
-          <p>Published groundbreaking research on AI-powered autonomous vehicles leveraging Deep-CNN. Achieved state-of-the-art accuracy of <strong>99.68%</strong> on CTSD and <strong>99.63%</strong> on GTSRB datasets.</p>
+          <p><strong>Role:</strong> Co-authored. Designed a novel real-time autonomous driving system using a custom CNN architecture from scratch with sensor fusion on Jetson Nano (45ms inference) and Arduino control. Achieved 99.68% on CTSD and 99.63% on GTSRB.</p>
           <a href="https://link.springer.com/article/10.1007/s11042-025-20853-8" target="_blank" rel="noopener noreferrer" class="rc-lnk">Read Paper ↗</a>
         </div>
         <div class="rc-metric">
           <div class="rc-mb">99.68<span>%</span></div>
-          <div class="rc-ml">SOTA Accuracy</div>
-          <div class="rc-ms">CTSD Dataset</div>
+          <div class="rc-ml">CTSD Accuracy</div>
+          <div class="rc-ms">45ms Inference (Jetson)</div>
         </div>
       </div>
 
        <div class="rc rc-purple fi">
         <div class="rc-left">
-          <div class="rc-badge" style="background:linear-gradient(135deg,rgba(194,193,255,0.2),rgba(194,193,255,0.05));color:#c2c1ff;">Q1 · Springer Nature</div>
+          <div class="rc-badge" style="background:linear-gradient(135deg,rgba(194,193,255,0.2),rgba(194,193,255,0.05));color:#c2c1ff;">Q1 · Springer</div>
           <h3>A Multimodal Deep Learning Framework for Symptom-Based Disease Prediction and Clinical Decision Support</h3>
           <div class="rc-meta">
             <span>Neural Computing and Applications</span>
             <span class="sep">·</span>
-            <span>Status: Accepted · DOI Pending</span>
+            <span>Published: May 2026</span>
+            <span class="sep">·</span>
+            <span>DOI: Pending</span>
           </div>
-          <p>Proposed a multimodal deep learning framework integrating clinical symptoms with advanced neural architectures for accurate disease prediction and clinical decision support.</p>
-          <a href="https://github.com/nameisashish/multimodal-disease-prediction.git" target="_blank" rel="noopener noreferrer" class="rc-lnk" style="color:#c2c1ff; border-color:rgba(194,193,255,0.3);">GitHub Open Source Core ↗</a>
+          <p><strong>1st Author.</strong> Designed and implemented the complete D2B2C-IIFNN architecture from scratch, integrating DenseNet-style feature extraction, dual attention, BiLSTM, and Conv1D-based multimodal fusion. 99.52% symptom and 93.91% NLP accuracy with perfect Critical-tier recall. Approved by Amrutha Hospital.</p>
+          <a href="https://github.com/nameisashish/multimodal-disease-prediction.git" target="_blank" rel="noopener noreferrer" class="rc-lnk" style="color:#c2c1ff; border-color:rgba(194,193,255,0.3);">GitHub Code ↗</a>
         </div>
         <div class="rc-metric">
-          <div class="rc-mb" style="color:#c2c1ff;">ML<span>+</span></div>
-          <div class="rc-ml">Multimodal AI</div>
-          <div class="rc-ms">Healthcare</div>
+          <div class="rc-mb" style="color:#c2c1ff;">99.52<span>%</span></div>
+          <div class="rc-ml">Symptom Accuracy</div>
+          <div class="rc-ms">93.91% NLP Accuracy</div>
         </div>
       </div>
 
       <div class="rc rc-indigo fi">
         <div class="rc-left">
-          <div class="rc-badge rc-q1">Q1 · Springer Nature</div>
-          <h3>Privacy-Preserving Multimodal Cognitive Robot for Real-Time Empathetic Human Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence</h3>
+          <div class="rc-badge rc-q1">Q1 · Springer</div>
+          <h3>Privacy-Preserving Multimodal Cognitive Robot for Real-Time Empathetic Human-Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence</h3>
           <div class="rc-meta">
             <span>Multimedia Tools and Applications</span>
             <span class="sep">·</span>
-            <span>Status: Under Review</span>
+            <span>Under Review (Major Revision)</span>
           </div>
-          <p>Proposed a privacy-preserving multimodal cognitive robot integrating deep facial expression recognition with speech sentiment intelligence for real-time empathetic human–robot interaction.</p>
+          <p><strong>1st Author.</strong> Created a privacy-preserving multimodal cognitive robot on-device. Combines secure HOG-SVM + ResNet-34 face verification (98.7% accuracy), a custom FER-EfficientNetV2 emotion classifier (95.33%), and localized Gemma-2 conversational module aligned via DoRA and DPO with CT-GraphRAG memory (~22 FPS on edge).</p>
         </div>
         <div class="rc-metric">
-          <div class="rc-mb" style="color:var(--primary);">ML<span>+</span>DL<span>+</span>AI</div>
-          <div class="rc-ml">Multimodal Fusion</div>
-          <div class="rc-ms">Cognitive Robot</div>
+          <div class="rc-mb" style="color:var(--primary);">95.33<span>%</span></div>
+          <div class="rc-ml">FER Accuracy</div>
+          <div class="rc-ms">98.7% Face Verify</div>
         </div>
       </div>
 
@@ -1878,17 +1833,17 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
           <div class="rc-badge" style="background:linear-gradient(135deg,rgba(124,111,247,0.2),rgba(124,111,247,0.05));color:#7c6ff7;">IEEE Conference</div>
           <h3>Automated Jackfruit Counting and Yield Estimation via Advanced YOLOv8x-Based Computer Vision in Smart Agriculture</h3>
           <div class="rc-meta">
-            <span>ICEI 2025 · Swinburne University Australia</span>
+            <span>ICEI 2025 · Swinburne University (In Print)</span>
             <span class="sep">·</span>
-            <span>DOI: Pending</span>
+            <span>Published: June 2026</span>
           </div>
-          <p>YOLOv8x-based deep learning framework delivers 99.28% Precision, 85.71% Recall, 94.37% mAP@50, and 81.01% mAP@50–95, demonstrating highly reliable and robust detection accuracy.</p>
+          <p><strong>1st Author.</strong> YOLOv8x-based automated counting framework. Implemented custom Albumentations data augmentation and Streamlit deployment. Achieved 99.28% Precision, 85.71% Recall, 94.37% mAP@50, and 81.01% mAP@50-95 with 2.8ms single-user latency. Enables early yield estimation 2 weeks before harvest.</p>
           <a href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_icei2025-ieee-iitdharwad-activity-7393534687542984705-qxgk" target="_blank" rel="noopener noreferrer" class="rc-lnk" style="color:#7c6ff7;">View Presentation ↗</a>
         </div>
         <div class="rc-metric">
           <div class="rc-mb" style="color:#7c6ff7;">99.28<span>%</span></div>
           <div class="rc-ml">Precision</div>
-          <div class="rc-ms">YOLOv8x Model</div>
+          <div class="rc-ms">94.37% mAP@50</div>
         </div>
       </div>
     </div>
@@ -2069,24 +2024,23 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
     <div class="proj-hero glass fi" data-tags="robotics,cv" style="cursor:pointer;" onclick="window.open('https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing','_blank','noopener,noreferrer')">
       <div class="ph-left">
         <div class="ph-badge">🤖 Flagship Project</div>
-        <h3>Project ORION <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
-        <div class="ph-fn">Optimised Robotic Intelligence for Operative Neural-empathy</div>
-        <p>Pioneering <strong style="color:var(--primary);">emotion-aware robotics</strong> that integrates neural-empathy concepts with Edge AI for natural human-robot interaction. A complete robotic system featuring facial recognition, conversational AI, speech processing, and real-time emotion detection.</p>
+        <h3>PROJECT ORION: Privacy-Preserving Multimodal Cognitive Robot <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
+        <div class="ph-fn">Local Authentication, Affect Understanding &amp; Empathetic Dialogue</div>
+        <p><strong>Problem:</strong> Human–robot interaction needs secure identity verification, reliable emotion understanding, and grounded long-term dialogue, while cloud-based personalization can expose sensitive user data.<br>
+        <strong>Solution:</strong> An end-to-end on-device cognitive robot combining HOG-SVM+ResNet-34 face verification, FER-EfficientNetV2 emotion classifier, and localized Gemma-2 conversational pipeline with CT-GraphRAG memory retrieval entirely offline.</p>
         <div class="ph-tags">
-          <span>Edge AI</span><span>Computer Vision</span><span>NLP</span><span>Speech AI</span>
-          <span>DeepFace</span><span>Mediapipe</span><span>CMU Sphinx</span><span>IoT</span>
-          <span>Conversational AI</span><span>LLM</span><span>FER</span><span>Multi-Modal AI</span>
+          <span>HOG–SVM</span><span>ResNet-34</span><span>FER-EfficientNetV2</span><span>Gemma-2-27B-it</span><span>DoRA</span><span>DPO</span><span>GraphRAG</span><span>Neo4j</span><span>bge-m3</span>
         </div>
       </div>
       <div class="ph-right">
         <div class="ph-metric">
-          <div class="phm-lbl">DOMAINS</div>
+          <div class="phm-lbl">KEY METRICS &amp; FEATURES</div>
           <div class="phm-list">
-            <span>🧠 AI &amp; ML / Deep Learning</span>
-            <span>👁️ Computer Vision</span>
-            <span>🎤 Voice &amp; Speech</span>
-            <span>🤖 Emotion-Aware Robotics</span>
-            <span>⚙️ Modular System Design</span>
+            <span>🔒 98.7% Face Verification Accuracy (0.6% FAR, 0.7% EER)</span>
+            <span>🎭 95.33% FER Validation Accuracy on FER-2013</span>
+            <span>🧠 CT-GraphRAG (Recall@1: 0.68, Temporal Consistency: 94.1%)</span>
+            <span>💬 Gemma-2 local dialogue (10–15 tok/sec, 4096-token context)</span>
+            <span>🛡️ Fully local on-device processing for privacy-first HRI</span>
           </div>
         </div>
       </div>
@@ -2096,42 +2050,47 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
       <div class="pc glass fi" data-tags="healthcare" onclick="window.open('https://ayuseva.vercel.app/','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-health">Healthcare AI</div>
         <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
-        <h3>AyuSeva: AI Medical Chatbot</h3>
-        <p>Hybrid AI chatbot for disease prediction with deep learning fusion model. Recognised by Amrutha Super Speciality Hospital for innovative healthcare AI solutions.</p>
-        <div class="pc-tech">🧬 DenseNet · 🔁 BiLSTM · 🎯 Attention · 🔀 Multi Modal Fusion · 💬 NLP · ✨ Gemini · 🌐 Flask</div>
+        <h3>AYUSEVA: Multimodal Disease Prediction</h3>
+        <p><strong>Problem:</strong> Clinical systems handle structured symptoms and unstructured narratives separately, lacking calibration and safety checks.<br>
+        <strong>Solution:</strong> A multimodal system using D2B2C-IIFNN (DenseNet, BiLSTM, Conv1D, Attention) for prediction with a confidence-gated generative assistant (Symptom: 99.52%, NLP: 93.91%, Critical recall: 1.0000).</p>
+        <div class="pc-tech">🧬 D2B2C-IIFNN · 🔁 BiLSTM · 🎯 Attention · 💬 clinical-NLP · 🛡️ 95% Confidence Gate · 🏥 Hospital Pilot</div>
         <div class="pc-arr">↗</div>
       </div>
 
       <div class="pc glass fi" data-tags="autonomous,cv" onclick="window.open('https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN','_blank','noopener,noreferrer')" style="cursor:pointer;">
         <div class="pc-tag pc-res">Research Publication</div>
         <div style="display:inline-block;font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,159,10,0.1);padding:3px 9px;border-radius:50px;margin-bottom:10px;">Flagship Project</div>
-        <h3>Autonomous Vehicle System</h3>
-        <p>Real-time traffic sign recognition with 99.68% accuracy. Published research in Springer Nature Q1 journal with state-of-the-art performance on CTSD and GTSRB.</p>
-        <div class="pc-tech">🧠 Deep CNN · 🔌 Arduino · 📡 Sensor Fusion</div>
+        <h3>AUTONOMOUS VEHICLE: Traffic Sign Recognition</h3>
+        <p><strong>Problem:</strong> Self-driving vehicles need fast and reliable traffic sign recognition under variable outdoor lighting and road occlusion.<br>
+        <strong>Solution:</strong> A sequential deep CNN with grayscale conversion, histogram equalization, and data augmentation, integrated with an Arduino control system (99.63% GTSRB, 99.68% CTSD, 24–26ms latency).</p>
+        <div class="pc-tech">🧠 Sequential CNN · 🔌 Arduino Uno · 📡 ESP8266 &amp; Sensors · ⏱️ 24-26ms Latency · 🏁 Springer MTAP</div>
         <div class="pc-arr">↗</div>
       </div>
 
       <div class="pc glass fi" data-tags="cv" onclick="window.open('https://jackfruit-detector.streamlit.app/','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-agri">Precision Agriculture</div>
-        <h3>Jackfruit Recognition &amp; Yield</h3>
-        <p>AI-driven computer vision framework to detect and count jackfruits in real time, enabling accurate yield estimation for precision agriculture.</p>
-        <div class="pc-tech">🐍 Python · 🎯 YOLOv8 · 🔬 TensorFlow · 🧠 Deep Learning</div>
+        <h3>JACKFRUIT YIELD: Real-Time Agri-AI</h3>
+        <p><strong>Problem:</strong> Manual counting in large orchards is highly labor-intensive and error-prone under dense foliage and occlusion.<br>
+        <strong>Solution:</strong> A YOLOv8x computer vision framework trained on GPU and augmented via Albumentations, deployed on Streamlit Cloud for real-time orchard counting and yield estimation (Precision: 99.28%, mAP@50: 94.37%).</p>
+        <div class="pc-tech">🐍 YOLOv8x · 🖼️ Albumentations · ⏱️ 2.8ms Latency · 📊 Streamlit Cloud · 🌾 IEEE ICEI</div>
         <div class="pc-arr">↗</div>
       </div>
 
       <div class="pc glass fi" data-tags="cv" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-cv">Computer Vision</div>
-        <h3>Gesture-Based Virtual Keyboard</h3>
-        <p>Revolutionary mid-air typing system using real-time hand tracking with ultra-low latency performance and high accuracy.</p>
-        <div class="pc-tech">👁️ OpenCV · ⚡ TensorFlow Lite · 🤲 Mediapipe · 🎨 cvzone</div>
+        <h3>GESTURE-BASED VIRTUAL KEYBOARD</h3>
+        <p><strong>Problem:</strong> Conventional physical typing interfaces limit user accessibility and natural interaction in AR/VR spaces.<br>
+        <strong>Solution:</strong> Mid-air typing system using MediaPipe Hands for 21-point hand pose tracking, TF Lite on-device inference, and custom CNN for character typing (97.3% typing accuracy, 30 FPS, 45 WPM speed).</p>
+        <div class="pc-tech">🤲 MediaPipe Hands · 👁️ OpenCV · ⚡ TensorFlow Lite · 🧠 Custom CNN · ⏱️ 50-80ms Latency</div>
         <div class="pc-arr">↗</div>
       </div>
 
       <div class="pc glass fi" data-tags="security,cv" onclick="window.open('https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&utm_medium=member_desktop','_blank','noopener,noreferrer')">
         <div class="pc-tag pc-iot">Security &amp; IoT</div>
-        <h3>Advanced Bank Security System</h3>
-        <p>Next-generation security system with multi-layer authentication including Face ID, fingerprint, and passcode integration.</p>
-        <div class="pc-tech">🔐 Face Recognition · 🔌 Arduino · 📡 IoT · 🛡️ Multi-factor Auth</div>
+        <h3>ADVANCED BANK SECURITY SYSTEM: Computer Vision &amp; Multi-Factor Biometric Auth</h3>
+        <p><strong>Problem:</strong> Single-factor credentials are vulnerable to breach; high-security banking spaces need multi-layer robust authentication.<br>
+        <strong>Solution:</strong> A high-security system integrating advanced Computer Vision (DeepFace face verification, OpenCV minutiae matching) with multi-factor biometric authentication and Arduino hardware validation (99.6% system accuracy).</p>
+        <div class="pc-tech">👁️ OpenCV &amp; CV · 🔐 DeepFace · 🔌 Arduino &amp; Sensors · 🛡️ Multi-factor AND-Logic</div>
         <div class="pc-arr">↗</div>
       </div>
     </div>
@@ -2196,51 +2155,79 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
 
     <div class="skills-grid">
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">⌨️</span><span>Languages</span></div>
+        <div class="sg-title"><span class="sg-icon">🧠</span><span>Deep Learning Architectures</span></div>
         <div class="sg-tags">
-          <span>Python</span><span>SQL (MySQL)</span><span>C/C++</span><span>MATLAB</span><span>JavaScript</span><span>HTML</span><span>CSS</span>
+          <span>Convolutional Neural Networks (CNN) - Real-time vision systems</span>
+          <span>Attention Mechanisms &amp; Fusion - Multimodal learning</span>
+          <span>BiLSTM - Sequential medical data</span>
+          <span>DenseNet - Feature extraction</span>
+          <span>YOLO (Object Detection) - Real-time detection</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">🧠</span><span>Machine Learning</span></div>
+        <div class="sg-title"><span class="sg-icon">👁️</span><span>Computer Vision &amp; AI</span></div>
         <div class="sg-tags">
-          <span>Regression</span><span>Classification</span><span>Clustering</span><span>Deep Learning</span><span>TensorFlow</span><span>PyTorch</span><span>Keras</span><span>Scikit-learn</span>
+          <span>Real-time Facial Expression Recognition (FER)</span>
+          <span>Object Detection &amp; Counting</span>
+          <span>Emotion Recognition from Visual Data</span>
+          <span>Facial Recognition (DeepFace, MediaPipe)</span>
+          <span>Image Pre-processing &amp; Augmentation</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">🔬</span><span>Deep Learning &amp; AI</span></div>
+        <div class="sg-title"><span class="sg-icon">🗣️</span><span>Speech &amp; NLP</span></div>
         <div class="sg-tags">
-          <span>Computer Vision</span><span>CNN</span><span>Bi-LSTM</span><span>DenseNet</span><span>Attention Mechanism</span><span>NLP</span><span>RAG</span><span>Generative AI</span><span>ONNX</span>
+          <span>Speech Emotion Recognition</span>
+          <span>Audio Feature Extraction (MFCC, Spectrogram)</span>
+          <span>CMU Sphinx - On-device speech processing</span>
+          <span>Intent classification</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">🎯</span><span>AI/ML Tools &amp; Detection</span></div>
+        <div class="sg-title"><span class="sg-icon">🔀</span><span>Multimodal Systems</span></div>
         <div class="sg-tags">
-          <span>OpenCV</span><span>Mediapipe</span><span>YOLOv8x</span><span>Face Recognition</span><span>DeepFace</span>
+          <span>Vision + Speech Fusion Architectures</span>
+          <span>Attention-based Feature Integration</span>
+          <span>Cross-modal learning</span>
+          <span>Privacy-preserving multimodal inference</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">⚙️</span><span>Optimisation &amp; Techniques</span></div>
+        <div class="sg-title"><span class="sg-icon">⚡</span><span>Edge AI &amp; Real-Time Inference</span></div>
         <div class="sg-tags">
-          <span>Model Optimisation</span><span>Hyperparameter Tuning</span><span>Cross-Validation</span><span>Data Augmentation</span><span>Image Pre-Processing</span><span>Data Pre-Processing</span>
+          <span>ONNX Model Optimization</span>
+          <span>Inference on Raspberry Pi &amp; Jetson devices</span>
+          <span>Low-latency deployment (&lt;500ms)</span>
+          <span>Quantization &amp; Model compression</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">🛠️</span><span>Development Tools</span></div>
+        <div class="sg-title"><span class="sg-icon">🏥</span><span>Healthcare AI</span></div>
         <div class="sg-tags">
-          <span>Flask</span><span>Streamlit</span><span>Multi-Threading</span><span>Git</span>
+          <span>Clinical decision support systems</span>
+          <span>Medical embeddings</span>
+          <span>Disease prediction pipelines</span>
+          <span>Hospital integration (REST APIs)</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">⚡</span><span>Embedded Systems &amp; IoT</span></div>
+        <div class="sg-title"><span class="sg-icon">🌾</span><span>Precision Agriculture</span></div>
         <div class="sg-tags">
-          <span>Arduino</span><span>ESP8266</span><span>Sensor Fusion</span><span>IoT Automation</span><span>Edge AI</span>
+          <span>YOLOv8 fine-tuning</span>
+          <span>Yield estimation algorithms</span>
+          <span>Field deployment optimization</span>
         </div>
       </div>
       <div class="sg glass fi">
-        <div class="sg-title"><span class="sg-icon">☁️</span><span>Cloud Computing</span></div>
+        <div class="sg-title"><span class="sg-icon">🛠️</span><span>Languages &amp; Tools</span></div>
         <div class="sg-tags">
-          <span>Google Cloud Platform (GCP)</span>
+          <span>Python (NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch, Keras)</span>
+          <span>SQL (MySQL, data querying)</span>
+          <span>Flask (REST APIs)</span>
+          <span>Git &amp; GitHub</span>
+          <span>OpenCV, MediaPipe, DeepFace</span>
+          <span>Arduino (IoT integration)</span>
+          <span>Linux/Bash</span>
         </div>
       </div>
     </div>
@@ -2374,13 +2361,20 @@ body.has-touch #magic-cursor, body.has-touch #cursor-trail {
 <canvas id="mesh-bg" aria-hidden="true"></canvas>
 
 <script>
-// Email redirection helper (opens Gmail web on desktop, falls back to mailto on mobile)
+// Email redirection helper (opens Gmail web on desktop, attempts deep linking on mobile)
 function handleEmailClick(e) {
   e.preventDefault();
   const email = 'ashisha3p@gmail.com';
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    window.location.href = `mailto:${email}`;
+    const deepLink = `googlegmail:///co?to=${email}`;
+    const mailtoLink = `mailto:${email}`;
+    window.location.href = deepLink;
+    setTimeout(() => {
+      if (document.visibilityState === 'visible') {
+        window.location.href = mailtoLink;
+      }
+    }, 1500);
   } else {
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`, '_blank', 'noopener,noreferrer');
   }
@@ -3247,63 +3241,6 @@ function initMagicEasterEgg() {
   }
 }
 
-/* ══════════════════════════════════
-   SPRING-TRAILING CUSTOM CURSOR ENGINE
-══════════════════════════════════ */
-function initCustomCursor() {
-  if (window.matchMedia('(pointer:coarse)').matches) return;
-  const arrow = document.getElementById('magic-cursor');
-  const trail = document.getElementById('cursor-trail');
-  if (!arrow || !trail) return;
-  
-  let mx = -100, my = -100;
-  let tx = -100, ty = -100;
-  
-  // INSTANT arrow positioning — zero lag, direct GPU composite
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    arrow.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-    if (!arrow.classList.contains('active')) {
-      arrow.classList.add('active');
-      trail.classList.add('active');
-    }
-  }, { passive: true });
-  
-  // Touch interaction detector to gracefully fall back on hybrid devices
-  document.addEventListener('touchstart', function detectTouch() {
-    document.body.classList.add('has-touch');
-    document.removeEventListener('touchstart', detectTouch);
-  }, { passive: true });
-  
-  // Smooth trailing glow — high performance spring interpolation
-  (function animateTrail() {
-    tx += (mx - tx) * 0.15;
-    ty += (my - ty) * 0.15;
-    trail.style.transform = `translate3d(${tx - 22}px, ${ty - 22}px, 0)`;
-    requestAnimationFrame(animateTrail);
-  })();
-  
-  // High-performance event delegation for hover states
-  document.body.addEventListener('mouseover', e => {
-    if (e.target.closest('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]')) {
-      arrow.classList.add('hovering');
-    }
-  }, { passive: true });
-  document.body.addEventListener('mouseout', e => {
-    if (e.target.closest('a, button, .logo, .logo-ak, .tl-item, .glass, .rc, .pc, .cert-card, .btn-p, .btn-g, .term-tab, .cli-input, .award-card, .conf-card, [onclick]')) {
-      arrow.classList.remove('hovering');
-    }
-  }, { passive: true });
-  
-  // Click micro-feedback
-  document.addEventListener('mousedown', () => arrow.classList.add('clicking'));
-  document.addEventListener('mouseup', () => arrow.classList.remove('clicking'));
-  
-  // Viewport enter/leave
-  document.addEventListener('mouseleave', () => { arrow.classList.remove('active'); trail.classList.remove('active'); });
-  document.addEventListener('mouseenter', () => { arrow.classList.add('active'); trail.classList.add('active'); });
-}
 
 /* ══════════════════════════════════
    TERMINAL LIVE SIMULATION ENGINE & TELEMETRY
@@ -4396,9 +4333,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initMagicEasterEgg();
   initHapticLight();
   initCursorGlow();
-  initCustomCursor();
   initTerminalSimulation();
   new HeroNeuralNet();
+  initCertModal();
+  initProjectFilters();
 });
 /* ══════════════════════════════════
    PDF CERTIFICATE MODAL
@@ -4475,27 +4413,7 @@ function initProjectFilters() {
     });
   });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  initCertModal();
-  initProjectFilters();
-});
 </script>
-<div id="magic-cursor" aria-hidden="true">
-  <div id="magic-cursor-inner">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path class="arrow-fill" d="M3 2L21 11L12 13L9 19L3 2Z" fill="url(#arrowGrad)" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linejoin="round"/>
-      <circle cx="11.5" cy="12.5" r="1.5" fill="#50e3c2" class="arrow-node"/>
-      <defs>
-        <linearGradient id="arrowGrad" x1="3" y1="2" x2="21" y2="19" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#adc6ff"/>
-          <stop offset="50%" stop-color="#7c6ff7"/>
-          <stop offset="100%" stop-color="#50e3c2"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  </div>
-</div>
-<div id="cursor-trail" aria-hidden="true"></div>
 </body>
 </html>
+
