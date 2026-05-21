@@ -289,6 +289,7 @@ body {
   color: var(--text-p);
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 14px 28px; border-radius: 50px;
   border: 0.5px solid rgba(255,255,255,0.1);
   transition: transform .2s var(--spring), background .2s;
@@ -994,6 +995,8 @@ body {
   background: #000;
   border-radius: 8px;
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .legend {
@@ -1022,6 +1025,8 @@ body {
   background: #000;
   border-radius: 8px;
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .console-metrics {
@@ -1048,9 +1053,11 @@ body {
     gap: 24px;
   }
   .magic-console-container {
-    width: 90vw;
+    width: 94vw;
     max-height: 90vh;
     overflow-y: auto;
+    padding: 20px;
+    gap: 16px;
   }
 }
 
@@ -3152,9 +3159,9 @@ function initMagicEasterEgg() {
     const px = e.clientX - rect.left;
     const py = e.clientY - rect.top;
     
-    // Scale to range [-1.0, 1.0]
-    const x = (px / bCanvas.width) * 2.0 - 1.0;
-    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    // Scale to range [-1.0, 1.0] using visual dimensions
+    const x = (px / rect.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / rect.height) * 2.0;
     
     // Shift key toggles class
     const label = e.shiftKey ? 0 : 1;
@@ -3170,8 +3177,9 @@ function initMagicEasterEgg() {
     const px = e.touches[0].clientX - rect.left;
     const py = e.touches[0].clientY - rect.top;
     
-    const x = (px / bCanvas.width) * 2.0 - 1.0;
-    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    // Scale to range [-1.0, 1.0] using visual dimensions
+    const x = (px / rect.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / rect.height) * 2.0;
     
     // Alternates label on touch devices
     const label = points.length % 2 === 0 ? 1 : 0;
@@ -3928,11 +3936,27 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
             
             const ctx = mCanvas.getContext('2d');
             const fontSize = 12;
-            const columns = Math.floor(mCanvas.width / fontSize);
-            
-            const rainDrops = Array(columns).fill(1);
+            let columns = Math.floor(mCanvas.width / fontSize);
+            let rainDrops = Array(columns).fill(1);
             const chars = "0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#%&*+-<>/?";
             
+            function resizeMatrixCanvas() {
+              const r = termBody.getBoundingClientRect();
+              mCanvas.width = r.width;
+              mCanvas.height = r.height;
+              const newColumns = Math.floor(mCanvas.width / fontSize);
+              if (newColumns > columns) {
+                const diff = newColumns - columns;
+                for (let i = 0; i < diff; i++) {
+                  rainDrops.push(Math.floor(Math.random() * -10));
+                }
+              } else if (newColumns < columns) {
+                rainDrops = rainDrops.slice(0, newColumns);
+              }
+              columns = newColumns;
+            }
+            window.addEventListener('resize', resizeMatrixCanvas, { passive: true });
+
             let matrixLoopId;
             
             function drawMatrix() {
@@ -3942,7 +3966,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
               ctx.fillStyle = '#0f0';
               ctx.font = fontSize + 'px monospace';
               
-              for (let i = 0; i < rainDrops.length; i++) {
+              for (let i = 0; i < columns; i++) {
                 const text = chars.charAt(Math.floor(Math.random() * chars.length));
                 const x = i * fontSize;
                 const y = rainDrops[i] * fontSize;
@@ -3973,6 +3997,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
               }
               cancelAnimationFrame(matrixLoopId);
               mCanvas.remove();
+              window.removeEventListener('resize', resizeMatrixCanvas);
               document.removeEventListener('keydown', exitMatrixRain);
               document.removeEventListener('mousedown', exitMatrixRain);
               
