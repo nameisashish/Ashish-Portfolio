@@ -1614,7 +1614,7 @@ body {
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="stat-n" data-target="8.3" data-suffix="">0</div>
+          <div class="stat-n" data-target="8.23" data-suffix="">0</div>
           <div class="stat-l">CGPA / 10</div>
         </div>
         <div class="s-div"></div>
@@ -2342,19 +2342,21 @@ body {
         <div class="edu-yr">2022 to 2026</div>
         <h3>Bangalore Institute of Technology</h3>
         <h4>Bachelor of Engineering in Electronics and Telecommunication</h4>
-        <p>Bengaluru, Karnataka · Graduated: June 2026</p>
+        <p>Bengaluru, Karnataka · Graduated: May 2026</p>
         <div class="edu-tags">
           <span>Electronics Engineer</span>
+          <span>First Class with Distinction (FCD)</span>
         </div>
       </div>
       <div class="edu-right">
         <div class="cgpa-pill">
           <div class="cgpa-lbl">CGPA</div>
-          <div class="cgpa-v">8.3 <span>/ 10.0</span></div>
+          <div class="cgpa-v">8.23 <span>/ 10.0</span></div>
+          <div class="cgpa-fcd" style="font-family: var(--fm); font-size: .625rem; letter-spacing: .05em; color: var(--green); margin-top: 8px; opacity: 0.9; text-transform: uppercase;">First Class with Distinction (FCD)</div>
         </div>
         <div class="grad-s">
           <span class="dot-g"></span>
-          Graduated: June 2026
+          Graduated: May 2026
         </div>
       </div>
     </div>
@@ -2785,14 +2787,15 @@ function initCounters() {
       const el = entry.target;
       const target = parseFloat(el.dataset.target);
       const suffix = el.dataset.suffix || '';
-      const isFloat = String(target).includes('.');
+      const isFloat = String(el.dataset.target).includes('.');
+      const decimals = isFloat ? String(el.dataset.target).split('.')[1].length : 0;
       const dur = 1400, steps = 60;
       let cur = 0;
       const inc = target / steps;
       const interval = dur / steps;
       const timer = setInterval(() => {
         cur = Math.min(cur + inc, target);
-        el.textContent = (isFloat ? cur.toFixed(1) : Math.floor(cur)) + suffix;
+        el.textContent = (isFloat ? cur.toFixed(decimals) : Math.floor(cur)) + suffix;
         if (cur >= target) clearInterval(timer);
       }, interval);
       observer.unobserve(el);
