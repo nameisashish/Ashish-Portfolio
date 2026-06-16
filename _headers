@@ -8,3 +8,23 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   X-Permitted-Cross-Domain-Policies: none
+
+/DRDO.pdf
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0
+
+/ISRO.pdf
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0
+
+/Codsoft.pdf
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0
+
+/Prodigy.pdf
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet
+  Cache-Control: no-store, max-age=0

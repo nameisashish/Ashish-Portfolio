@@ -1272,18 +1272,33 @@ body {
 }
 @media (max-width: 768px) {
   :root { --sp: 80px; }
-  .neural-card, .terminal { height: 420px !important; }
-  .terminal { font-size: 0.75rem !important; }
-  .cli-input { font-size: 0.75rem !important; }
+  .neural-card { height: 420px !important; }
+  .terminal {
+    height: min(620px, 72vh) !important;
+    min-height: 500px;
+    font-size: 0.75rem !important;
+    border-radius: 16px;
+  }
+  .cli-input { font-size: 0.75rem !important; min-width: 0; }
   .hero-inner { padding: 48px 24px 40px; gap: 44px; }
   .container { padding: 0 24px; }
   .hero-h { font-size: clamp(2.25rem,9vw,3.5rem); letter-spacing: 0; }
   .lr { max-width: 100%; overflow-wrap: break-word; }
   .hero-sub { font-size: 0.75rem; line-height: 1.8; }
   .hero-desc { font-size: 1rem; line-height: 1.75; }
-  .term-header { align-items: flex-start; gap: 10px; }
-  .term-tabs { flex-wrap: wrap; justify-content: flex-end; }
-  .term-tab { min-height: 36px; padding: 8px 10px; }
+  .term-header { align-items: flex-start; gap: 10px; padding: 10px; }
+  .term-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1; gap: 6px; }
+  .term-tab {
+    min-height: 38px;
+    padding: 8px 6px;
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    overflow-wrap: anywhere;
+  }
+  .term-body { padding: 12px; overflow: hidden; }
+  .log-stream { min-height: 0; overflow-y: auto; }
+  .cli-prompt { align-items: flex-start; gap: 6px; }
+  .cli-prompt span { width: 100%; font-size: 0.68rem; }
   .arch-btn { width: 36px; height: 36px; }
   .filter-btn { min-height: 42px; }
   .ci { min-height: 72px; }
@@ -1336,6 +1351,16 @@ body {
   #nnGraphCanvas { max-width: 100%; height: auto; }
   .magic-console-title { font-size: 0.92rem; line-height: 1.45; }
   .magic-console-subtitle { font-size: 0.75rem; padding-right: 46px; }
+  .terminal {
+    height: min(640px, 76vh) !important;
+    min-height: 520px;
+  }
+  .term-header { flex-direction: column; align-items: stretch; }
+  .term-dots { padding-left: 2px; }
+  .term-tabs { width: 100%; }
+  .monitor-grid { grid-template-columns: 1fr; }
+  .gauge-row { flex-wrap: wrap; gap: 6px; }
+  .gauge-bar-outer { width: 100%; }
 }
 @media (pointer: coarse) {
   .term-tab,
@@ -1716,7 +1741,7 @@ body {
       <button class="cert-modal-close" id="certModalClose" aria-label="Close">&times;</button>
     </div>
     <div class="cert-modal-body">
-      <iframe id="certModalFrame" src="" title="Certificate Viewer"></iframe>
+      <iframe id="certModalFrame" src="" title="Certificate Viewer" sandbox="allow-same-origin allow-scripts"></iframe>
     </div>
   </div>
 </div>
@@ -4769,7 +4794,7 @@ function openCertModal(pdfFile, title) {
   if (!overlay || !frame) return;
   openCertModal.lastFocused = document.activeElement;
   titleEl.textContent = title;
-  frame.src = pdfFile;
+  frame.src = `${pdfFile}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
   setDialogState(overlay, true);
   document.body.style.overflow = 'hidden';
   focusFirstDialogControl(overlay);
