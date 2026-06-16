@@ -1741,7 +1741,7 @@ body {
       <button class="cert-modal-close" id="certModalClose" aria-label="Close">&times;</button>
     </div>
     <div class="cert-modal-body">
-      <iframe id="certModalFrame" src="" title="Certificate Viewer" sandbox="allow-same-origin allow-scripts"></iframe>
+      <iframe id="certModalFrame" src="" title="Certificate Viewer"></iframe>
     </div>
   </div>
 </div>
@@ -1766,7 +1766,7 @@ body {
       <li><a href="#education">Education</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-cta">Resume ↗</a>
+    <a href="resume.pdf" download="Ashish_Kishore_Resume.pdf" class="nav-cta">Resume ↓</a>
     <button type="button" class="mobile-menu" id="mobile-menu" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1787,7 +1787,7 @@ body {
     <li><a href="#skills" class="drawer-link">Skills</a></li>
     <li><a href="#education" class="drawer-link">Education</a></li>
     <li><a href="#contact" class="drawer-link">Contact</a></li>
-    <li><a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="drawer-link cta">Resume ↗</a></li>
+    <li><a href="resume.pdf" download="Ashish_Kishore_Resume.pdf" class="drawer-link cta">Resume ↓</a></li>
   </ul>
 </div>
 
@@ -1818,7 +1818,7 @@ body {
           Explore My Work
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-g">View Resume</a>
+        <a href="resume.pdf" download="Ashish_Kishore_Resume.pdf" class="btn-g">Download Resume</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -2681,7 +2681,7 @@ body {
 
       <div class="contact-cta fi">
         <p>"Innovation distinguishes between a leader and a follower." Steve Jobs</p>
-        <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-p" style="margin-top:28px;display:inline-flex;">Download Resume ↗</a>
+        <a href="resume.pdf" download="Ashish_Kishore_Resume.pdf" class="btn-p" style="margin-top:28px;display:inline-flex;">Download Resume ↓</a>
       </div>
     </div>
   </div>
@@ -2706,7 +2706,7 @@ body {
       <a href="#skills">Skills</a>
       <a href="#education">Education</a>
       <a href="#contact">Contact</a>
-      <a href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume ↗</a>
+      <a href="resume.pdf" download="Ashish_Kishore_Resume.pdf">Resume ↓</a>
     </nav>
   </div>
   <div class="footer-bottom">
@@ -3739,10 +3739,7 @@ function initTerminalSimulation() {
         targetContent.classList.add('active');
       }
 
-      if (tab.dataset.tab === 'interactive-cli') {
-        const input = terminal.querySelector('#cli-terminal-input');
-        if (input) input.focus({ preventScroll: true });
-      }
+      // Keep tab changes passive so mobile browsers do not open the keyboard.
     });
   });
 
@@ -3754,10 +3751,6 @@ function initTerminalSimulation() {
   if (promptSpan) {
     promptSpan.innerHTML = `<span class="log-green" style="font-weight:bold;">ashish@portfolio</span>:<span class="log-blue">~</span>$`;
   }
-  if (input) {
-    input.focus({ preventScroll: true });
-  }
-
   // Virtual Files Database
   const virtualFiles = {
     'about_me.txt': `# Ashish Kishore - Research Portfolio Summary
