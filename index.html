@@ -120,16 +120,20 @@ body {
 }
 .glass:hover { background: var(--glass-bg-h); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 .glass[role="button"] { cursor: pointer; }
+.glass[role="button"]:focus,
+.tl-item[role="button"]:focus {
+  outline: none;
+}
 .glass[role="button"]:focus-visible {
   background: var(--glass-bg-h);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(173,198,255,0.3);
+  box-shadow: var(--shadow-lg);
 }
 .tl-item[role="button"] { cursor: pointer; }
 .tl-item[role="button"]:focus-visible .tl-c {
   background: var(--glass-bg-h);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(173,198,255,0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ── FADE IN ── */
@@ -143,7 +147,7 @@ body {
 }
 .fi.vis { opacity: 1; transform: none; }
 
-:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+:where(a, button, input, select, textarea):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 4px;
   box-shadow: 0 0 0 6px rgba(173,198,255,0.12);
