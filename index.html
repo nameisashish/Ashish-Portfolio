@@ -1445,6 +1445,29 @@ body {
 .log-stream { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; scrollbar-width: none; }
 .log-stream::-webkit-scrollbar { display: none; }
 .log-line { line-height: 1.4; white-space: pre-wrap; }
+.ascii-banner {
+  display: inline-block;
+  white-space: pre;
+  max-width: none;
+  overflow: visible;
+  font-family: 'Space Mono', monospace;
+  font-size: 1em;
+  line-height: 1.12;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+}
+@media (max-width: 768px) {
+  .ascii-banner {
+    font-size: clamp(0.6rem, calc((100vw - 84px) / 31), 0.82rem);
+    line-height: 1.16;
+  }
+}
+@media (max-width: 480px) {
+  .ascii-banner {
+    font-size: clamp(0.5rem, calc((100vw - 84px) / 31), 0.64rem);
+    line-height: 1.18;
+  }
+}
 .log-cyan { color: #6ac4dc; }
 .log-green { color: #50e3c2; }
 .log-yellow { color: #f5a623; }
@@ -3987,11 +4010,11 @@ Test Trajectory Evaluation Summary:
   }
 
   const asciiBanner = `
-<span class="log-green">  █████   ██████  ██   ██ ██  ██████  ██   ██</span>
-<span class="log-green"> ██   ██ ██       ██   ██ ██ ██       ██   ██</span>
-<span class="log-green"> ███████  █████   ███████ ██  █████   ███████</span>
-<span class="log-green"> ██   ██       ██ ██   ██ ██       ██ ██   ██</span>
-<span class="log-green"> ██   ██  ██████  ██   ██ ██  ██████  ██   ██</span>
+<span class="ascii-banner log-green" aria-label="ASHISH">  █████   ██████  ██   ██ ██  ██████  ██   ██
+ ██   ██ ██       ██   ██ ██ ██       ██   ██
+ ███████  █████   ███████ ██  █████   ███████
+ ██   ██       ██ ██   ██ ██       ██ ██   ██
+ ██   ██  ██████  ██   ██ ██  ██████  ██   ██</span>
 `;
 
   if (input && logStream) {
