@@ -209,7 +209,7 @@ body {
     padding .5s cubic-bezier(0.22,1,0.36,1);
 }
 
-/* Detached: shrink inward from both sides using padding — NO left/transform tricks */
+/* Detached: centered transparent pill that fits the full desktop nav. */
 .navbar.detached {
   top: 12px;
   height: 54px;
@@ -219,9 +219,11 @@ body {
   border-radius: 100px;
   border-bottom-color: transparent;
   box-shadow: 0 6px 36px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(255,255,255,0.09);
-  /* Shrink from both sides while keeping the full desktop nav inside. */
-  left: max(20px, calc(50% - 860px));
-  right: max(20px, calc(50% - 860px));
+  left: 50%;
+  right: auto;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+  transform: translateX(-50%);
 }
 
 .navbar.detached .nav-inner {
@@ -1316,6 +1318,7 @@ body {
   /* On mobile, detached nav stays full-width at top */
   .navbar.detached {
     top: 0; left: 0; right: 0;
+    width: auto; transform: none;
     border-radius: 0; height: var(--nav-h);
   }
 }
