@@ -219,9 +219,13 @@ body {
   border-radius: 100px;
   border-bottom-color: transparent;
   box-shadow: 0 6px 36px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(255,255,255,0.09);
-  /* Shrink from both sides using left/right inset */
-  left: max(20px, calc(50% - 480px));
-  right: max(20px, calc(50% - 480px));
+  /* Shrink from both sides while keeping the full desktop nav inside. */
+  left: max(20px, calc(50% - 860px));
+  right: max(20px, calc(50% - 860px));
+}
+
+.navbar.detached .nav-inner {
+  max-width: none;
 }
 
 .nav-inner {
