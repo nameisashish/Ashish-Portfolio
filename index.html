@@ -1584,9 +1584,8 @@ body {
   color: #ffffff; font-family: 'Space Mono', monospace; font-size: 0.875rem;
 }
 .cli-input:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 4px;
-  border-radius: 6px;
+  outline: none;
+  box-shadow: none;
 }
 
 /* Tracking/Monitor Stats Grid */
@@ -2794,7 +2793,7 @@ body {
           </a>
           <div class="ci-div"></div>
           <a href="https://scholar.google.com/citations?user=4Z4MxbsAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer" class="ci">
-            <div class="ci-icon" aria-hidden="true"><span class="social-mark">GS</span></div>
+            <div class="ci-icon" aria-hidden="true"><img src="assets/images/google-scholar.svg" alt="" class="social-logo" width="24" height="24" loading="lazy"></div>
             <div class="ci-body">
               <div class="ci-lbl">Google Scholar</div>
               <div class="ci-val">Citation profile</div>
@@ -3371,7 +3370,7 @@ function initInteractiveCards() {
     link.addEventListener('click', event => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      openCertModal(link.dataset.certFile, link.dataset.certTitle || 'Certificate');
+      openCertModal(link.dataset.certFile, link.dataset.certTitle || 'Certificate', event.detail === 0);
     });
   });
 }
@@ -3392,6 +3391,7 @@ function initMagicEasterEgg() {
   let loopAnimId = null;
   let pulseOffset = 0;
   let lastFocused = null;
+  let restoreFocusOnClose = true;
 
   // Inputs
   const selectDataset = document.getElementById('nnDataset');
@@ -3628,6 +3628,7 @@ function initMagicEasterEgg() {
   logo.addEventListener('click', e => {
     e.preventDefault();
     lastFocused = document.activeElement;
+    restoreFocusOnClose = e.detail === 0;
     initData();
     resetState();
     setDialogState(overlay, true);
@@ -3648,7 +3649,11 @@ function initMagicEasterEgg() {
     }
     setDialogState(overlay, false);
     document.body.style.overflow = '';
-    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    if (restoreFocusOnClose && lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    } else if (lastFocused && typeof lastFocused.blur === 'function') {
+      lastFocused.blur();
+    }
   }
 
   closeBtn.addEventListener('click', closeOverlay);
@@ -4857,7 +4862,12 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
 document.addEventListener('DOMContentLoaded', () => {
   const terminal = document.querySelector('.terminal');
   const terminalMount = document.getElementById('terminalMount');
-  if (terminal && terminalMount) terminalMount.appendChild(terminal);
+  if (terminal && terminalMount) {
+    terminalMount.appendChild(terminal);
+    if (location.hash) {
+      requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView());
+    }
+  }
   new SpatialBackground();
   initNavbar();
   initMobileMenu();
@@ -4876,7 +4886,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ══════════════════════════════════
    PDF CERTIFICATE MODAL
 ══════════════════════════════════ */
-function openCertModal(pdfFile, title) {
+function openCertModal(pdfFile, title, restoreFocus = true) {
   const overlay = document.getElementById('certModal');
   const frame = document.getElementById('certModalFrame');
   const titleEl = document.getElementById('certModalTitle');
@@ -4884,6 +4894,7 @@ function openCertModal(pdfFile, title) {
   if (!overlay || !frame || !allowedFiles.has(pdfFile)) return;
   clearTimeout(closeCertModal.timer);
   openCertModal.lastFocused = document.activeElement;
+  openCertModal.restoreFocus = restoreFocus;
   titleEl.textContent = title;
   frame.src = `${pdfFile}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
   setDialogState(overlay, true);
@@ -4896,8 +4907,10 @@ function closeCertModal() {
   if (!overlay) return;
   setDialogState(overlay, false);
   document.body.style.overflow = '';
-  if (openCertModal.lastFocused && typeof openCertModal.lastFocused.focus === 'function') {
+  if (openCertModal.restoreFocus && openCertModal.lastFocused && typeof openCertModal.lastFocused.focus === 'function') {
     openCertModal.lastFocused.focus();
+  } else if (openCertModal.lastFocused && typeof openCertModal.lastFocused.blur === 'function') {
+    openCertModal.lastFocused.blur();
   }
   clearTimeout(closeCertModal.timer);
   closeCertModal.timer = setTimeout(() => {
