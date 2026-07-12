@@ -43,3 +43,10 @@
   Content-Disposition: inline
   X-Robots-Tag: noindex, noarchive, nosnippet
   Cache-Control: no-store, max-age=0
+
+/VTUDOC_YFXZQD_1BI22ET011_OTD.pdf
+  Content-Security-Policy: frame-ancestors 'self'; base-uri 'none'; form-action 'none'
+  X-Frame-Options: SAMEORIGIN
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet
+  Cache-Control: private, no-store, max-age=0
