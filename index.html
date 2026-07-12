@@ -9,18 +9,20 @@
 <meta property="og:title" content="Ashish Kishore — AI/ML Researcher &amp; Gen-AI Specialist">
 <meta property="og:description" content="Published researcher specializing in computer vision, autonomous systems, cognitive HRI robotics, and medical deep learning architectures.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ashish-kishore-portfolio.netlify.app">
-<meta property="og:image" content="https://ashish-kishore-portfolio.netlify.app/preview.png">
+<meta property="og:url" content="https://ashish-kishore-portfolio.netlify.app/">
+<meta property="og:image" content="https://ashish-kishore-portfolio.netlify.app/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ashish Kishore AI and machine learning research portfolio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ashish Kishore — AI/ML Researcher">
 <meta name="twitter:description" content="Published researcher working on deep learning, computer vision, and cognitive HRI robotics.">
-<meta name="twitter:image" content="https://ashish-kishore-portfolio.netlify.app/preview.png">
+<meta name="twitter:image" content="https://ashish-kishore-portfolio.netlify.app/preview.jpg">
+<meta name="twitter:image:alt" content="Ashish Kishore AI and machine learning research portfolio">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' mailto:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://ashish-kishore-portfolio.netlify.app https://upload.wikimedia.org https://play-lh.googleusercontent.com https://scolary.com; frame-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'none'; script-src 'self' 'unsafe-inline'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'none'; upgrade-insecure-requests">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234b8eff'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='%2309090f'%3EAK%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://ashish-kishore-portfolio.netlify.app/">
 <script>document.documentElement.classList.add('js');</script>
 <noscript>
   <style>
@@ -34,8 +36,44 @@
 /* ================================================================
    DESIGN TOKENS
 ================================================================ */
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('assets/fonts/manrope-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('assets/fonts/space-mono-regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('assets/fonts/space-mono-bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('assets/fonts/space-mono-italic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+[id] { scroll-margin-top: 80px; }
 
 :root {
   --primary:           #adc6ff;
@@ -79,11 +117,6 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  animation: bodyReveal 0.5s ease forwards;
-}
-@keyframes bodyReveal {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 
 /* ── GRAIN ── */
@@ -120,18 +153,11 @@ body {
   pointer-events: none;
 }
 .glass:hover { background: var(--glass-bg-h); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-.glass[role="button"] { cursor: pointer; }
-.glass[role="button"]:focus,
-.tl-item[role="button"]:focus {
+.glass[href] { cursor: pointer; color: inherit; text-decoration: none; }
+.glass[href]:focus {
   outline: none;
 }
-.glass[role="button"]:focus-visible {
-  background: var(--glass-bg-h);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-.tl-item[role="button"] { cursor: pointer; }
-.tl-item[role="button"]:focus-visible .tl-c {
+.glass[href]:focus-visible {
   background: var(--glass-bg-h);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
@@ -153,6 +179,22 @@ body {
   outline-offset: 4px;
   box-shadow: 0 0 0 6px rgba(173,198,255,0.12);
 }
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10001;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: var(--text-p);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform .2s ease;
+}
+.skip-link:focus { transform: translateY(0); }
 
 /* Grid Staggers via CSS transitions for zero main-thread lag */
 .skills-grid > .fi:nth-child(1) { transition-delay: 0ms; }
@@ -297,7 +339,7 @@ body {
 .mobile-drawer {
   display: none;
   position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 999;
-  background: rgba(9,9,15,0.94);
+  background: #09090f;
   backdrop-filter: blur(60px) saturate(200%);
   -webkit-backdrop-filter: blur(60px) saturate(200%);
   border-bottom: 0.5px solid var(--glass-br);
@@ -388,7 +430,7 @@ body {
    HERO
 ================================================================ */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100dvh - 48px);
   display: flex; flex-direction: column;
   padding-top: var(--nav-h);
   position: relative; overflow: hidden;
@@ -425,7 +467,7 @@ body {
 .hero-inner {
   flex: 1;
   max-width: var(--mw); margin: 0 auto; width: 100%;
-  padding: 80px 32px 60px;
+  padding: 40px 32px 32px;
   display: grid; grid-template-columns: 1fr 480px;
   gap: 80px; align-items: start;
 }
@@ -516,7 +558,7 @@ body {
   border: 0.5px solid var(--glass-br);
   border-radius: 28px; overflow: hidden;
   box-shadow: var(--shadow-lg);
-  height: 550px;
+  height: 510px;
   display: flex;
   flex-direction: column;
 }
@@ -630,6 +672,9 @@ body {
   border-bottom: 1px solid rgba(173,198,255,0.3); transition: border-color .2s;
 }
 .rc-lnk:hover { border-color: var(--primary); }
+.rc-lnk + .rc-lnk { margin-left: 20px; }
+.rc-lnk-secondary { color: var(--secondary); border-color: rgba(194,193,255,0.3); }
+.rc-lnk-indigo { color: var(--indigo); }
 .rc-metric {
   text-align: center; padding: 28px;
   background: rgba(255,255,255,0.025);
@@ -642,6 +687,11 @@ body {
 .rc-mb span { font-size: 1.5rem; font-weight: 600; }
 .rc-ml { font-family: var(--fm); font-size: .625rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-t); }
 .rc-ms { font-size: .75rem; color: var(--text-t); margin-top: 4px; opacity: .7; }
+.rc-badge-secondary { background: linear-gradient(135deg,rgba(194,193,255,0.2),rgba(194,193,255,0.05)); color: var(--secondary); }
+.rc-badge-indigo { background: linear-gradient(135deg,rgba(124,111,247,0.2),rgba(124,111,247,0.05)); color: var(--indigo); }
+.rc-mb-secondary { color: var(--secondary); }
+.rc-mb-primary { color: var(--primary); }
+.rc-mb-indigo { color: var(--indigo); }
 
 /* ================================================================
    TIMELINE
@@ -654,7 +704,7 @@ body {
   content: ''; position: absolute; left: 0; top: 16px; bottom: 16px; width: 1px;
   background: linear-gradient(to bottom, transparent, rgba(173,198,255,0.2), transparent);
 }
-.tl-item { position: relative; cursor: pointer; }
+.tl-item { position: relative; }
 .tl-dot {
   position: absolute; left: -44px; top: 24px;
   width: 9px; height: 9px; background: var(--primary);
@@ -673,6 +723,13 @@ body {
   color: var(--primary); background: rgba(173,198,255,0.08);
   padding: 4px 10px; border-radius: 50px; border: 0.5px solid rgba(173,198,255,0.15);
 }
+.tl-dot-current { background: linear-gradient(135deg,#ff9f0a,#ff6b00); box-shadow: 0 0 0 3px rgba(255,159,10,0.2); }
+.tl-date-orange { color: var(--orange); }
+.tl-date-primary { color: var(--primary); }
+.tl-date-secondary { color: var(--secondary); }
+.tl-date-green { color: var(--green); }
+.org-logo { width: 48px; height: 48px; object-fit: contain; display: block; }
+.org-logo-mu { width: 44px; height: 44px; border-radius: 8px; background: #fff; padding: 2px; }
 
 /* ================================================================
    AWARDS
@@ -688,6 +745,8 @@ body {
 }
 .award-body h3 { font-family: var(--fd); font-size: 1.125rem; font-weight: 700; color: var(--text-p); margin-bottom: 8px; }
 .award-body p { font-size: .875rem; line-height: 1.65; color: var(--text-s); }
+.award-badge-orange { color: var(--orange); background: rgba(255,159,10,0.1); }
+.award-badge-green { color: var(--green); background: rgba(48,209,88,0.1); }
 
 /* ================================================================
    PROJECTS
@@ -705,6 +764,7 @@ body {
   font-family: var(--fd); font-size: 2.5rem; font-weight: 800;
   color: var(--text-p); letter-spacing: -.02em; margin-bottom: 8px;
 }
+.external-arrow { font-size: 1.5rem; vertical-align: middle; opacity: .5; }
 .ph-fn {
   font-family: var(--fm); font-size: .6875rem; color: var(--text-t);
   letter-spacing: .04em; margin-bottom: 20px; line-height: 1.5;
@@ -759,6 +819,7 @@ body {
 }
 .cc-body h3 { font-family: var(--fd); font-size: 1.25rem; font-weight: 700; color: var(--text-p); margin-bottom: 10px; }
 .cc-body p { font-size: .875rem; line-height: 1.65; color: var(--text-s); }
+.cc-badge-indigo { color: var(--indigo); background: rgba(124,111,247,0.1); }
 .cc-arr {
   font-size: 1.25rem; color: var(--text-t); opacity: 0;
   transition: opacity .2s, transform .2s var(--spring); flex-shrink: 0;
@@ -954,9 +1015,9 @@ body {
   background: rgba(8,8,12,0.95); backdrop-filter: blur(36px) saturate(180%);
   -webkit-backdrop-filter: blur(36px) saturate(180%);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity .4s var(--smooth);
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .4s var(--smooth), visibility 0s linear .4s;
 }
-.magic-overlay.active { opacity: 1; pointer-events: all; }
+.magic-overlay.active { opacity: 1; visibility: visible; pointer-events: all; transition-delay: 0s; }
 
 .magic-console-container {
   width: min(94vw, 980px);
@@ -1196,10 +1257,10 @@ body {
   background: rgba(9,9,15,0.92);
   backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity .4s var(--smooth);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .4s var(--smooth), visibility 0s linear .4s;
 }
-.cert-modal-overlay.active { opacity: 1; pointer-events: all; }
+.cert-modal-overlay.active { opacity: 1; visibility: visible; pointer-events: all; transition-delay: 0s; }
 .cert-modal-container {
   position: relative;
   width: min(90vw, 900px); height: min(85vh, 700px);
@@ -1243,6 +1304,23 @@ body {
   width: 100%; height: 100%; border: none;
   background: #1a1a2e;
 }
+
+.canvas-interactive { cursor: crosshair; }
+.canvas-help {
+  font-size: .625rem; font-family: var(--fm); color: var(--text-s);
+  margin-top: 8px; text-align: center; line-height: 1.4;
+}
+.hero-neural-card { margin-bottom: 20px; }
+.hero-role-logo { width: 48px; height: 48px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; box-shadow: 0 4px 20px rgba(0,0,0,.3); display: block; }
+.hero-terminal { margin-bottom: 24px; }
+#gpu-bar { width: 87%; }
+#vram-bar { width: 63%; }
+.papers-stream { overflow-y: auto; }
+.content-spaced { margin-top: 20px; }
+.edu-affiliation { font-family: var(--fm); font-size: .8125rem; color: var(--text-s); margin-bottom: 8px; }
+.cgpa-fcd { font-family: var(--fm); font-size: .625rem; letter-spacing: .05em; color: var(--green); margin-top: 8px; opacity: .9; text-transform: uppercase; }
+.social-mark { width: 24px; height: 24px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; background: rgba(173,198,255,.12); color: var(--primary); font-family: var(--fd); font-size: .6rem; font-weight: 800; }
+.contact-resume { margin-top: 28px; display: inline-flex; }
 
 
 /* Certificate button inside timeline cards */
@@ -1336,6 +1414,7 @@ body {
   }
 }
 @media (max-width: 480px) {
+  .hero { min-height: calc(100dvh - 48px); }
   .container, .vision-wrap, .footer-inner, .footer-bottom { padding-left: 20px; padding-right: 20px; }
   .hero-inner { padding-left: 20px; padding-right: 20px; }
   .hero-h { font-size: clamp(2rem,8.6vw,2.6rem); line-height: 1.08; }
@@ -1353,7 +1432,8 @@ body {
   .footer-nav { justify-content: center; }
   .skills-grid { grid-template-columns: 1fr; }
   .edu-card { padding: 28px 20px; }
-  .hero-btns { flex-direction: column; }
+  .hero-btns { flex-direction: column; margin-bottom: 0; }
+  .hero-stats, .hero-right { display: none; }
   .btn-p, .btn-g { text-align: center; justify-content: center; }
   .magic-console-container { width: 92vw; padding: 22px; border-radius: 20px; }
   .magic-console-grid, .magic-console-col { min-width: 0; width: 100%; }
@@ -1388,6 +1468,11 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+  .fi, .js .fi, .lr, .hero-sub, .hero-desc, .hero-btns, .hero-stats, .hero-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ══════════════════════════════════
@@ -1409,6 +1494,8 @@ body {
   display: flex;
   flex-direction: column;
 }
+.terminal-lab { padding-top: 72px; }
+.terminal-lab .terminal { max-width: 1000px; height: 620px; margin: 0 auto; }
 .scanline {
   position: absolute; top:0; left:0; width:100%; height:100%;
   background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.18) 50%);
@@ -1650,6 +1737,8 @@ body {
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <!-- GRAIN -->
 <div class="grain" aria-hidden="true"></div>
 
@@ -1662,7 +1751,7 @@ body {
         <div class="magic-console-title" id="magicTitle">AK-9000 // COGNITIVE DIAGNOSTIC CORE</div>
       </div>
       <div class="magic-console-subtitle">Interactive 2-Hidden-Layer Neural Network Backpropagation Playground</div>
-      <button class="magic-console-close" id="magicClose" aria-label="Close">&times;</button>
+      <button type="button" class="magic-console-close" id="magicClose" aria-label="Close neural network playground">&times;</button>
     </div>
     
     <div class="magic-console-grid">
@@ -1723,9 +1812,9 @@ body {
         </div>
 
         <div class="console-actions">
-          <button id="nnTrainBtn" class="btn-console-primary">TRAIN MODEL</button>
-          <button id="nnResetBtn" class="btn-console-secondary">RESET WEIGHTS</button>
-          <button id="nnRegenBtn" class="btn-console-secondary">REGEN DATA</button>
+          <button type="button" id="nnTrainBtn" class="btn-console-primary">TRAIN MODEL</button>
+          <button type="button" id="nnResetBtn" class="btn-console-secondary">RESET WEIGHTS</button>
+          <button type="button" id="nnRegenBtn" class="btn-console-secondary">REGEN DATA</button>
         </div>
       </div>
 
@@ -1733,13 +1822,13 @@ body {
       <div class="magic-console-col panel-canvas">
         <div class="console-section-title">Decision Boundary Landscape</div>
         <div class="canvas-wrapper">
-          <canvas id="nnBoundaryCanvas" width="260" height="260" style="cursor: crosshair;"></canvas>
+          <canvas id="nnBoundaryCanvas" class="canvas-interactive" width="260" height="260"></canvas>
         </div>
         <div class="legend">
           <div class="legend-item"><span class="dot dot-orange"></span> Class A</div>
           <div class="legend-item"><span class="dot dot-blue"></span> Class B</div>
         </div>
-        <div style="font-size: 0.625rem; font-family: var(--fm); color: var(--text-s); margin-top: 8px; text-align: center; line-height: 1.4;">
+        <div class="canvas-help">
           💡 Click landscape to draw Blue points.<br>Shift-Click to draw Orange points.
         </div>
       </div>
@@ -1775,16 +1864,16 @@ body {
   <div class="cert-modal-container">
     <div class="cert-modal-header">
       <div class="cert-modal-title"><span>📜</span> <span id="certModalTitle">Certificate</span></div>
-      <button class="cert-modal-close" id="certModalClose" aria-label="Close">&times;</button>
+      <button type="button" class="cert-modal-close" id="certModalClose" aria-label="Close certificate viewer">&times;</button>
     </div>
     <div class="cert-modal-body">
-      <iframe id="certModalFrame" src="" title="Certificate Viewer"></iframe>
+      <iframe id="certModalFrame" src="about:blank" title="Certificate Viewer"></iframe>
     </div>
   </div>
 </div>
 
 <!-- ═══ NAVIGATION ═══ -->
-<nav class="navbar" id="navbar">
+<nav class="navbar" id="navbar" aria-label="Primary navigation">
   <div class="nav-inner">
     <a href="#" class="logo" id="magicLogo">
       <span class="logo-ak">AK</span>
@@ -1811,7 +1900,7 @@ body {
 </nav>
 
 <!-- MOBILE DRAWER -->
-<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true" inert>
+<nav class="mobile-drawer" id="mobileDrawer" aria-label="Mobile navigation" aria-hidden="true" inert>
   <ul>
     <li><a href="#about" class="drawer-link">About</a></li>
     <li><a href="#research" class="drawer-link">Research</a></li>
@@ -1826,9 +1915,10 @@ body {
     <li><a href="#contact" class="drawer-link">Contact</a></li>
     <li><a href="resume.pdf" download="Ashish_Kishore_Resume.pdf" class="drawer-link cta">Resume ↓</a></li>
   </ul>
-</div>
+</nav>
 
 <!-- ═══ HERO ═══ -->
+<main id="main-content" tabindex="-1">
 <section class="hero">
   <div class="hero-orb orb1" aria-hidden="true"></div>
   <div class="hero-orb orb2" aria-hidden="true"></div>
@@ -1841,9 +1931,7 @@ body {
         <span>Open to Opportunities</span>
       </div>
       <h1 class="hero-h">
-        <span class="lr">Decoding the</span>
-        <span class="lr acc">Latent Geometry</span>
-        <span class="lr">of Intelligence.</span>
+        <span class="lr">Ashish Kishore</span>
       </h1>
       <p class="hero-sub">AI/ML Researcher · Gen-AI · Deep Learning · Autonomous Systems</p>
       <p class="hero-desc">
@@ -1859,22 +1947,22 @@ body {
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="stat-n" data-target="8.23" data-suffix="">0</div>
+          <div class="stat-n" data-target="8.23" data-suffix="">8.23</div>
           <div class="stat-l">CGPA / 10</div>
         </div>
         <div class="s-div"></div>
         <div class="hero-stat">
-          <div class="stat-n counter" data-target="3">0</div>
+          <div class="stat-n counter" data-target="3">3</div>
           <div class="stat-l">Q1 Papers</div>
         </div>
         <div class="s-div"></div>
         <div class="hero-stat">
-          <div class="stat-n counter" data-target="15" data-suffix="+">0</div>
+          <div class="stat-n counter" data-target="15" data-suffix="+">15+</div>
           <div class="stat-l">AI Projects</div>
         </div>
         <div class="s-div"></div>
         <div class="hero-stat">
-          <div class="stat-n counter" data-target="1">0</div>
+          <div class="stat-n counter" data-target="1">1</div>
           <div class="stat-l">Conferences</div>
         </div>
       </div>
@@ -1882,7 +1970,7 @@ body {
 
     <div class="hero-right">
       <!-- INTERACTIVE NEURAL NETWORK CARD -->
-      <div class="neural-card" style="margin-bottom: 20px;">
+      <div class="neural-card hero-neural-card">
         <canvas id="heroNeuralCanvas"></canvas>
         <div class="nco">
           <div class="nco-left">
@@ -1895,13 +1983,13 @@ body {
             </div>
           </div>
           <div class="nco-right">
-            <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" loading="lazy" referrerpolicy="no-referrer" style="width: 48px; height: 48px; border-radius: 10px; object-fit: contain; border: 0.5px solid rgba(255, 255, 255, 0.15); background: #ffffff; padding: 3px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: block;" />
+            <img src="assets/images/mu-sigma.png" alt="Mu Sigma" class="hero-role-logo" width="48" height="48">
           </div>
         </div>
       </div>
 
       <!-- SLEEK MAC-STYLE TERMINAL -->
-      <div class="terminal" style="margin-bottom: 24px;">
+      <div class="terminal hero-terminal">
         <div class="scanline"></div>
         <div class="term-header">
           <div class="term-dots">
@@ -1909,26 +1997,26 @@ body {
             <div class="term-dot yellow"></div>
             <div class="term-dot green"></div>
           </div>
-          <div class="term-tabs">
-            <button class="term-tab active" data-tab="interactive-cli">SHELL.EXE</button>
-            <button class="term-tab" data-tab="train-monitor">TRAIN_MONITOR</button>
-            <button class="term-tab" data-tab="paper-core">PAPERS_DB</button>
+          <div class="term-tabs" role="tablist" aria-label="Portfolio terminal views">
+            <button type="button" class="term-tab active" id="terminal-tab-cli" role="tab" aria-selected="true" aria-controls="tab-interactive-cli" data-tab="interactive-cli">SHELL.EXE</button>
+            <button type="button" class="term-tab" id="terminal-tab-monitor" role="tab" aria-selected="false" aria-controls="tab-train-monitor" data-tab="train-monitor">TRAIN_MONITOR</button>
+            <button type="button" class="term-tab" id="terminal-tab-papers" role="tab" aria-selected="false" aria-controls="tab-paper-core" data-tab="paper-core">PAPERS_DB</button>
           </div>
         </div>
         <div class="term-body">
           <!-- Tab 1: Interactive CLI Prompt -->
-          <div class="term-tab-content active" id="tab-interactive-cli">
+          <div class="term-tab-content active" id="tab-interactive-cli" role="tabpanel" aria-labelledby="terminal-tab-cli">
             <div class="log-stream" id="cli-log-stream">
               <!-- Dynamically populated by JS commands -->
             </div>
             <div class="cli-prompt">
               <span>ashish@portfolio:~$</span>
-              <input type="text" class="cli-input" id="cli-terminal-input" aria-label="Portfolio terminal command" placeholder="Type 'help' to explore..." autocomplete="off" />
+              <input type="text" class="cli-input" id="cli-terminal-input" aria-label="Portfolio terminal command" placeholder="Type 'help' to explore..." autocomplete="off">
             </div>
           </div>
 
           <!-- Tab 2: TRAIN_MONITOR -->
-          <div class="term-tab-content" id="tab-train-monitor">
+          <div class="term-tab-content" id="tab-train-monitor" role="tabpanel" aria-labelledby="terminal-tab-monitor" hidden>
             <div class="monitor-grid">
               <div class="monitor-card">
                 <div class="monitor-title">Training Loss</div>
@@ -1949,19 +2037,19 @@ body {
               <div class="gauge-row">
                 <span>CUDA Core Usage (H100)</span>
                 <span id="gpu-val">87.4%</span>
-                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="gpu-bar" style="width: 87%;"></div></div>
+                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="gpu-bar"></div></div>
               </div>
               <div class="gauge-row">
                 <span>SRAM Utilization</span>
                 <span id="vram-val">4.21 GB</span>
-                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="vram-bar" style="width: 63%;"></div></div>
+                <div class="gauge-bar-outer"><div class="gauge-bar-inner" id="vram-bar"></div></div>
               </div>
             </div>
           </div>
 
           <!-- Tab 3: PAPERS_DB -->
-          <div class="term-tab-content" id="tab-paper-core">
-            <div class="log-stream" id="papers-static-stream" style="overflow-y: auto;">
+          <div class="term-tab-content" id="tab-paper-core" role="tabpanel" aria-labelledby="terminal-tab-papers" hidden>
+            <div class="log-stream papers-stream" id="papers-static-stream">
               <!-- Quick access static display of paper databases -->
             </div>
           </div>
@@ -1970,6 +2058,15 @@ body {
     </div>
   </div>
 
+</section>
+
+<!-- ═══ INTERACTIVE LAB ═══ -->
+<section id="interactive-lab" class="section terminal-lab" aria-labelledby="interactive-lab-title">
+  <div class="container">
+    <div class="sec-lbl fi">Interactive Lab</div>
+    <h2 class="sec-h fi" id="interactive-lab-title">Explore the<br>Research Console</h2>
+    <div id="terminalMount"></div>
+  </div>
 </section>
 
 <!-- ═══ ABOUT ═══ -->
@@ -1999,7 +2096,7 @@ body {
 <section id="research" class="section">
   <div class="container">
     <div class="sec-lbl fi">Publications</div>
-    <h2 class="sec-h fi">Research &<br>Publications</h2>
+    <h2 class="sec-h fi">Research &amp;<br>Publications</h2>
     <p class="sec-m quote-m fi">
       <span class="quote-text">"It is a profound and necessary truth that the deep things in science are not found because they are useful; they are found because it was possible to find them."</span>
       <span class="quote-author">— J. Robert Oppenheimer</span>
@@ -2124,7 +2221,7 @@ body {
               <h4>Mu Sigma Inc.</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Mu_Sigma_Logo.jpg" alt="Mu Sigma" loading="lazy" referrerpolicy="no-referrer" style="width:44px;height:44px;border-radius:10px;object-fit:contain;">
+              <img src="assets/images/mu-sigma.png" alt="Mu Sigma" class="org-logo org-logo-mu" width="44" height="44" loading="lazy">
             </div>
           </div>
           <p>Decision Scientist at Mu Sigma, one of the world's largest pure-play analytics and decision sciences companies. Joining to craft data-driven solutions that transform business decisions at scale.</p>
@@ -2134,7 +2231,7 @@ body {
         </div>
       </div>
 
-      <div class="tl-item fi" role="button" tabindex="0" data-cert-file="DRDO.pdf" data-cert-title="DRDO Research Internship Certificate" aria-label="Open DRDO Research Internship Certificate">
+      <article class="tl-item fi">
         <div class="tl-dot"></div>
         <div class="tl-c glass">
           <div class="tl-hd">
@@ -2144,17 +2241,18 @@ body {
               <h4>LRDE-DRDO, Ministry of Defence</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1280px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO" loading="lazy" referrerpolicy="no-referrer" style="width:48px;height:48px;object-fit:contain;">
+              <img src="assets/images/drdo.png" alt="DRDO" class="org-logo" width="48" height="48" loading="lazy">
             </div>
           </div>
           <p>AI Research Intern at LRDE-DRDO, Ministry of Defence, developing advanced deep learning based classification models and target manoeuvre tracking systems for strategic defence applications.</p>
           <div class="tl-tags">
             <span>Deep Learning</span><span>Target Manoeuvre Tracking</span><span>Defence AI</span>
           </div>
+          <a class="tl-cert-btn" href="DRDO.pdf" data-cert-file="DRDO.pdf" data-cert-title="DRDO Research Internship Certificate">View certificate</a>
         </div>
-      </div>
+      </article>
 
-      <div class="tl-item fi" role="button" tabindex="0" data-cert-file="ISRO.pdf" data-cert-title="ISRO Research Internship Certificate" aria-label="Open ISRO Research Internship Certificate">
+      <article class="tl-item fi">
         <div class="tl-dot"></div>
         <div class="tl-c glass">
           <div class="tl-hd">
@@ -2164,17 +2262,18 @@ body {
               <h4>U R Rao Satellite Centre (URSC)</h4>
             </div>
             <div class="tl-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/1280px-Indian_Space_Research_Organisation_Logo.svg.png" alt="ISRO" loading="lazy" referrerpolicy="no-referrer" style="width:48px;height:48px;object-fit:contain;">
+              <img src="assets/images/isro.png" alt="ISRO" class="org-logo" width="48" height="48" loading="lazy">
             </div>
           </div>
           <p>Worked on cutting-edge space technology projects at U R Rao Satellite Centre, contributing to India's space research and satellite development programs.</p>
           <div class="tl-tags">
             <span>Satellite Systems</span><span>Space Technology</span><span>ISRO URSC</span>
           </div>
+          <a class="tl-cert-btn" href="ISRO.pdf" data-cert-file="ISRO.pdf" data-cert-title="ISRO Research Internship Certificate">View certificate</a>
         </div>
-      </div>
+      </article>
 
-      <div class="tl-item fi" role="button" tabindex="0" data-cert-file="Codsoft.pdf" data-cert-title="CodSoft Internship Certificate" aria-label="Open CodSoft Internship Certificate">
+      <article class="tl-item fi">
         <div class="tl-dot"></div>
         <div class="tl-c glass">
           <div class="tl-hd">
@@ -2189,10 +2288,11 @@ body {
           <div class="tl-tags">
             <span>Python</span><span>Scikit-learn</span><span>NLP</span><span>LSTM</span><span>SVM</span><span>Random Forest</span>
           </div>
+          <a class="tl-cert-btn" href="Codsoft.pdf" data-cert-file="Codsoft.pdf" data-cert-title="CodSoft Internship Certificate">View certificate</a>
         </div>
-      </div>
+      </article>
 
-      <div class="tl-item fi" role="button" tabindex="0" data-cert-file="Prodigy.pdf" data-cert-title="Prodigy InfoTech Internship Certificate" aria-label="Open Prodigy InfoTech Internship Certificate">
+      <article class="tl-item fi">
         <div class="tl-dot"></div>
         <div class="tl-c glass">
           <div class="tl-hd">
@@ -2207,8 +2307,9 @@ body {
           <div class="tl-tags">
             <span>Python</span><span>TensorFlow</span><span>OpenCV</span><span>Keras</span><span>K-Means</span><span>LSTM</span>
           </div>
+          <a class="tl-cert-btn" href="Prodigy.pdf" data-cert-file="Prodigy.pdf" data-cert-title="Prodigy InfoTech Internship Certificate">View certificate</a>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </section>
@@ -2217,48 +2318,48 @@ body {
 <section id="awards" class="section">
   <div class="container">
     <div class="sec-lbl fi">Recognition</div>
-    <h2 class="sec-h fi">Awards &<br>Honours</h2>
+    <h2 class="sec-h fi">Awards &amp;<br>Honours</h2>
     <p class="sec-m quote-m fi">
       <span class="quote-text">"Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world."</span>
       <span class="quote-author">— Albert Einstein</span>
     </p>
 
     <div class="awards-grid">
-      <div class="award-card glass fi" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open Google Bangalore keynote recognition">
+      <a class="award-card glass fi" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open Google Bangalore keynote recognition">
         <div class="award-icon">🎤</div>
         <div class="award-body">
           <div class="award-badge">Keynote Speaker</div>
           <h3>Google Bangalore</h3>
           <p>Delivered invited keynote on "AI in Autonomous Vehicles: Research to Real-World Impact" at Google India's Bangalore office, sharing insights with industry leaders.</p>
         </div>
-      </div>
+      </a>
 
-      <div class="award-card glass fi" role="button" tabindex="0" data-open-url="https://drive.google.com/file/d/1_5JY2P_ZLdfT5_OQfLLD7BdXj0Ty6reD/view?usp=sharing" aria-label="Open Google Cloud certificate">
+      <a class="award-card glass fi" href="https://drive.google.com/file/d/1_5JY2P_ZLdfT5_OQfLLD7BdXj0Ty6reD/view?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Open Google Cloud certificate">
         <div class="award-icon">🏅</div>
         <div class="award-body">
           <div class="award-badge">Google Cloud</div>
           <h3>Certificate of Participation</h3>
           <p>Google Cloud Agentic AI Day, recognised for initiative and contribution in building the next generation of intelligent agents.</p>
         </div>
-      </div>
+      </a>
 
-      <div class="award-card glass fi" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/bitsince1979_ai-healthcareinnovation-engineeringexcellence-ugcPost-7323687981628719104-BgFy?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open Pratira 2025 recognition">
+      <a class="award-card glass fi" href="https://www.linkedin.com/posts/bitsince1979_ai-healthcareinnovation-engineeringexcellence-ugcPost-7323687981628719104-BgFy?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open Pratira 2025 recognition">
         <div class="award-icon">🥈</div>
         <div class="award-body">
           <div class="award-badge" style="color:#ff9f0a;background:rgba(255,159,10,0.1);">2nd Place</div>
           <h3>Pratira 2025 National Competition</h3>
           <p>AyuSeva AI medical chatbot recognised for innovation in real-time disease prediction at national-level competition.</p>
         </div>
-      </div>
+      </a>
 
-      <div class="award-card glass fi" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_turingmachine-ieee-computing-activity-7307606903981780993-ZIgc?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open TURING MUCH ML competition recognition">
+      <a class="award-card glass fi" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_turingmachine-ieee-computing-activity-7307606903981780993-ZIgc?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open TURING MUCH ML competition recognition">
         <div class="award-icon">🏆</div>
         <div class="award-body">
           <div class="award-badge" style="color:#30d158;background:rgba(48,209,88,0.1);">1st Place</div>
           <h3>TURING MUCH ML Competition</h3>
           <p>IEEE BIT CS Society recognition for high-performance ML model development, 1st place winner.</p>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -2275,16 +2376,16 @@ body {
 
     <!-- Adaptive Projects Filter Navigation -->
     <div class="projects-filter-wrap fi">
-      <button class="filter-btn active" data-filter="all">All Projects</button>
-      <button class="filter-btn" data-filter="cv">Computer Vision</button>
-      <button class="filter-btn" data-filter="research">Research Project</button>
-      <button class="filter-btn" data-filter="robotics">Robotics &amp; HRI</button>
-      <button class="filter-btn" data-filter="security">Security &amp; IoT</button>
+      <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All Projects</button>
+      <button type="button" class="filter-btn" data-filter="cv" aria-pressed="false">Computer Vision</button>
+      <button type="button" class="filter-btn" data-filter="research" aria-pressed="false">Research Project</button>
+      <button type="button" class="filter-btn" data-filter="robotics" aria-pressed="false">Robotics &amp; HRI</button>
+      <button type="button" class="filter-btn" data-filter="security" aria-pressed="false">Security &amp; IoT</button>
     </div>
 
     <div class="projects-list">
       <!-- ORION -->
-      <div class="proj-hero glass fi" data-tags="robotics,cv,research" role="button" tabindex="0" data-open-url="https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing" aria-label="Open Project ORION materials">
+      <a class="proj-hero glass fi" data-tags="robotics,cv,research" href="https://drive.google.com/drive/folders/19ZlGV7xPeTkFEBhioiBBe6oOX_Q-_N3Y?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Open Project ORION materials">
         <div class="ph-left">
           <div class="ph-badge">🤖 Flagship Project</div>
           <div class="ph-badge res">🔬 Research Project</div>
@@ -2308,10 +2409,10 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- AYUSEVA -->
-      <div class="proj-hero glass fi" data-tags="research" role="button" tabindex="0" data-open-url="https://ayuseva.vercel.app/" aria-label="Open AyuSeva project">
+      <a class="proj-hero glass fi" data-tags="research" href="https://ayuseva.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open AyuSeva project">
         <div class="ph-left">
           <div class="ph-badge">🤖 Flagship Project</div>
           <div class="ph-badge res">🔬 Research Project</div>
@@ -2335,10 +2436,10 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- AUTONOMOUS VEHICLE SYSTEM -->
-      <div class="proj-hero glass fi" data-tags="cv,research" role="button" tabindex="0" data-open-url="https://drive.google.com/file/d/1cW7Eb9cFI9ZVhvHcicIvZbBAgb0rvlfk/view?usp=sharing" aria-label="Open autonomous vehicle system project">
+      <a class="proj-hero glass fi" data-tags="cv,research" href="https://github.com/nameisashish/Real-time-traffic-sign-recognition-and-autonomous-vehicle-control-system-using-CNN" target="_blank" rel="noopener noreferrer" aria-label="Open autonomous vehicle system source code">
         <div class="ph-left">
           <div class="ph-badge">🤖 Flagship Project</div>
           <div class="ph-badge res">🔬 Research Project</div>
@@ -2362,10 +2463,10 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- JACKFRUIT YIELD ESTIMATION -->
-      <div class="proj-hero glass fi" data-tags="cv,research" role="button" tabindex="0" data-open-url="https://jackfruit-detector.streamlit.app/" aria-label="Open jackfruit yield estimation project">
+      <a class="proj-hero glass fi" data-tags="cv,research" href="https://github.com/nameisashish/Jackfruit" target="_blank" rel="noopener noreferrer" aria-label="Open jackfruit yield estimation source code">
         <div class="ph-left">
           <div class="ph-badge agri">🌾 Precision Agriculture</div>
           <div class="ph-badge res">🔬 Research Project</div>
@@ -2389,10 +2490,10 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- GESTURE-BASED VIRTUAL KEYBOARD -->
-      <div class="proj-hero glass fi" data-tags="cv" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open gesture-based virtual keyboard project">
+      <a class="proj-hero glass fi" data-tags="cv" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_computervision-handtracking-gesturecontrol-activity-7286762321467580416-RhQe?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open gesture-based virtual keyboard project">
         <div class="ph-left">
           <div class="ph-badge cv">🤲 Human-Computer Interaction</div>
           <h3>GESTURE-BASED VIRTUAL KEYBOARD: Mid-Air Typing System <span style="font-size:1.5rem;vertical-align:middle;opacity:0.5;">↗</span></h3>
@@ -2415,10 +2516,10 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- ADVANCED BANK SECURITY SYSTEM -->
-      <div class="proj-hero glass fi" data-tags="security,cv" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open advanced bank security system project">
+      <a class="proj-hero glass fi" data-tags="security,cv" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_ai-facerecognition-iot-activity-7286386024316911616--TcQ?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open advanced bank security system project">
         <div class="ph-left">
           <div class="ph-badge sec">🔒 Security &amp; IoT</div>
           <div class="ph-badge cv">👁️ Computer Vision</div>
@@ -2442,7 +2543,7 @@ body {
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -2454,7 +2555,7 @@ body {
     <h2 class="sec-h fi">Conferences<br>&amp; Talks</h2>
 
     <div class="conf-grid">
-      <div class="conf-card glass fi" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open Google Bangalore conference talk">
+      <a class="conf-card glass fi" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_googleindia-keynotespeaker-aiinnovation-activity-7338788463544102913-c6Tb?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open Google Bangalore conference talk">
         <div class="cc-num">01</div>
         <div class="cc-body">
           <div class="cc-badge">Keynote Talk</div>
@@ -2462,9 +2563,9 @@ body {
           <p>Delivered invited keynote presentation at Google India's Bangalore office, sharing insights on real-time traffic sign recognition, sensor fusion, and the future of autonomous navigation systems.</p>
         </div>
         <span class="cc-arr">↗</span>
-      </div>
+      </a>
 
-      <div class="conf-card glass fi" role="button" tabindex="0" data-open-url="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_icei2025-ieee-iitdharwad-activity-7393534687542984705-qxgk?utm_source=share&amp;utm_medium=member_desktop" aria-label="Open ICEI 2025 conference presentation">
+      <a class="conf-card glass fi" href="https://www.linkedin.com/posts/ashish-kishore-6b56a51b3_icei2025-ieee-iitdharwad-activity-7393534687542984705-qxgk?utm_source=share&amp;utm_medium=member_desktop" target="_blank" rel="noopener noreferrer" aria-label="Open ICEI 2025 conference presentation">
         <div class="cc-num">02</div>
         <div class="cc-body">
           <div class="cc-badge" style="color:#7c6ff7;background:rgba(124,111,247,0.1);">IEEE Conference</div>
@@ -2472,7 +2573,7 @@ body {
           <p>Presented research at the IEEE International Conference on Engineering Informatics 2025. Framework achieved 99.28% Precision, 85.71% Recall, 94.37% mAP@50, and 81.01% mAP@50–95.</p>
         </div>
         <span class="cc-arr">↗</span>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -2616,7 +2717,7 @@ body {
       <div class="edu-left">
         <div class="edu-yr">2022 to 2026</div>
         <h3>Bangalore Institute of Technology</h3>
-        <div class="edu-univ" style="font-family: var(--fm); font-size: 0.8125rem; color: var(--text-s); margin-bottom: 8px; letter-spacing: 0.02em;">Affiliated to Visvesvaraya Technological University (VTU)</div>
+        <div class="edu-affiliation">Affiliated to Visvesvaraya Technological University (VTU)</div>
         <h4>Bachelor of Engineering in Electronics and Telecommunication</h4>
         <p>Bengaluru, Karnataka · Graduated: May 2026</p>
         <div class="edu-tags">
@@ -2631,7 +2732,7 @@ body {
         <div class="cgpa-pill">
           <div class="cgpa-lbl">CGPA</div>
           <div class="cgpa-v">8.23 <span>/ 10.0</span></div>
-          <div class="cgpa-fcd" style="font-family: var(--fm); font-size: .625rem; letter-spacing: .05em; color: var(--green); margin-top: 8px; opacity: 0.9; text-transform: uppercase;">First Class with Distinction (FCD)</div>
+          <div class="cgpa-fcd">First Class with Distinction (FCD)</div>
         </div>
         <div class="grad-s">
           <span class="dot-g"></span>
@@ -2655,7 +2756,7 @@ body {
     <div class="contact-block">
       <div class="glass contact-main fi">
         <div class="contact-links">
-          <a href="mailto:ashisha3p@gmail.com" class="ci" onclick="handleEmailClick(event)">
+          <a href="mailto:ashisha3p@gmail.com" class="ci">
             <div class="ci-icon">📧</div>
             <div class="ci-body">
               <div class="ci-lbl">Email</div>
@@ -2665,7 +2766,7 @@ body {
           </a>
           <div class="ci-div"></div>
           <a href="https://linkedin.com/in/ashish-kishore-6b56a51b3" target="_blank" rel="noopener noreferrer" class="ci">
-            <div class="ci-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="LinkedIn" referrerpolicy="no-referrer" style="width: 22px; height: 22px; vertical-align: middle; border-radius: 4px; display: inline-block;"></div>
+            <div class="ci-icon" aria-hidden="true"><span class="social-mark">in</span></div>
             <div class="ci-body">
               <div class="ci-lbl">LinkedIn</div>
               <div class="ci-val">Connect with me</div>
@@ -2683,7 +2784,7 @@ body {
           </a>
           <div class="ci-div"></div>
           <a href="https://www.researchgate.net/profile/Ashish-Kishore-2/research" target="_blank" rel="noopener noreferrer" class="ci">
-            <div class="ci-icon"><img src="https://play-lh.googleusercontent.com/qyNEwOebhNJTbeNQ9KOg_XdZVbTu0Rv5Oh4mDHbgUKv23VDP4wlhbvqcjEvUAjKRaEo" alt="ResearchGate" referrerpolicy="no-referrer"></div>
+            <div class="ci-icon" aria-hidden="true"><span class="social-mark">RG</span></div>
             <div class="ci-body">
               <div class="ci-lbl">ResearchGate</div>
               <div class="ci-val">Research profile</div>
@@ -2692,7 +2793,7 @@ body {
           </a>
           <div class="ci-div"></div>
           <a href="https://scholar.google.com/citations?user=4Z4MxbsAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer" class="ci">
-            <div class="ci-icon"><img src="https://scolary.com/images/tools/google-scholar-library/icon.svg" alt="Google Scholar" referrerpolicy="no-referrer"></div>
+            <div class="ci-icon" aria-hidden="true"><span class="social-mark">GS</span></div>
             <div class="ci-body">
               <div class="ci-lbl">Google Scholar</div>
               <div class="ci-val">Citation profile</div>
@@ -2720,13 +2821,15 @@ body {
 </section>
 
 <!-- ═══ FOOTER ═══ -->
+</main>
+
 <footer class="footer">
   <div class="footer-inner">
     <div>
       <div class="footer-logo">Ashish Kishore</div>
       <p class="footer-tag">AI/ML Researcher · Gen-AI Specialist<br>Autonomous Systems · Research Innovator</p>
     </div>
-    <nav class="footer-nav">
+    <nav class="footer-nav" aria-label="Footer navigation">
       <a href="#about">About</a>
       <a href="#research">Research</a>
       <a href="#research-vision">Research Philosophy</a>
@@ -2750,31 +2853,6 @@ body {
 <canvas id="mesh-bg" aria-hidden="true"></canvas>
 
 <script>
-// Email redirection helper (opens Gmail web on desktop, attempts deep linking on mobile)
-function handleEmailClick(e) {
-  e.preventDefault();
-  const email = 'ashisha3p@gmail.com';
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  if (isMobile) {
-    const deepLink = `googlegmail:///co?to=${email}`;
-    const mailtoLink = `mailto:${email}`;
-    window.location.href = deepLink;
-    setTimeout(() => {
-      if (document.visibilityState === 'visible') {
-        window.location.href = mailtoLink;
-      }
-    }, 1500);
-  } else {
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`, '_blank', 'noopener,noreferrer');
-  }
-}
-
-// Force page to start from the top on reload/refresh and disable scroll restoration
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
-}
-window.scrollTo(0, 0);
-
 /* ══════════════════════════════════
    SPATIAL BACKGROUND ENGINE
 ══════════════════════════════════ */
@@ -3040,6 +3118,7 @@ function initMobileMenu() {
     btn.classList.toggle('open', open);
     drawer.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     drawer.setAttribute('aria-hidden', String(!open));
     if (open) {
       drawer.removeAttribute('inert');
@@ -3117,18 +3196,9 @@ function initCounters() {
    SMOOTH SCROLL
 ══════════════════════════════════ */
 function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', e => {
-      const href = link.getAttribute('href');
-      if (href === '#' || href === '') return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      const navH = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - navH;
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
-  });
+  const skipLink = document.querySelector('.skip-link');
+  const main = document.getElementById('main-content');
+  skipLink?.addEventListener('click', () => requestAnimationFrame(() => main?.focus({ preventScroll: true })));
 }
 
 /* ══════════════════════════════════
@@ -3275,13 +3345,13 @@ function setDialogState(dialog, open) {
 }
 
 function focusFirstDialogControl(dialog) {
-  const focusable = dialog.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  const focusable = dialog.querySelector('button, [href], input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])');
   if (focusable) focusable.focus();
 }
 
 function trapDialogFocus(event, dialog) {
   if (event.key !== 'Tab' || !dialog.classList.contains('active')) return;
-  const focusable = [...dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+  const focusable = [...dialog.querySelectorAll('button, [href], input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])')]
     .filter(el => !el.disabled && el.offsetParent !== null);
   if (!focusable.length) return;
   const first = focusable[0];
@@ -3295,29 +3365,12 @@ function trapDialogFocus(event, dialog) {
   }
 }
 
-function openSafeNewTab(url) {
-  const next = window.open(url, '_blank', 'noopener,noreferrer');
-  if (next) next.opener = null;
-}
-
 function initInteractiveCards() {
-  const cards = document.querySelectorAll('[data-open-url], [data-cert-file]');
-  const activate = card => {
-    if (card.dataset.openUrl) {
-      openSafeNewTab(card.dataset.openUrl);
-    } else if (card.dataset.certFile) {
-      openCertModal(card.dataset.certFile, card.dataset.certTitle || 'Certificate');
-    }
-  };
-  cards.forEach(card => {
-    card.addEventListener('click', event => {
-      if (event.target.closest('a, button')) return;
-      activate(card);
-    });
-    card.addEventListener('keydown', event => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
+  document.querySelectorAll('[data-cert-file]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      activate(card);
+      openCertModal(link.dataset.certFile, link.dataset.certTitle || 'Certificate');
     });
   });
 }
@@ -3760,14 +3813,22 @@ function initTerminalSimulation() {
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      contents.forEach(c => c.classList.remove('active'));
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      contents.forEach(c => {
+        c.classList.remove('active');
+        c.hidden = true;
+      });
 
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
       const targetId = `tab-${tab.dataset.tab}`;
       const targetContent = terminal.querySelector(`#${targetId}`);
       if (targetContent) {
         targetContent.classList.add('active');
+        targetContent.hidden = false;
       }
 
       // Keep tab changes passive so mobile browsers do not open the keyboard.
@@ -4793,6 +4854,9 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
+  const terminal = document.querySelector('.terminal');
+  const terminalMount = document.getElementById('terminalMount');
+  if (terminal && terminalMount) terminalMount.appendChild(terminal);
   new SpatialBackground();
   initNavbar();
   initMobileMenu();
@@ -4815,7 +4879,9 @@ function openCertModal(pdfFile, title) {
   const overlay = document.getElementById('certModal');
   const frame = document.getElementById('certModalFrame');
   const titleEl = document.getElementById('certModalTitle');
-  if (!overlay || !frame) return;
+  const allowedFiles = new Set(['DRDO.pdf', 'ISRO.pdf', 'Codsoft.pdf', 'Prodigy.pdf']);
+  if (!overlay || !frame || !allowedFiles.has(pdfFile)) return;
+  clearTimeout(closeCertModal.timer);
   openCertModal.lastFocused = document.activeElement;
   titleEl.textContent = title;
   frame.src = `${pdfFile}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
@@ -4832,7 +4898,10 @@ function closeCertModal() {
   if (openCertModal.lastFocused && typeof openCertModal.lastFocused.focus === 'function') {
     openCertModal.lastFocused.focus();
   }
-  setTimeout(() => { frame.src = ''; }, 400);
+  clearTimeout(closeCertModal.timer);
+  closeCertModal.timer = setTimeout(() => {
+    if (!overlay.classList.contains('active')) frame.src = 'about:blank';
+  }, 400);
 }
 function initCertModal() {
   const overlay = document.getElementById('certModal');
@@ -4853,8 +4922,12 @@ function initProjectFilters() {
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      filterBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       const filter = btn.dataset.filter;
 
       let delay = 0;
