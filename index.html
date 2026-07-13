@@ -23,7 +23,22 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'none'; script-src 'self' 'unsafe-inline'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'none'; upgrade-insecure-requests">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234b8eff'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='%2309090f'%3EAK%3C/text%3E%3C/svg%3E">
 <link rel="canonical" href="https://ashish-kishore-portfolio.netlify.app/">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+document.documentElement.classList.add('js');
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+const navigationEntry = performance.getEntriesByType?.('navigation')[0];
+const isPageReload = navigationEntry?.type === 'reload' || performance.navigation?.type === 1;
+if (isPageReload) {
+  if (location.hash) {
+    history.replaceState(null, '', `${location.pathname}${location.search}`);
+  }
+  window.addEventListener('pageshow', () => window.scrollTo(0, 0), { once: true });
+}
+</script>
 <noscript>
   <style>
     .nav-links { display: flex !important; overflow-x: auto; scrollbar-width: none; }
