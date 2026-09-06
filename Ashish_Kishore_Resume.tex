@@ -1,0 +1,254 @@
+% Professional resume - formatting only; content preserved.
+% Compile with pdfLaTeX, XeLaTeX, or LuaLaTeX.
+\documentclass[letterpaper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\usepackage[scaled=0.94]{helvet}
+\usepackage{microtype}
+\usepackage[left=0.50in,right=0.50in,top=0.35in,bottom=0.35in]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{array,tabularx}
+\usepackage{ragged2e}
+\usepackage{needspace}
+\usepackage[hidelinks]{hyperref}
+\ifdefined\pdfgentounicode \pdfgentounicode=1 \fi
+\definecolor{NavyBlue}{RGB}{27,43,57}
+\definecolor{AccentBlue}{RGB}{49,86,162}
+\definecolor{RuleGrey}{RGB}{198,205,210}
+\definecolor{SubtleGrey}{RGB}{69,76,82}
+\definecolor{BodyText}{RGB}{32,36,40}
+\definecolor{HeaderBg}{RGB}{24,47,99}
+\definecolor{HeaderTint}{RGB}{231,237,249}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\widowpenalty=10000
+\clubpenalty=10000
+\hyphenpenalty=1000
+\AtBeginDocument{\color{BodyText}\fontsize{9.5}{10.5}\selectfont}
+\renewcommand{\small}{\fontsize{9}{10.3}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{8.5}{9.8}\selectfont}
+\titleformat{\section}
+  {\sffamily\bfseries\color{NavyBlue}\fontsize{10.8}{13}\selectfont}
+  {}{0em}{\MakeUppercase}
+  [\vspace{2pt}{\color{RuleGrey}\titlerule[0.5pt]}]
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+\setlist[itemize]{
+  label=\textcolor{AccentBlue}{\footnotesize\textbullet},
+  leftmargin=1.2em,labelsep=0.5em,
+  itemsep=1pt,topsep=1pt,parsep=0pt,partopsep=0pt
+}
+\newcommand{\dsep}{\unskip\penalty0\hspace{0.35em}\textcolor{RuleGrey}{\textbar}\hspace{0.35em}\allowbreak}
+\newcommand{\hsep}{\hspace{0.45em}\textcolor{RuleGrey}{\textbar}\hspace{0.45em}}
+\newcommand{\Entry}[4]{%
+  \begin{tabularx}{\linewidth}{@{}>{\RaggedRight\arraybackslash}X@{\hspace{1em}}>{\RaggedLeft\arraybackslash}p{0.25\linewidth}@{}}
+    {\bfseries\color{NavyBlue}#1} & {\small\color{SubtleGrey}#2}\\[2pt]
+    {\small\itshape\color{AccentBlue}#3} & {\small\color{SubtleGrey}#4}
+  \end{tabularx}\par\vspace{2pt}%
+}
+\newcommand{\EntryND}[3]{%
+  \begin{tabularx}{\linewidth}{@{}>{\RaggedRight\arraybackslash}X@{\hspace{1em}}>{\RaggedLeft\arraybackslash}p{0.23\linewidth}@{}}
+    {\bfseries\color{NavyBlue}#1} & {\small\color{SubtleGrey}#3}\\[2pt]
+    {\small\itshape\color{AccentBlue}#2} & {}
+  \end{tabularx}\par\nopagebreak[4]\vspace{2pt}%
+}
+\newcommand{\ProjEntry}[2]{%
+  \begin{tabularx}{\linewidth}{@{}>{\RaggedRight\arraybackslash}X@{\hspace{0.6em}}r@{}}
+    {\bfseries\color{NavyBlue}#1} & {\small\itshape\color{SubtleGrey}#2}
+  \end{tabularx}\par\vspace{2pt}%
+}
+\newcommand{\Pub}[3]{%
+  \begin{list}{}{%
+    \setlength{\leftmargin}{1.5em}\setlength{\labelwidth}{1.1em}%
+    \setlength{\labelsep}{0.4em}\setlength{\itemindent}{0pt}%
+    \setlength{\listparindent}{0pt}\setlength{\rightmargin}{0pt}%
+    \setlength{\topsep}{3pt}\setlength{\parsep}{0pt}\setlength{\partopsep}{0pt}}
+    \item[{\small\bfseries\color{AccentBlue}#1.}]%
+      {\raggedright\small\bfseries\color{NavyBlue}#2\par}\vspace{2pt}
+      {\raggedright\footnotesize\color{SubtleGrey}#3\par}
+  \end{list}%
+}
+\newcommand{\CertItem}[2]{%
+  \item \begin{tabularx}{\linewidth}{@{}>{\RaggedRight\arraybackslash}X@{\hspace{1em}}r@{}}
+    {\small #1} & {\small\itshape\color{SubtleGrey}#2}
+  \end{tabularx}%
+}
+\newcommand{\Point}[1]{\item \small\RaggedRight #1}
+\newcommand{\SkillRow}[2]{\leavevmode{\bfseries\color{NavyBlue}\strut #1} & \leavevmode{\strut #2}\\[1pt]}
+
+\begin{document}
+
+%----------  HEADER  ----------------------------------------
+\setlength{\fboxsep}{0pt}%
+\noindent\colorbox{HeaderBg}{%
+  \begin{minipage}{\linewidth}
+    \centering
+    \vspace*{8pt}\par
+    {\fontsize{27}{31}\selectfont\sffamily\bfseries\color{white}Ashish Kishore}\par
+    \vspace{6pt}
+    {\small\color{HeaderTint}%
+      +91\,9741612616 \hsep
+      \href{mailto:ashisha3p@gmail.com}{\color{HeaderTint}ashisha3p@gmail.com} \hsep
+      \href{https://ashish-kishore-portfolio.netlify.app/}{\color{HeaderTint}ashish-kishore-portfolio.netlify.app}\par}
+    \vspace{3.5pt}
+    {\small\color{HeaderTint}%
+      \href{https://github.com/nameisashish}{\color{HeaderTint}github.com/nameisashish} \hsep
+      \href{https://linkedin.com/in/ashish-kishore-6b56a51b3}{\color{HeaderTint}LinkedIn: Ashish-Kishore} \hsep
+      \href{https://orcid.org/0009-0003-3285-8036}{\color{HeaderTint}ORCID: 0009-0003-3285-8036}\par}
+    \vspace*{8pt}
+  \end{minipage}%
+}\par
+\nointerlineskip
+\noindent{\color{AccentBlue}\rule{\linewidth}{2.5pt}}\par
+
+%----------  EDUCATION  -------------------------------------
+\section{Education}
+
+\Entry{Bangalore Institute of Technology}{Bangalore, Karnataka}%
+      {Bachelor of Engineering in Electronics and Telecommunication}{Graduated: July 2026}
+
+{\small Cumulative GPA: \textbf{8.23\,/\,10.0} \dsep Class of the Degree: \textbf{First Class with Distinction (FCD)}\par}
+
+%----------  PUBLICATIONS  ----------------------------------
+\section{Publications}
+
+\Pub{1}{Real-Time Traffic Sign Recognition and Autonomous Vehicle Control System using Convolutional Neural Networks}{%
+  \textbf{Journal:} Multimedia Tools and Applications (Springer Nature) -- New York \dsep
+  \textbf{Collection:} Track 7 -- Connected and Autonomous Vehicles \dsep
+  \textbf{DOI:} \href{https://doi.org/10.1007/s11042-025-20853-8}{\color{SubtleGrey}10.1007/s11042-025-20853-8} \dsep
+  \textbf{Published On:} 25th April, 2025}
+
+\Pub{2}{A Multimodal Deep Learning Framework for Symptom-Based Disease Prediction and Clinical Decision Support}{%
+  \textbf{Journal:} Neural Computing and Applications (Springer Nature) -- London \dsep
+  \textbf{Collection:} Artificial Intelligence \dsep
+  \textbf{DOI:} \href{https://doi.org/10.1007/s00521-026-12231-8}{\color{SubtleGrey}10.1007/s00521-026-12231-8} \dsep
+  \textbf{Published On:} 12th June, 2026 \dsep Vol. 38, Issue 12, Article No. 481}
+
+\Pub{3}{Automated Jackfruit Counting and Yield Estimation via Advanced YOLOv8x-based Computer Vision in Smart Agriculture}{%
+  \textbf{Publisher:} IEEE \dsep IEEE Conference on Engineering Informatics (ICEI 2025) \dsep
+  \textbf{Conference Location:} Melbourne/Hawthorn, Australia \dsep
+  \textbf{DOI:} \href{https://doi.org/10.1109/ICEI68356.2025.11603744}{\color{SubtleGrey}10.1109/ICEI68356.2025.11603744} \dsep
+  \textbf{Published On:} 20th July, 2026 \dsep Page(s):~1--11}
+
+%----------  ACHIEVEMENTS & TALKS  --------------------------
+\section{Achievements \& Talks}
+
+\begin{itemize}
+  \Point{\textbf{Keynote Speaker -- Google Bangalore:} Delivered an invited keynote on \textit{``The Gemini Effect: Empowering the Future of Tech''} at Google's peer-innovation event, sharing insights from my Q1 journal publication; also discussed Autonomous Vehicles, AyuSeva AI medical chatbot and Orion, an emotion recognition robot.}
+  \Point{\textbf{2\textsuperscript{nd} Place -- Pratira 2025 (National-Level Project Competition):} Secured 2\textsuperscript{nd} place for the AyuSeva AI medical chatbot, recognised for its scratch development and innovation in real-time disease prediction.}
+  \Point{\textbf{Winner -- TURING MUCH (ML Competition by IEEE BIT CS Society):} Achieved 1\textsuperscript{st} place by developing a high-performance ML model with robust generalisation, interpretability, and edge deployment on Kaggle.}
+  \Point{\textbf{Google Cloud Agentic AI Day:} Participated in Google Cloud Agentic AI Day (Hack2skill), contributing an innovative Smart City traffic control solution leveraging Agentic AI for real-world problem solving.}
+\end{itemize}
+
+%----------  CERTIFICATIONS  --------------------------------
+\section{Certifications}
+
+\begin{itemize}
+  \CertItem{\textbf{Artificial Intelligence Fundamentals} -- IBM SkillsBuild}{Issued Nov 2025}
+  \CertItem{\textbf{Juniper Networks Certified Associate -- Mist AI (JNCIA-MistAI)} -- Juniper Networks}{Issued Aug 2025}
+\end{itemize}
+
+%----------  WORK EXPERIENCE  -------------------------------
+\section{Work Experience}
+
+\EntryND{Mu Sigma Inc}{Decision Scientist}{2 Jul 2026}
+\begin{itemize}
+  \Point{Decision Scientist at Mu Sigma, one of the world's largest pure-play analytics and decision sciences companies, crafting data-driven solutions that transform business decisions at scale.}
+\end{itemize}
+\vspace{5pt}
+
+\EntryND{Electronics and Radar Development Establishment (LRDE), DRDO}%
+        {Research Intern -- Directorate of Fire Control Radars (D-FCR)}{Jan 2026 -- May 2026}
+\begin{itemize}
+  \Point{Developed a hybrid deep-learning radar target tracking framework (AttLSTM-KF) integrating Temporal Convolutional Networks, LSTM-based velocity prediction, self-attention mechanisms, and differentiable Kalman Filtering for robust nonlinear maneuvering target estimation.}
+  \Point{Implemented adaptive process/measurement noise estimation, maneuver-aware innovation gating, and end-to-end Bayesian filtering, achieving 0.950\,m RMSE with ${\sim}80.1\%$ improvement over EKF baselines while maintaining real-time inference speeds on GPU and CPU.}
+  \Point{\textbf{Technologies:} Python, PyTorch, LSTM, TCN, Multi-Head Self-Attention, Kalman Filter, Deep Learning, Radar Signal Processing, Matlab.}
+\end{itemize}
+\vspace{5pt}
+
+\EntryND{U R Rao Satellite Centre (URSC), ISRO}%
+        {Research Intern -- Payload Data Management Group (PDMG)}{Oct 2025 -- Nov 2025}
+\begin{itemize}
+  \Point{Developed an SSR (Solid-State Recorder) Data Simulator for validating satellite payload data flow before deployment on actual hardware.}
+  \Point{Implemented CADU generation, logical channel data mapping, validity tagging, and end-to-end data rate control through simulation, synthesis and post-synthesis testing.}
+  \Point{\textbf{Technologies:} VHDL, Python (GUI), Space-grade data systems, ISRO in-house tools.}
+\end{itemize}
+\vspace{5pt}
+
+\EntryND{CodSoft}{Machine Learning Intern}{Sep 2024 -- Oct 2024}
+\begin{itemize}
+  \Point{Built models for SMS Spam Detection, Customer Churn Prediction, Credit Card Fraud Detection, and Movie Genre Prediction.}
+  \Point{\textbf{Technologies:} Python, Scikit-learn, LSTM, SVM, Logistic Regression, Pandas, NLP, Random Forest.}
+\end{itemize}
+\vspace{5pt}
+
+\EntryND{Prodigy Info Tech}{Machine Learning Intern}{Jun 2024 -- Jul 2024}
+\begin{itemize}
+  \Point{Developed AI systems for Hand Gesture Recognition, Calorie Estimation from food images, House Price Prediction, Customer Segmentation, and Cat/Dog Image Classification.}
+  \Point{\textbf{Technologies:} Python, TensorFlow, OpenCV, Keras, Scikit-learn, LSTM, K-Means, Pandas, Matplotlib.}
+\end{itemize}
+
+%----------  PROJECTS  --------------------------------------
+\section{Projects}
+
+\ProjEntry{Project ORION -- Optimised Robotic Intelligence for Operative Neural-empathy}{}
+\begin{itemize}
+  \Point{Pioneered an emotion-aware robotics system integrating neural-empathy concepts with Edge AI for natural human-robot interaction, featuring facial recognition, conversational AI, speech processing, and real-time emotion detection.}
+  \Point{Privacy-preserving multimodal cognitive robot integrating deep facial expression recognition with speech sentiment intelligence for real-time empathetic human-robot interaction.}
+  \Point{\textbf{Technologies:} Edge AI, Computer Vision, NLP, Speech AI, DeepFace, Mediapipe, CMU Sphinx, IoT, Conversational AI, LLM, FER, Multi-Modal AI.}
+\end{itemize}
+\vspace{4.5pt}
+
+\ProjEntry{AyuSeva -- AI Medical Chatbot for Disease Prediction}{}
+\begin{itemize}
+  \Point{Developed a custom hybrid AI medical chatbot with 63.5 Million parameters for high-accuracy disease prediction using deep learning, integrating Gemini for personalized health recommendations.}
+  \Point{Fusion Model with DenseNet, BiLSTM, Attention Mechanism and NLP, handled structured and unstructured data.}
+  \Point{\textbf{Technologies:} Dense-Net, Bi-LSTM, Attention Mechanism, NLP, Generative AI, PyTorch, TensorFlow, ONNX, Flask.}
+\end{itemize}
+\vspace{4.5pt}
+
+\ProjEntry{Autonomous Car}{}
+\begin{itemize}
+  \Point{Built a real-time Traffic Sign Recognition (TSR) system using a custom Deep-CNN (378k params) that achieved 99.63\% test accuracy on GTSRB and 99.68\% on CTSD with 24--30\,ms inference latency.}
+  \Point{Integrated the TSR into an end-to-end low-cost autonomous control platform (Arduino) with IR lane-following and ultrasonic sensor fusion for obstacle avoidance and dynamic speed/stop commands, demonstrating real-world, low-latency ADAS behaviour.}
+  \Point{\textbf{Technologies:} Deep-CNN, OpenCV, TensorFlow, Arduino, IR Sensors, Ultrasonic Sensors, Sensor Fusion, Embedded Systems.}
+\end{itemize}
+\vspace{4.5pt}
+
+\ProjEntry{Jackfruit Yield Estimation}{}
+\begin{itemize}
+  \Point{YOLOv8x jackfruit detector \& yield estimator on a custom dataset --- Performance: 99.28\% Precision, 85.71\% Recall, 94.37\% mAP@50, and 81.01\% mAP@50--95.}
+  \Point{Deployed as a Streamlit app for automated farm-scale counting and edge-ready integration.}
+  \Point{\textbf{Technologies:} YOLOv8x (Ultralytics), PyTorch, Albumentations, AdamW + cosine LR, CUDA, OpenCV, Streamlit.}
+\end{itemize}
+
+%----------  TECHNICAL SKILLS  ------------------------------
+\needspace{4\baselineskip}
+\section{Technical Skills}
+
+\begingroup\small
+\renewcommand{\arraystretch}{1.05}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.23\linewidth}@{\hspace{1em}}>{\raggedright\arraybackslash}X@{}}
+  \SkillRow{Programming}{Python, SQL (MySQL), C/C++, MATLAB, JavaScript, HTML, CSS}
+  \SkillRow{Machine Learning}{Regression, Classification, Clustering, Deep Learning, Transfer Learning}
+  \SkillRow{Deep Learning}{CNN, Bi-LSTM, DenseNet, EfficientNetV2, ResNet-34, Conv1D, Attention Mechanisms, Multimodal Fusion, ONNX}
+  \SkillRow{Generative AI \& LLMs}{Generative AI, RAG, GraphRAG, Fine-tuning (DoRA, DPO), Gemma-2, Prompt Engineering}
+  \SkillRow{Computer Vision}{Object Detection (YOLOv8x), Facial Expression Recognition (FER), Facial Recognition, HOG-SVM, DeepFace, MediaPipe, OpenCV}
+  \SkillRow{Speech \& NLP}{Speech Emotion Recognition, Audio Feature Extraction (MFCC, Spectrogram), CMU Sphinx, Intent Classification, NLP}
+  \SkillRow{Multimodal \& Privacy AI}{Vision + Speech Fusion, Cross-modal Learning, Attention-based Feature Integration, Privacy-Preserving Multimodal Inference, Edge AI}
+  \SkillRow{AI/ML Frameworks}{TensorFlow, PyTorch, Keras, Scikit-learn, Albumentations, Ultralytics}
+  \SkillRow{Optimisation}{Model Optimisation, Hyperparameter Tuning, Cross-Validation, Data Augmentation, Image and Data Pre-Processing}
+  \SkillRow{Dev Tools}{Flask, Streamlit, Multi-Threading, Git, Neo4j}
+  \SkillRow{Embedded \& IoT}{Arduino, ESP8266, Jetson Nano, Sensor Fusion, IoT Automation, Edge AI}
+  \SkillRow{Cloud \& Hardware}{Google Cloud Platform (GCP), NVIDIA A100 / CUDA}
+\end{tabularx}
+\endgroup
+
+\end{document}
+

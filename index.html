@@ -1748,6 +1748,21 @@ body {
   border-radius: 8px;
   display: block;
 }
+
+/* Keep responsive constraints after the terminal's base styles. */
+.hero-inner > *, .sec-split > *, .contact-block > *, .rc > *,
+.magic-console-grid > *, .term-tabs { min-width: 0; }
+.magic-console-container { max-height: calc(100dvh - 24px); overflow-y: auto; }
+.mobile-drawer { max-height: calc(100dvh - var(--nav-h)); overflow-y: auto; }
+.log-line { overflow-wrap: anywhere; }
+@media (max-width: 768px) {
+  .term-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; gap: 4px; }
+  .term-tab { padding: 8px 4px; font-size: 0.625rem; letter-spacing: 0; overflow-wrap: anywhere; min-height: 44px; }
+  .cli-input { font-size: 16px !important; }
+  .arch-btn { width: 44px; height: 44px; }
+  .magic-console-title { overflow-wrap: anywhere; }
+  .sec-h, .ph-left h3, .rc h3 { overflow-wrap: anywhere; }
+}
 </style>
 </head>
 <body>
@@ -1789,7 +1804,7 @@ body {
           <select id="nnActivation">
             <option value="tanh">Tanh (Hyperbolic Tangent)</option>
             <option value="sigmoid">Sigmoid (Logistic)</option>
-            <option value="relu">ReLU (Rectified Linear)</option>
+            <option value="relu">Leaky ReLU</option>
           </select>
         </div>
 
@@ -1967,7 +1982,7 @@ body {
         </div>
         <div class="s-div"></div>
         <div class="hero-stat">
-          <div class="stat-n counter" data-target="3">3</div>
+          <div class="stat-n counter" data-target="2">2</div>
           <div class="stat-l">Q1 Papers</div>
         </div>
         <div class="s-div"></div>
@@ -2014,7 +2029,7 @@ body {
           </div>
           <div class="term-tabs" role="tablist" aria-label="Portfolio terminal views">
             <button type="button" class="term-tab active" id="terminal-tab-cli" role="tab" aria-selected="true" aria-controls="tab-interactive-cli" data-tab="interactive-cli">SHELL.EXE</button>
-            <button type="button" class="term-tab" id="terminal-tab-monitor" role="tab" aria-selected="false" aria-controls="tab-train-monitor" data-tab="train-monitor">TRAIN_MONITOR</button>
+            <button type="button" class="term-tab" id="terminal-tab-monitor" role="tab" aria-selected="false" aria-controls="tab-train-monitor" data-tab="train-monitor">SIMULATED_MONITOR</button>
             <button type="button" class="term-tab" id="terminal-tab-papers" role="tab" aria-selected="false" aria-controls="tab-paper-core" data-tab="paper-core">PAPERS_DB</button>
           </div>
         </div>
@@ -2099,7 +2114,7 @@ body {
       <div>
         <div class="glass about-card fi">
           <p>I'm <strong>Ashish Kishore</strong>, a Decision Scientist at <span class="txt-acc">Mu Sigma</span> with a foundation in Electronics and Telecommunication Engineering. I specialise in building intelligent systems that bridge advanced AI research and real-world impact, with expertise spanning Machine Learning, Deep Learning, Computer Vision, Natural Language Processing, Generative Artificial Intelligence, Cloud Computing, Edge AI, IoT, and Embedded Systems.</p>
-          <p style="margin-top:20px;">During my academic career, I authored <span class="txt-acc">3 papers in Q1 journals</span> and presented at an <span class="txt-acc">international IEEE conference</span>, spanning autonomous vehicles with state-of-the-art accuracy in <span class="txt-acc">Real-Time Traffic Sign Recognition</span>, <span class="txt-acc">AyuSeva</span>, a medium language model-powered AI medical chatbot recognised by healthcare professionals for its innovation in disease prediction, and <span class="txt-acc">Project ORION (Optimised Robotic Intelligence for Operative Neural-empathy)</span>, a privacy-preserving multimodal cognitive robot integrating deep facial expression recognition and speech sentiment intelligence with Edge AI for real-time empathetic human-robot interaction.</p>
+          <p style="margin-top:20px;">During my academic career, I authored <span class="txt-acc">2 papers in Q1 journals</span> and presented at an <span class="txt-acc">international IEEE conference</span>, spanning autonomous vehicles with state-of-the-art accuracy in <span class="txt-acc">Real-Time Traffic Sign Recognition</span>, <span class="txt-acc">AyuSeva</span>, a medium language model-powered AI medical chatbot recognised by healthcare professionals for its innovation in disease prediction, and <span class="txt-acc">Project ORION (Optimised Robotic Intelligence for Operative Neural-empathy)</span>, a privacy-preserving multimodal cognitive robot integrating deep facial expression recognition and speech sentiment intelligence with Edge AI for real-time empathetic human-robot interaction.</p>
           <p style="margin-top:20px;">I've had the privilege of delivering keynote talks at <a href="https://drive.google.com/file/d/1VIlW9CQQ51Zc-DIly8UOZly3YrRzg9wL/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="ilink">Google Bangalore</a>, sharing insights on AI in autonomous navigation, intelligent healthcare, and human-AI interaction.</p>
         </div>
       </div>
@@ -2159,24 +2174,6 @@ body {
           <div class="rc-mb" style="color:#c2c1ff;">99.52<span>%</span></div>
           <div class="rc-ml">Symptom Accuracy</div>
           <div class="rc-ms">93.91% NLP Accuracy</div>
-        </div>
-      </div>
-
-      <div class="rc rc-indigo fi">
-        <div class="rc-left">
-          <div class="rc-badge rc-q1">Q1 · Springer</div>
-          <h3>Privacy-Preserving Multimodal Cognitive Robot for Real-Time Empathetic Human-Robot Interaction Using Deep Facial Expression Recognition and Speech Sentiment Intelligence</h3>
-          <div class="rc-meta">
-            <span>Multimedia Tools and Applications</span>
-            <span class="sep">·</span>
-            <span>Under Review (Major Revision)</span>
-          </div>
-          <p><strong>1st Author.</strong> Created a privacy-preserving multimodal cognitive robot on-device. Combines secure HOG-SVM + ResNet-34 face verification (98.7% accuracy), a custom FER-EfficientNetV2 emotion classifier (95.33%), and localized Gemma-2 conversational module aligned via DoRA and DPO with CT-GraphRAG memory (~22 FPS on edge).</p>
-        </div>
-        <div class="rc-metric">
-          <div class="rc-mb" style="color:var(--primary);">95.33<span>%</span></div>
-          <div class="rc-ml">FER Accuracy</div>
-          <div class="rc-ms">98.7% Face Verify</div>
         </div>
       </div>
 
@@ -2888,7 +2885,7 @@ class SpatialBackground {
   }
   init() {
     this.resize(); this.buildOrbs(); this.buildNodes();
-    window.addEventListener('resize', () => { this.resize(); }, { passive: true });
+    window.addEventListener('resize', () => { this.resize(); this.draw(); }, { passive: true });
     window.addEventListener('mousemove', e => {
       const rx = (e.clientX / window.innerWidth) * this.W;
       const ry = (e.clientY / window.innerHeight) * this.H;
@@ -2977,7 +2974,7 @@ class SpatialBackground {
       n.x+=n.vx; n.y+=n.vy; n.phase+=n.speed;
       const dx=n.x-this.mouseX, dy=n.y-this.mouseY;
       const d=Math.sqrt(dx*dx+dy*dy);
-      if (d<30) { const f=(30-d)/30*0.05; n.vx+=dx/d*f; n.vy+=dy/d*f; }
+      if (d>0 && d<30) { const f=(30-d)/30*0.05; n.vx+=dx/d*f; n.vy+=dy/d*f; }
       const sp=Math.sqrt(n.vx*n.vx+n.vy*n.vy);
       if (sp>0.7) { n.vx*=0.7/sp; n.vy*=0.7/sp; }
       if (n.x<0||n.x>this.W) n.vx*=-1;
@@ -2989,6 +2986,7 @@ class SpatialBackground {
   draw() { this.drawBase(); this.drawOrbs(); this.drawNodes(); }
   loop(ts) {
     this.animId=requestAnimationFrame(t=>this.loop(t));
+    if (document.hidden || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     if (ts-this.lastFrame<this.interval) return;
     this.lastFrame=ts; this.update(); this.draw();
   }
@@ -3006,7 +3004,8 @@ class HeroNeuralNet {
     this.layers = [4,6,8,6,4];
     this.lastFrame = 0; this.interval = 1000/30; this.tick = 0;
     this.resize(); this.buildNetwork();
-    window.addEventListener('resize', () => { this.resize(); this.buildNetwork(); });
+    window.addEventListener('resize', () => { this.resize(); this.buildNetwork(); this.draw(); });
+    this.draw();
     requestAnimationFrame(t => this.loop(t));
   }
   resize() {
@@ -3073,15 +3072,17 @@ class HeroNeuralNet {
       
       sig.progress+=sig.speed;
     }
+    const completedSignals = [];
     this.signals=this.signals.filter(sig => {
       if (sig.progress>=1) {
         const n=this.nodes[sig.toNodeIndex];
         if (n) { n.active=true; n.brightness=1; }
-        if (sig.toLayer<this.layers.length-1) this.propagateSignal(sig);
+        if (sig.toLayer<this.layers.length-1) completedSignals.push(sig);
         return false;
       }
       return true;
     });
+    completedSignals.forEach(sig => this.propagateSignal(sig));
     for (const n of this.nodes) {
       n.phase+=n.speed; n.brightness=Math.max(0,n.brightness-0.015);
       if (n.brightness<=0) n.active=false;
@@ -3100,6 +3101,8 @@ class HeroNeuralNet {
   }
   loop(ts) {
     requestAnimationFrame(t=>this.loop(t));
+    const rect = this.canvas.getBoundingClientRect();
+    if (document.hidden || !rect.width || rect.bottom < 0 || rect.top > innerHeight || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     if (ts-this.lastFrame<this.interval) return;
     this.lastFrame=ts; this.tick++;
     if (this.tick%4===0) { this.spawnSignal(); this.spawnSignal(); }
@@ -3148,6 +3151,9 @@ function initMobileMenu() {
   btn.addEventListener('click', () => {
     setMenu(!btn.classList.contains('open'));
   });
+  window.addEventListener('resize', () => {
+    if (innerWidth > 1100 && btn.classList.contains('open')) setMenu(false);
+  }, { passive: true });
   drawer.querySelectorAll('.drawer-link').forEach(link => {
     link.addEventListener('click', () => {
       setMenu(false);
@@ -3187,6 +3193,7 @@ function initScrollAnimations() {
 ══════════════════════════════════ */
 function initCounters() {
   const els = document.querySelectorAll('.stat-n');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -3240,13 +3247,19 @@ function initHapticLight() {
    CURSOR GLOW
 ══════════════════════════════════ */
 function initCursorGlow() {
-  if (window.matchMedia('(pointer:coarse)').matches) return;
+  if (window.matchMedia('(pointer:coarse), (prefers-reduced-motion:reduce)').matches) return;
   const glow = document.createElement('div');
   glow.style.cssText = `position:fixed;width:300px;height:300px;top:0;left:0;background:radial-gradient(circle,rgba(173,198,255,0.04) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9997;transform:translate3d(-50%,-50%,0);transition:opacity .3s;mix-blend-mode:screen;`;
   document.body.appendChild(glow);
   let mx=0,my=0,cx=0,cy=0;
   document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; }, { passive: true });
   (function animate() {
+    if (document.hidden || window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+      glow.style.opacity = '0';
+      requestAnimationFrame(animate);
+      return;
+    }
+    glow.style.opacity = '1';
     cx+=(mx-cx)*0.08; cy+=(my-cy)*0.08;
     glow.style.transform = `translate3d(${cx - 150}px, ${cy - 150}px, 0)`;
     requestAnimationFrame(animate);
@@ -3408,6 +3421,8 @@ function initMagicEasterEgg() {
   let epoch = 0;
   let loopAnimId = null;
   let pulseOffset = 0;
+  let lastRender = 0;
+  let lastBoundary = 0;
   let lastFocused = null;
   let restoreFocusOnClose = true;
 
@@ -3596,12 +3611,19 @@ function initMagicEasterEgg() {
   }
 
   function renderLoop() {
-    pulseOffset += 0.04;
+    const now = performance.now();
+    if (document.hidden || now - lastRender < 1000 / 30) {
+      loopAnimId = requestAnimationFrame(renderLoop);
+      return;
+    }
+    lastRender = now;
+    if (!window.matchMedia('(prefers-reduced-motion:reduce)').matches) pulseOffset += 0.04;
     
     if (isTraining) {
       const activation = selectActivation.value;
       const lr = parseFloat(sliderLr.value);
-      for (let s = 0; s < 15; s++) {
+      const deadline = performance.now() + 6;
+      for (let s = 0; s < 15 && performance.now() < deadline; s++) {
         epoch++;
         const shuffled = [...points].sort(() => Math.random() - 0.5);
         for (const p of shuffled) {
@@ -3623,7 +3645,10 @@ function initMagicEasterEgg() {
       document.getElementById('nnEpoch').textContent = epoch;
       document.getElementById('nnLoss').textContent = loss.toFixed(4);
       document.getElementById('nnAccuracy').textContent = acc.toFixed(1) + '%';
-      drawDecisionBoundary();
+      if (now - lastBoundary >= 100) {
+        drawDecisionBoundary();
+        lastBoundary = now;
+      }
     }
     
     drawNetworkGraph();
@@ -3712,8 +3737,8 @@ function initMagicEasterEgg() {
     const py = e.clientY - rect.top;
     
     // Scale to range [-1.0, 1.0]
-    const x = (px / bCanvas.width) * 2.0 - 1.0;
-    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    const x = (px / rect.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / rect.height) * 2.0;
     
     // Shift key toggles class
     const label = e.shiftKey ? 0 : 1;
@@ -3729,8 +3754,8 @@ function initMagicEasterEgg() {
     const px = e.touches[0].clientX - rect.left;
     const py = e.touches[0].clientY - rect.top;
     
-    const x = (px / bCanvas.width) * 2.0 - 1.0;
-    const y = 1.0 - (py / bCanvas.height) * 2.0;
+    const x = (px / rect.width) * 2.0 - 1.0;
+    const y = 1.0 - (py / rect.height) * 2.0;
     
     // Alternates label on touch devices
     const label = points.length % 2 === 0 ? 1 : 0;
@@ -3874,7 +3899,7 @@ Role: Decision Scientist at Mu Sigma
 Education: Electronics & Telecommunication Engineering, BIT Bangalore
 
 [Research Publications Overview]
-- Authored 3 papers in Q1 journals, 1 in IEEE International Conference.
+- Authored 2 papers in Q1 journals, 1 in IEEE International Conference.
 - Focus Areas: Deep Learning, Affective HRI Robotics, Computer Vision,
   Clinical Decision Support Systems, and Real-Time Embedded AI.
 
@@ -4072,30 +4097,14 @@ Test Trajectory Evaluation Summary:
 
   // Helper function to colorize code output in the terminal virtual files
   function highlightVirtualFile(filename, content) {
-    if (filename.endsWith('.cfg')) {
-      return content
-        .replace(/(#.*)/g, '<span class="code-comment">$1</span>')
-        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>')
-        .replace(/([a-zA-Z0-9_\-]+):/g, '<span class="log-cyan">$1</span>:');
-    } else if (filename.endsWith('.py')) {
-      return content
-        .replace(/(#.*)/g, '<span class="code-comment">$1</span>')
-        .replace(/\b(def|class|import|from|return|print|in|if|else|for)\b/g, '<span class="code-keyword">$1</span>')
-        .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>')
-        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>');
-    } else if (filename.endsWith('.h')) {
-      return content
-        .replace(/(\/\*[\s\S]*?\*\/|\/\/.*)/g, '<span class="code-comment">$1</span>')
-        .replace(/\b(include|const|int|unsigned|long|void|setup|loop|if|switch|case|break|enum|default|byte)\b/g, '<span class="code-keyword">$1</span>')
-        .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>')
-        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>');
-    } else if (filename.endsWith('.json')) {
-      return content
-        .replace(/(".*?"|'.*?'|\b(true|false|null)\b)/g, '<span class="code-string">$1</span>')
-        .replace(/(\b\d+(\.\d+)?\b)/g, '<span class="code-number">$1</span>')
-        .replace(/([a-zA-Z0-9_\-]+):/g, '<span class="log-cyan">$1</span>:');
-    }
-    return content;
+    // Tokenize once so highlighting cannot rewrite generated markup.
+    return String(content).split(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|#[^\n]*|\/\/[^\n]*|\b(?:def|class|import|from|return|print|in|if|else|for|const|int|void|true|false|null)\b|\b\d+(?:\.\d+)?\b)/g).map((token, index) => {
+      const escaped = escapeHtml(token);
+      if (index % 2 === 0) return escaped;
+      const style = /^[#]|^\/\//.test(token) ? 'code-comment' :
+        /^["']/.test(token) ? 'code-string' : /^\d/.test(token) ? 'code-number' : 'code-keyword';
+      return '<span class="' + style + '">' + escaped + '</span>';
+    }).join('');
   }
 
   const asciiBanner = `
@@ -4113,7 +4122,7 @@ Test Trajectory Evaluation Summary:
 ======================================================
 * Core: <span class="log-purple">Deep Learning, HRI Robotics, RT Systems</span>
 * Journals: <span class="log-purple">MTAP (Q1), NCAA (Q1), IEEE Conf.</span>
-* Status: <span class="log-green">Telemetry Online & Signal Sweep (60 FPS)</span>
+* Status: <span class="log-green">Simulated telemetry</span>
 
 Type '<span class="log-green">help</span>' for system commands, or '<span class="log-green">banner</span>'.
 Try '<span class="log-green">train [model]</span>' for parameter backprop!
@@ -4234,7 +4243,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
 <span class="log-cyan">System Navigation Commands:</span>
   <span class="log-green">help</span>         - Display this detailed system command index.
   <span class="log-green">banner</span>       - Render the full high-definition terminal ASCII matrix.
-  <span class="log-green">papers</span>       - Core databases indexing all 4 peer-reviewed papers.
+  <span class="log-green">papers</span>       - Core databases indexing two Q1 journal papers and one IEEE conference paper.
   <span class="log-green">internships</span>  - Work chronology (DRDO, ISRO URSC, Mu Sigma).
   <span class="log-green">ls</span>           - Lists virtual training structures and telemetry files.
   <span class="log-green">cat [file]</span>   - Stream contents with custom neural compiler colors.
@@ -4271,21 +4280,14 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
    - <span class="log-cyan">Metrics:</span> 99.28% Prec, 94.37% mAP
    - Run '<span class="log-green">jackfruit</span>' for details.
 
-2. <span class="log-yellow">Cognitive HRI Robot</span>
-   - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer MTAP</span>
-   - <span class="log-cyan">Title:</span> Empathetic HRI Robot
-     Using Deep Facial & Speech Emotion AI
-   - <span class="log-cyan">Metrics:</span> 98.7% Face Verification
-   - Run '<span class="log-green">robot</span>' for details.
-
-3. <span class="log-yellow">Medical AyuSeva D2B2C-IIFNN Model</span>
+2. <span class="log-yellow">Medical AyuSeva D2B2C-IIFNN Model</span>
    - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer NCAA</span>
    - <span class="log-cyan">Title:</span> Multimodal disease
      prediction clinical framework
    - <span class="log-cyan">Metrics:</span> 99.52% symptom classifier
    - Run '<span class="log-green">ayuseva</span>' for details.
 
-4. <span class="log-yellow">Traffic Sign Edge CNN</span>
+3. <span class="log-yellow">Traffic Sign Edge CNN</span>
    - <span class="log-cyan">Venue:</span> <span class="log-purple" style="font-weight:bold;">Springer MTAP</span>
    - <span class="log-cyan">Title:</span> Real-time traffic sign
      recognition on microcontrollers
@@ -4569,7 +4571,7 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
                 resLine.innerHTML = `<span class="log-yellow">Usage:</span> cat [filename]`;
               } else {
                 const targetFile = parts[1].trim();
-                if (virtualFiles[targetFile]) {
+                if (Object.hasOwn(virtualFiles, targetFile)) {
                   const rawContent = virtualFiles[targetFile];
                   const highlighted = highlightVirtualFile(targetFile, rawContent);
                   resLine.innerHTML = `<span class="log-dim">File Content: ${escapeHtml(targetFile)}</span><hr style="border:0; border-top:0.5px solid rgba(255,255,255,0.08); margin:6px 0;" /><pre style="white-space:pre-wrap; font-family:'Space Mono', monospace; font-size:0.6875rem;">${highlighted}</pre>`;
@@ -4799,6 +4801,8 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
   drawSparklines();
 
   setInterval(() => {
+    const rect = terminal.getBoundingClientRect();
+    if (document.hidden || rect.bottom < 0 || rect.top > innerHeight) return;
     const isTabActive = terminal.querySelector('#tab-train-monitor').classList.contains('active');
 
     const flucLoss = Math.max(0.015, Math.min(0.035, 0.024 + (Math.random() - 0.5) * 0.003));
@@ -4838,14 +4842,6 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
     <div style="font-size:0.6875rem;"><span class="log-green">mAP@50: 94.37%</span> | <span class="log-green">Precision: 99.28%</span> | <span class="log-green">Recall: 85.71%</span></div>
   </div>
 
-  <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-      <strong style="color:var(--primary); font-size:0.8rem;">Affective Cognitive HRI Robot System</strong>
-      <span class="log-purple" style="font-size:0.625rem; font-weight:bold; letter-spacing:0.04em;">SPRINGER NATURE MTAP</span>
-    </div>
-    <div class="log-dim" style="font-size:0.6875rem; margin-bottom: 6px;">Multimodal HRI framework with ResNet-34 face auth, EfficientNetV2-S FER affect perception, Gemma-2 DPO dialog, EventKG GraphRAG memory grounding.</div>
-    <div style="font-size:0.6875rem;"><span class="log-green">Face Auth: 98.7%</span> | <span class="log-green">GraphRAG: 94.8%</span></div>
-  </div>
 
   <div style="background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
