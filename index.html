@@ -2288,43 +2288,6 @@ body {
         </div>
       </article>
 
-      <article class="tl-item fi">
-        <div class="tl-dot"></div>
-        <div class="tl-c glass">
-          <div class="tl-hd">
-            <div>
-              <div class="tl-badge" style="color:var(--secondary);">Sep 2024 – Oct 2024</div>
-              <h3>Machine Learning Intern</h3>
-              <h4>CodSoft</h4>
-            </div>
-            <div class="tl-icon">🤖</div>
-          </div>
-          <p>Built models for SMS Spam Detection (LSTM), Customer Churn Prediction, Credit Card Fraud Detection, and Movie Genre Prediction using advanced NLP techniques.</p>
-          <div class="tl-tags">
-            <span>Python</span><span>Scikit-learn</span><span>NLP</span><span>LSTM</span><span>SVM</span><span>Random Forest</span>
-          </div>
-          <a class="tl-cert-btn" href="Codsoft.pdf" data-cert-file="Codsoft.pdf" data-cert-title="CodSoft Internship Certificate">View certificate</a>
-        </div>
-      </article>
-
-      <article class="tl-item fi">
-        <div class="tl-dot"></div>
-        <div class="tl-c glass">
-          <div class="tl-hd">
-            <div>
-              <div class="tl-badge" style="color:var(--green);">Jun 2024 – Jul 2024</div>
-              <h3>Machine Learning Intern</h3>
-              <h4>Prodigy InfoTech</h4>
-            </div>
-            <div class="tl-icon">🧠</div>
-          </div>
-          <p>Developed AI systems for Hand Gesture Recognition (99.97% accuracy), Calorie Estimation, House Price Prediction, and Customer Segmentation.</p>
-          <div class="tl-tags">
-            <span>Python</span><span>TensorFlow</span><span>OpenCV</span><span>Keras</span><span>K-Means</span><span>LSTM</span>
-          </div>
-          <a class="tl-cert-btn" href="Prodigy.pdf" data-cert-file="Prodigy.pdf" data-cert-title="Prodigy InfoTech Internship Certificate">View certificate</a>
-        </div>
-      </article>
     </div>
   </div>
 </section>
@@ -4166,7 +4129,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
           }
         } else if (parts.length === 2 && ['cat', 'train', 'cert'].includes(prefix)) {
           const arg = parts[1];
-          const targets = prefix === 'cat' ? Object.keys(virtualFiles) : (prefix === 'train' ? ['jackfruit', 'traffic', 'robot', 'ayuseva', 'drdo'] : ['drdo', 'isro', 'codsoft', 'prodigy']);
+          const targets = prefix === 'cat' ? Object.keys(virtualFiles) : (prefix === 'train' ? ['jackfruit', 'traffic', 'robot', 'ayuseva', 'drdo'] : ['drdo', 'isro']);
           const matches = targets.filter(t => t.startsWith(arg));
           if (matches.length === 1) {
             input.value = `${prefix} ${matches[0]}`;
@@ -4248,7 +4211,7 @@ Try '<span class="log-green">train [model]</span>' for parameter backprop!
   <span class="log-green">ls</span>           - Lists virtual training structures and telemetry files.
   <span class="log-green">cat [file]</span>   - Stream contents with custom neural compiler colors.
   <span class="log-green">train [mod]</span>  - Backpropagate deep parameters in high-definition simulation.
-  <span class="log-green">cert [name]</span>  - Open PDF internship certificate directly in browser (drdo|isro|codsoft|prodigy).
+  <span class="log-green">cert [name]</span>  - Open PDF internship certificate directly in browser (drdo|isro).
   <span class="log-green">clear</span>        - Wipes interactive terminal buffer.
 
 <span class="log-cyan">Specific Technical Modules:</span>
@@ -4710,21 +4673,17 @@ Use '<span class="log-green">cat [filename]</span>' to read any file with full s
               const parts = cmdVal.split(' ');
               if (parts.length < 2) {
                 resLine.innerHTML = `
-<span class="log-yellow">Usage:</span> cert [drdo|isro|codsoft|prodigy]
+<span class="log-yellow">Usage:</span> cert [drdo|isro]
 
 <span class="log-cyan">Available Internship Certificates:</span>
   <span class="log-green">drdo</span>    - DRDO LRDE Fire Control Radar Research Internship Certificate
   <span class="log-green">isro</span>    - ISRO URSC Satellite Assembly & Telemetry Internship Certificate
-  <span class="log-green">codsoft</span> - CodSoft Software Development Internship Certificate
-  <span class="log-green">prodigy</span> - Prodigy InfoTech Machine Learning Internship Certificate
 `;
               } else {
                 const target = parts[1].trim().toLowerCase();
                 const certMap = {
                   'drdo': { file: 'DRDO.pdf', title: 'DRDO Research Internship Certificate' },
-                  'isro': { file: 'ISRO.pdf', title: 'ISRO Research Internship Certificate' },
-                  'codsoft': { file: 'Codsoft.pdf', title: 'CodSoft Internship Certificate' },
-                  'prodigy': { file: 'Prodigy.pdf', title: 'Prodigy InfoTech Internship Certificate' }
+                  'isro': { file: 'ISRO.pdf', title: 'ISRO Research Internship Certificate' }
                 };
                 if (certMap[target]) {
                   const cert = certMap[target];
@@ -4904,7 +4863,7 @@ function openCertModal(pdfFile, title, restoreFocus = true) {
   const overlay = document.getElementById('certModal');
   const frame = document.getElementById('certModalFrame');
   const titleEl = document.getElementById('certModalTitle');
-  const allowedFiles = new Set(['DRDO.pdf', 'ISRO.pdf', 'Codsoft.pdf', 'Prodigy.pdf']);
+  const allowedFiles = new Set(['DRDO.pdf', 'ISRO.pdf']);
   if (!overlay || !frame || !allowedFiles.has(pdfFile)) return;
   clearTimeout(closeCertModal.timer);
   openCertModal.lastFocused = document.activeElement;
