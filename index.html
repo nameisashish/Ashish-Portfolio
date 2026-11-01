@@ -890,6 +890,7 @@ body {
 }
 .edu-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 .edu-actions .btn-g { padding: 11px 18px; font-size: .8125rem; }
+.degree-cert-btn { cursor: pointer; }
 .edu-download {
   display: inline-flex; align-items: center; justify-content: center;
   width: 42px; height: 42px; flex: 0 0 42px;
@@ -1289,6 +1290,9 @@ body {
   transition: transform .4s var(--spring), opacity .4s;
   opacity: 0;
 }
+.cert-modal-container.image-mode {
+  width: min(94vw, 820px); height: min(92vh, 1100px);
+}
 .cert-modal-overlay.active .cert-modal-container {
   transform: scale(1) translateY(0); opacity: 1;
 }
@@ -1319,6 +1323,12 @@ body {
   width: 100%; height: 100%; border: none;
   background: #1a1a2e;
 }
+.cert-modal-body img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
+  background: #11121a; user-select: none; -webkit-user-select: none;
+  -webkit-user-drag: none; -webkit-touch-callout: none;
+}
+.cert-modal-body img[hidden] { display: none; }
 
 .canvas-interactive { cursor: crosshair; }
 .canvas-help {
@@ -1898,6 +1908,7 @@ body {
     </div>
     <div class="cert-modal-body">
       <iframe id="certModalFrame" src="about:blank" title="Certificate Viewer"></iframe>
+      <img id="certModalImage" alt="Degree certificate" draggable="false" hidden>
     </div>
   </div>
 </div>
@@ -2704,6 +2715,7 @@ body {
         <div class="edu-actions">
           <a href="VTUDOC_YFXZQD_1BI22ET011_OTD.pdf" target="_blank" rel="noopener noreferrer" class="btn-g" aria-label="View official transcript">Official Transcript &#8599;</a>
           <a href="VTUDOC_YFXZQD_1BI22ET011_OTD.pdf" download="Ashish_Kishore_Official_Transcript.pdf" class="edu-download" aria-label="Download official transcript" title="Download official transcript">&#8595;</a>
+          <button type="button" class="btn-g degree-cert-btn" data-cert-image="ASHISH_KISHORE_DEGREE_CERTIFICATE.jpg" data-cert-title="Degree Certificate" aria-label="View degree certificate">Degree Certificate</button>
         </div>
       </div>
       <div class="edu-right">
@@ -3360,11 +3372,15 @@ function trapDialogFocus(event, dialog) {
 }
 
 function initInteractiveCards() {
-  document.querySelectorAll('[data-cert-file]').forEach(link => {
-    link.addEventListener('click', event => {
+  document.querySelectorAll('[data-cert-file], [data-cert-image]').forEach(control => {
+    control.addEventListener('click', event => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      openCertModal(link.dataset.certFile, link.dataset.certTitle || 'Certificate', event.detail === 0);
+      if (control.dataset.certImage) {
+        openDegreeCertificate(control.dataset.certImage, control.dataset.certTitle || 'Degree Certificate', event.detail === 0);
+      } else {
+        openCertModal(control.dataset.certFile, control.dataset.certTitle || 'Certificate', event.detail === 0);
+      }
     });
   });
 }
@@ -4861,7 +4877,9 @@ document.addEventListener('DOMContentLoaded', () => {
 ══════════════════════════════════ */
 function openCertModal(pdfFile, title, restoreFocus = true) {
   const overlay = document.getElementById('certModal');
+  const container = overlay?.querySelector('.cert-modal-container');
   const frame = document.getElementById('certModalFrame');
+  const image = document.getElementById('certModalImage');
   const titleEl = document.getElementById('certModalTitle');
   const allowedFiles = new Set(['DRDO.pdf', 'ISRO.pdf']);
   if (!overlay || !frame || !allowedFiles.has(pdfFile)) return;
@@ -4869,14 +4887,43 @@ function openCertModal(pdfFile, title, restoreFocus = true) {
   openCertModal.lastFocused = document.activeElement;
   openCertModal.restoreFocus = restoreFocus;
   titleEl.textContent = title;
+  container?.classList.remove('image-mode');
+  if (image) {
+    image.hidden = true;
+    image.removeAttribute('src');
+  }
+  frame.hidden = false;
   frame.src = `${pdfFile}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
+  setDialogState(overlay, true);
+  document.body.style.overflow = 'hidden';
+  focusFirstDialogControl(overlay);
+}
+function openDegreeCertificate(imageFile, title, restoreFocus = true) {
+  const overlay = document.getElementById('certModal');
+  const container = overlay?.querySelector('.cert-modal-container');
+  const frame = document.getElementById('certModalFrame');
+  const image = document.getElementById('certModalImage');
+  const titleEl = document.getElementById('certModalTitle');
+  const allowedImages = new Set(['ASHISH_KISHORE_DEGREE_CERTIFICATE.jpg']);
+  if (!overlay || !frame || !image || !titleEl || !allowedImages.has(imageFile)) return;
+  clearTimeout(closeCertModal.timer);
+  openCertModal.lastFocused = document.activeElement;
+  openCertModal.restoreFocus = restoreFocus;
+  titleEl.textContent = title;
+  container?.classList.add('image-mode');
+  frame.hidden = true;
+  frame.src = 'about:blank';
+  image.src = imageFile;
+  image.hidden = false;
   setDialogState(overlay, true);
   document.body.style.overflow = 'hidden';
   focusFirstDialogControl(overlay);
 }
 function closeCertModal() {
   const overlay = document.getElementById('certModal');
+  const container = overlay?.querySelector('.cert-modal-container');
   const frame = document.getElementById('certModalFrame');
+  const image = document.getElementById('certModalImage');
   if (!overlay) return;
   setDialogState(overlay, false);
   document.body.style.overflow = '';
@@ -4887,7 +4934,17 @@ function closeCertModal() {
   }
   clearTimeout(closeCertModal.timer);
   closeCertModal.timer = setTimeout(() => {
-    if (!overlay.classList.contains('active')) frame.src = 'about:blank';
+    if (!overlay.classList.contains('active')) {
+      if (frame) {
+        frame.src = 'about:blank';
+        frame.hidden = false;
+      }
+      if (image) {
+        image.hidden = true;
+        image.removeAttribute('src');
+      }
+      container?.classList.remove('image-mode');
+    }
   }, 400);
 }
 function initCertModal() {
@@ -4896,6 +4953,9 @@ function initCertModal() {
   if (!overlay || !closeBtn) return;
   closeBtn.addEventListener('click', closeCertModal);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeCertModal(); });
+  const image = document.getElementById('certModalImage');
+  image?.addEventListener('contextmenu', event => event.preventDefault());
+  image?.addEventListener('dragstart', event => event.preventDefault());
   document.addEventListener('keydown', e => {
     if (!overlay.classList.contains('active')) return;
     if (e.key === 'Escape') closeCertModal();

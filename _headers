@@ -49,3 +49,8 @@
   Content-Disposition: inline
   X-Robots-Tag: noindex, noarchive, nosnippet
   Cache-Control: private, no-store, max-age=0
+
+/ASHISH_KISHORE_DEGREE_CERTIFICATE.jpg
+  Content-Disposition: inline
+  X-Robots-Tag: noindex, noarchive, nosnippet, noimageindex
+  Cache-Control: private, no-store, max-age=0
